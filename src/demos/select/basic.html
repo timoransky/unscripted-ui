@@ -1,0 +1,26 @@
+<select
+  aria-label="Status"
+  class="h-9 min-w-48 cursor-pointer rounded-lg border border-input bg-background px-3 text-sm [appearance:base-select] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring [&::picker(select)]:[appearance:base-select] [&::picker(select)]:mt-1 [&::picker(select)]:min-w-48 [&::picker(select)]:scale-95 [&::picker(select)]:rounded-lg [&::picker(select)]:border [&::picker(select)]:border-border [&::picker(select)]:bg-popover [&::picker(select)]:p-1 [&::picker(select)]:text-popover-foreground [&::picker(select)]:opacity-0 [&::picker(select)]:shadow-lg [&::picker(select)]:transition-[opacity,scale,overlay,display] [&::picker(select)]:transition-discrete [&::picker(select)]:duration-150 [&:open::picker(select)]:scale-100 [&:open::picker(select)]:opacity-100 starting:[&:open::picker(select)]:scale-95 starting:[&:open::picker(select)]:opacity-0 [&::picker-icon]:text-muted-foreground [&::picker-icon]:transition-transform [&::picker-icon]:duration-200 [&:open::picker-icon]:rotate-180"
+>
+  <button>
+    <selectedcontent class="flex items-center gap-2"></selectedcontent>
+  </button>
+  <option
+    value="active"
+    class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm focus:bg-accent focus:outline-none [&::checkmark]:order-1 [&::checkmark]:ml-auto [&::checkmark]:text-primary"
+  >
+    <span class="size-2 shrink-0 rounded-full bg-emerald-500" aria-hidden="true"></span> Active
+  </option>
+  <option
+    value="paused"
+    class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm focus:bg-accent focus:outline-none [&::checkmark]:order-1 [&::checkmark]:ml-auto [&::checkmark]:text-primary"
+  >
+    <span class="size-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true"></span> Paused
+  </option>
+  <option
+    value="archived"
+    class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm focus:bg-accent focus:outline-none [&::checkmark]:order-1 [&::checkmark]:ml-auto [&::checkmark]:text-primary"
+  >
+    <span class="size-2 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span> Archived
+  </option>
+</select>

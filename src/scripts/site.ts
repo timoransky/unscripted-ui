@@ -5,6 +5,19 @@ document.addEventListener('click', (event) => {
   const target = event.target instanceof Element ? event.target : null;
   if (!target) return;
 
+  // Shim so dialog demos stay usable in browsers without invoker commands.
+  // The copied component code does NOT include this — see the support table.
+  const invoker = target.closest<HTMLButtonElement>('button[commandfor]');
+  if (invoker && !('command' in invoker)) {
+    const commandTarget = document.getElementById(invoker.getAttribute('commandfor') ?? '');
+    if (commandTarget instanceof HTMLDialogElement) {
+      const command = invoker.getAttribute('command');
+      if (command === 'show-modal' && !commandTarget.open) commandTarget.showModal();
+      if (command === 'close') commandTarget.close();
+    }
+    return;
+  }
+
   const copyButton = target.closest<HTMLButtonElement>('[data-copy]');
   if (copyButton) {
     const pre = copyButton.closest('[data-code-pane]')?.querySelector('pre');

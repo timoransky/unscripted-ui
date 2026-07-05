@@ -1,0 +1,24 @@
+---
+title: Tooltip
+description: Pure :hover and :focus-within, with a delay so it doesn't flicker on drive-by mouse moves.
+order: 220
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="tooltip/basic" />
+
+## How it works
+
+- A `group/tip` wrapper toggles the tip via `group-hover/tip:` and `group-focus-within/tip:` —
+  so keyboard users get it too.
+- `delay-100` prevents flicker when the cursor just passes through.
+- `pointer-events-none` keeps the tip from stealing hover and flickering itself.
+
+## Accessibility
+
+The trigger references the tip with `aria-describedby`, and the tip carries `role="tooltip"`.
+Because it's CSS-only it can't reposition at viewport edges — keep tips short, or look at the
+[Dropdown Menu](/components/dropdown-menu) pattern with anchor positioning for smarter placement.

@@ -1,0 +1,26 @@
+---
+title: Select
+description: The real <select>, opted into full styling — rich HTML in options, an animated picker panel, and a mirrored selection. Falls back to the classic native select everywhere else.
+order: 160
+features: [base-select, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="select/basic" />
+
+## How it works
+
+- `[appearance:base-select]` on **both** the `<select>` and its `::picker(select)` pseudo-element
+  opts into the new customizable select rendering.
+- Options can contain real HTML (the colored status dots) — `<selectedcontent>` mirrors the
+  chosen option's content into the closed button.
+- `::picker(select)` is the dropdown panel: styled, animated with `transition-discrete` +
+  `starting:`, rendered in the top layer.
+- `::picker-icon` is the chevron (rotates when open); `::checkmark` marks the selected option.
+
+## The fallback is the feature
+
+In browsers without `base-select`, this renders as the **classic native select** — ugly options,
+maybe, but fully functional, accessible, and familiar. That's a much better floor than a
+JS-powered listbox that breaks without hydration.

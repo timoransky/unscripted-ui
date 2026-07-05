@@ -1,0 +1,28 @@
+---
+title: Dropdown Menu
+description: Top-layer rendering, Esc + click-outside dismiss, anchored under the trigger, auto-flips at viewport edges. All attributes and CSS.
+order: 100
+features: [popover, anchor-positioning, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="dropdown-menu/basic" />
+
+## How it works
+
+- The `popover` attribute + `popovertarget` on the button gives top-layer rendering, toggling,
+  Esc and click-outside dismiss — no JavaScript.
+- CSS anchor positioning pins the panel under the trigger: `[anchor-name:--dd-options]` on the
+  button, `[position-anchor:--dd-options]` + `top-[calc(anchor(bottom)+6px)]` on the panel.
+  `[position-try-fallbacks:flip-block]` flips it above the trigger at the bottom of the viewport.
+- The `anchor()` values are invalid in browsers without anchor support, so they're simply
+  dropped there — that's why only `inset-auto`, `m-0` and the transform origin need explicit
+  `supports-[anchor-name:--a]:` guards. Without anchor support the menu opens centered
+  (the top-layer default), which is why the base classes keep `m-auto`.
+
+## Accessibility
+
+Focus moves into the menu with Tab; Esc returns to the trigger. This is a popover, not an ARIA
+menu — there's no roving arrow-key navigation. For most "actions under a button" cases that's
+fine; if you need full menu semantics, that genuinely still needs JavaScript.

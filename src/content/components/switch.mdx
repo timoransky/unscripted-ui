@@ -1,0 +1,23 @@
+---
+title: Switch
+description: A checkbox in a trench coat. CSS has been able to do this since forever — no ARIA gymnastics required.
+order: 190
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="switch/basic" />
+
+## How it works
+
+- It's `<input type="checkbox">` with `appearance-none` and a `before:` pseudo-element as the thumb.
+- The thumb uses `bg-background`, so it stays visible in both themes — in dark mode the track
+  turns near-white when checked and the thumb goes dark.
+- Wrapping it in a `<label>` makes the text a click target with zero extra attributes.
+
+## Accessibility
+
+Screen readers announce it as a checkbox, which is exactly what it is. If your design system
+insists on "switch" semantics, add `role="switch"` — the keyboard behavior is identical.

@@ -1,0 +1,29 @@
+---
+title: Dialog
+description: A modal with entry/exit animations, backdrop blur, light dismiss, focus trapping and Esc-to-close. Zero JavaScript — the button opens it declaratively.
+order: 90
+features: [dialog, dialog-invokers, closedby, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="dialog/basic" />
+
+## How it works
+
+- Native `<dialog>` gives you the top layer, focus trapping, inert background and Esc-to-close
+  for free.
+- `commandfor` + `command="show-modal"` on the trigger opens it **declaratively** — the invoker
+  commands API is the piece that removes the last line of JavaScript.
+- `closedby="any"` adds light dismiss: clicking the backdrop closes it.
+- Entry animation: `starting:open:*` (that's `@starting-style`) defines where the dialog animates
+  *from*. Exit animation: the base classes are the closed state, and `transition-discrete`
+  (`transition-behavior: allow-discrete`) keeps `display` alive until the transition finishes.
+- The backdrop animates the same way via `backdrop:` — including a `backdrop-blur`.
+- Tailwind v4's preflight zeroes all margins, which removes the browser's built-in dialog
+  centering — `m-auto` puts it back. Keep it.
+
+## Accessibility
+
+Everything the JS dialog libraries reimplement — focus trap, `aria-modal`, inert page behind,
+focus restore on close — is the browser's native behavior here.
