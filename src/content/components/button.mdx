@@ -1,0 +1,23 @@
+---
+title: Button
+description: A plain button element with the shadcn look. No wrapper, no runtime — the platform has had this one covered since 1995.
+order: 10
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="button/variants" />
+
+## How it works
+
+- It's a `<button>`. Copy the variant you need and change the label.
+- `focus-visible:outline-*` gives a visible keyboard focus ring without flashing on mouse clicks.
+- `disabled:*` utilities handle the disabled state — add the `disabled` attribute and you're done.
+- Tailwind v4 no longer forces `cursor: pointer` on buttons, so the class sets it explicitly.
+
+## Variants
+
+Primary, outline, ghost and destructive are just different utility sets on the same element —
+there is no `variant` prop because there are no props.
