@@ -1,0 +1,20 @@
+---
+title: Progress
+description: The native progress element, restyled per engine. Screen readers announce the percentage without a single ARIA attribute.
+order: 140
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="progress/basic" />
+
+## How it works
+
+- `<progress value max>` carries the semantics; utilities restyle it per engine —
+  `[&::-webkit-progress-value]:` for Chromium/WebKit, `[&::-moz-progress-bar]:` for Firefox.
+- The classic gotcha — vendor pseudo-elements can't share a comma-separated rule, because one
+  invalid selector kills the whole rule — **doesn't apply here**: every utility class compiles
+  to its own rule, so each engine just ignores the selectors it doesn't know.
+- Drop the `value` attribute entirely and you get the native indeterminate animation.

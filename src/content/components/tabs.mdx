@@ -1,0 +1,35 @@
+---
+title: Tabs
+description: Radio inputs wearing tab clothes. Arrow-key switching comes free — it's the native radio group behavior.
+order: 200
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="tabs/basic" align="start" />
+
+## How it works
+
+- Three `sr-only` radios, three labels as triggers, three panels — all **siblings**, because
+  Tailwind's `peer-checked/name:` needs the radio to precede what it styles.
+- `flex flex-wrap` + `basis-full` on the panels puts triggers on one row and the active panel
+  below, no wrapper divs needed.
+- `peer-focus-visible/name:` draws the focus ring on the label when the (visually hidden)
+  radio has keyboard focus.
+
+## The honest accessibility trade-off
+
+This announces as a **radio group**, not a `tablist` — because it *is* a radio group. Don't
+bolt `role="tab"` onto it: mixing ARIA tab semantics with radio behavior confuses screen
+readers more than either alone. Arrow keys move between options and Tab leaves the group,
+which is exactly what ARIA tabs require — you're trading the "tab" announcement for zero JS.
+If your accessibility review demands true `tablist` semantics, that's a legitimate reason to
+reach for a JS implementation.
+
+## When the panels hold heavy content
+
+`hidden` removes inactive panels from the accessibility tree and find-in-page. If that matters,
+consider separate pages — tabs hiding important content is usually an information-architecture
+smell anyway.

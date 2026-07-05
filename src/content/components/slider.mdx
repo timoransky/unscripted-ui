@@ -1,0 +1,22 @@
+---
+title: Slider
+description: input type=range with a styled track and thumb. Keyboard stepping, Home/End, form participation — all native.
+order: 180
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="slider/basic" />
+
+## How it works
+
+- The element itself is the track (`h-1.5 bg-secondary rounded-full` after `appearance-none`);
+  the thumb is styled twice — `[&::-webkit-slider-thumb]:` and `[&::-moz-range-thumb]:` —
+  and each engine ignores the other's selectors because every utility is its own rule.
+- WebKit top-aligns the thumb to the track, so `-mt-[5px]` re-centers it
+  ((16px thumb − 6px track) / 2). Firefox centers it automatically.
+- `[&::-moz-range-progress]:bg-primary` fills the track's left side in Firefox. WebKit has no
+  filled-track pseudo-element — that genuinely requires JS (or a background gradient bound to
+  the value), so this component ships without it. Honesty over hacks.

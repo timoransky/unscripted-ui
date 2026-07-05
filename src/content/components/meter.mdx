@@ -1,0 +1,22 @@
+---
+title: Meter
+description: Gauge semantics with automatic good/warn/critical coloring driven by the low/high/optimum attributes — the browser picks the state, CSS picks the colors.
+order: 130
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="meter/basic" align="start" />
+
+## How it works
+
+- `low` / `high` / `optimum` tell the browser which ranges are good; it then exposes one of
+  three pseudo-elements — `::-webkit-meter-optimum-value`, `-suboptimum-value`, or
+  `-even-less-good-value` — and each gets its own color utility. The state logic ships with
+  the browser.
+- Firefox only exposes `::-moz-meter-bar`, so it keeps its native state colors under your
+  radius — an honest fallback.
+- Fair warning: meter is the platform's dustiest corner. Keep styling modest (height, radius,
+  colors) and it behaves; fight it and Safari wins.

@@ -1,0 +1,34 @@
+<div class="flex w-full max-w-lg flex-wrap gap-x-1">
+  <input type="radio" name="tabs-settings" id="tabs-settings-account" class="peer/account sr-only" checked />
+  <input type="radio" name="tabs-settings" id="tabs-settings-password" class="peer/password sr-only" />
+  <input type="radio" name="tabs-settings" id="tabs-settings-team" class="peer/team sr-only" />
+
+  <label
+    for="tabs-settings-account"
+    class="cursor-pointer border-b-2 border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground peer-checked/account:border-primary peer-checked/account:text-foreground peer-focus-visible/account:outline-2 peer-focus-visible/account:outline-offset-2 peer-focus-visible/account:outline-ring"
+  >
+    Account
+  </label>
+  <label
+    for="tabs-settings-password"
+    class="cursor-pointer border-b-2 border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground peer-checked/password:border-primary peer-checked/password:text-foreground peer-focus-visible/password:outline-2 peer-focus-visible/password:outline-offset-2 peer-focus-visible/password:outline-ring"
+  >
+    Password
+  </label>
+  <label
+    for="tabs-settings-team"
+    class="cursor-pointer border-b-2 border-transparent px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground peer-checked/team:border-primary peer-checked/team:text-foreground peer-focus-visible/team:outline-2 peer-focus-visible/team:outline-offset-2 peer-focus-visible/team:outline-ring"
+  >
+    Team
+  </label>
+
+  <div class="hidden basis-full pt-4 text-sm text-muted-foreground peer-checked/account:block">
+    Change your display name and avatar. Your account, your rules.
+  </div>
+  <div class="hidden basis-full pt-4 text-sm text-muted-foreground peer-checked/password:block">
+    Use a long passphrase. Password managers love this one weird trick.
+  </div>
+  <div class="hidden basis-full pt-4 text-sm text-muted-foreground peer-checked/team:block">
+    Invite teammates and assign roles. Seats are unlimited, opinions are not.
+  </div>
+</div>
