@@ -136,6 +136,43 @@ export const FEATURES = {
     fallback: 'The carousel still scrolls and snaps; dots and arrow buttons simply do not render.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/::scroll-marker',
   },
+  'scroll-state-scrolled': {
+    label: 'Scroll-state query: scrolled (direction)',
+    short: 'scrolled query',
+    supportsQuery: '(container-type: scroll-state)',
+    proxy:
+      '@supports can’t test @container descriptors, so the badge checks container-type: scroll-state (Chrome 133) — but the scrolled query this uses only works from Chrome 144.',
+    bcd: [
+      'css.properties.container-type.scroll-state',
+      'css.at-rules.container.scroll-state_queries.scrolled',
+    ],
+    webFeature: 'container-scroll-state-queries',
+    fallback:
+      'The header stays permanently visible — an ordinary sticky header. Nothing is hidden and no content is lost.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Conditional_rules/Container_scroll-state_queries',
+  },
+  'scroll-state-stuck': {
+    label: 'Scroll-state query: stuck',
+    short: 'stuck query',
+    supportsQuery: '(container-type: scroll-state)',
+    bcd: [
+      'css.properties.container-type.scroll-state',
+      'css.at-rules.container.scroll-state_queries.stuck',
+    ],
+    webFeature: 'container-scroll-state-queries',
+    fallback: 'The docked header simply does not gain its elevation shadow.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Conditional_rules/Container_scroll-state_queries',
+  },
+  'interest-invokers': {
+    label: 'Interest invokers (interestfor + popover="hint")',
+    short: 'interest invokers',
+    supportsQuery: '(interest-delay-start: 0s)',
+    bcd: ['html.elements.button.interestfor', 'css.properties.interest-delay-start'],
+    webFeature: 'interest-invokers',
+    fallback:
+      'The hover tooltips simply never appear — the buttons keep their aria-labels, so screen readers lose nothing. Use the plain-CSS tooltip variant if you need hover tips everywhere today.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/interestfor',
+  },
   'user-invalid': {
     label: ':user-invalid validation styling',
     short: ':user-invalid',
