@@ -1,0 +1,24 @@
+<div class="h-80 w-full max-w-sm overflow-y-auto rounded-xl border border-border">
+  <div class="space-y-3 p-4 text-sm/6 text-muted-foreground">
+    <p class="font-medium text-foreground">Keep scrolling — the section header docks, then lifts.</p>
+    <p>The bar sits flat in the flow of the page. The moment it pins to the top edge it gains a shadow, separating it from the content sliding underneath.</p>
+  </div>
+
+  <header class="sticky -top-px z-10 [container-type:scroll-state]">
+    <div
+      class="flex items-center justify-between border-y border-border bg-background/85 px-4 py-2.5 backdrop-blur transition-shadow duration-200 [@container_scroll-state(stuck:top)]:shadow-lg"
+    >
+      <span class="text-sm font-semibold tracking-tight">Section title</span>
+      <span class="font-mono text-xs text-muted-foreground">stuck: top</span>
+    </div>
+  </header>
+
+  <div class="space-y-4 p-4 text-sm/6 text-muted-foreground">
+    <p>Here <code class="font-mono text-xs">container-type: scroll-state</code> lives on the sticky element itself, and a query asks whether it's currently stuck.</p>
+    <p>Scroll-state queries can only style the container's descendants, so the shadow is painted on an inner bar rather than the <code class="font-mono text-xs">&lt;header&gt;</code> node.</p>
+    <p>It's the classic "flat until it sticks, then it elevates" affordance — the one that normally needs an IntersectionObserver sentinel to detect the pinned state.</p>
+    <p>No sentinel, no observer, no scroll handler. The browser tracks stickiness and flips the query for you.</p>
+    <p>Scroll back to the top and the shadow fades out as the header rejoins the flow.</p>
+    <p>Because it's a real sticky element, the header keeps its landmark, its links, and its place in the tab order the entire time.</p>
+  </div>
+</div>
