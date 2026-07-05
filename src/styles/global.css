@@ -8,7 +8,7 @@
 /* ============================================================
    unscripted/ui tokens — the shadcn variable contract.
    This block (through the reduced-motion rule) is the one-time
-   paste shown on the Getting Started page.
+   paste shown on the Installation page.
    ============================================================ */
 :root {
   --background: hsl(0 0% 100%);
@@ -99,7 +99,7 @@
     animation-iteration-count: 1 !important;
   }
 }
-/* ============== end of the Getting Started paste ============== */
+/* ============== end of the token paste ============== */
 
 @layer base {
   body {

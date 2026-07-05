@@ -1,0 +1,52 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Introduction — unscripted/ui">
+  <article>
+    <header class="mb-2">
+      <h1 class="text-2xl font-bold tracking-tight">Introduction</h1>
+      <p class="mt-1.5 max-w-[60ch] text-muted-foreground">
+        Lately I've been exploring the most recent possibilities of pure CSS and whether they are production ready. This website explores most of them and since I like things to be coherent, I created this collection of components.
+      </p>
+    </header>
+
+    <div class="docs-prose">
+      <h2>Browser support philosophy</h2>
+      <p>
+        Some components use features that are Baseline and boring (dialog, details, popover).
+        Others use features that shipped in Chromium first (anchor positioning, customizable
+        select, CSS carousels). The rule for everything here: <strong>the fallback must be
+        functional</strong>. A select without <code>base-select</code> is the classic native
+        select. A dropdown without anchor positioning opens centered. A carousel without
+        scroll markers still scrolls. Each component page has a support table with the exact
+        versions and the exact fallback behavior.
+      </p>
+      <p>
+        The colored badges you see on component pages are <strong>live</strong> — they're
+        rendered by <code>@supports</code> blocks, so they report on the browser you're using
+        right now. No user-agent sniffing, no JS. One honest limitation: <code>@supports</code>
+        can only test CSS, so HTML features like <code>commandfor</code> get a table row but no
+        live badge.
+      </p>
+
+      <h2>Accessibility notes</h2>
+      <ul>
+        <li>
+          Native elements ship their own semantics and keyboard behavior: dialog traps focus,
+          details/summary announce as disclosures, radios give you arrow-key navigation.
+          That's behavior JS libraries reimplement — here it's the browser's job.
+        </li>
+        <li>
+          Where a pattern bends semantics, the component page says so out loud — see
+          <a href="/components/tabs">Tabs</a>, which announces as a radio group and explains
+          why that's the honest trade.
+        </li>
+        <li>
+          Reduced motion is handled once, globally, in the token paste — every transition and
+          animation in the library collapses to instant for users who ask for that.
+        </li>
+      </ul>
+    </div>
+  </article>
+</DocsLayout>

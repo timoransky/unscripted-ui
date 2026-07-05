@@ -9,7 +9,10 @@ const current = Astro.url.pathname.replace(/\/$/, '');
 const groups = [
   {
     label: 'Docs',
-    links: [{ href: '/docs/getting-started', title: 'Getting started' }],
+    links: [
+      { href: '/docs/introduction', title: 'Introduction' },
+      { href: '/docs/installation', title: 'Installation' }
+    ],
   },
   {
     label: 'Components',
