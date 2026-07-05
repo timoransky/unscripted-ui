@@ -1,25 +1,46 @@
 ---
 import { FEATURES, type FeatureKey } from '../data/features';
+import { resolveSupport } from '../data/support';
 
 interface Props {
   features: FeatureKey[];
 }
 
 const { features } = Astro.props;
-const rows = features.map((key) => ({ key, ...FEATURES[key] }));
+const rows = features.map((key) => ({ key, ...FEATURES[key], ...resolveSupport(key) }));
 const proxied = rows.filter((r) => r.proxy);
 const undetectable = rows.filter((r) => !r.supportsQuery);
 
-const version = (v: string) => (v === 'no' ? '✕' : v === '?' ? '—' : v);
+const version = (v: string) => (v === 'no' ? '✕' : v);
+
+const BASELINE_CHIP = {
+  high: {
+    text: () => 'Baseline · widely available',
+    class: 'border-emerald-600/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
+  },
+  low: {
+    text: (year?: string) => `Baseline ${year ?? ''} · newly available`.replace('  ', ' '),
+    class: 'border-sky-600/30 bg-sky-500/10 text-sky-700 dark:text-sky-400',
+  },
+  limited: {
+    text: () => 'Limited availability',
+    class: 'border-amber-600/30 bg-amber-500/10 text-amber-700 dark:text-amber-400',
+  },
+} as const;
+
+const chipFor = (row: (typeof rows)[number]) =>
+  row.baseline === null ? null : BASELINE_CHIP[row.baseline === false ? 'limited' : row.baseline];
 ---
 
 {
   rows.length > 0 && (
     <section class="mt-12">
       <h2 class="mb-1 text-lg font-semibold tracking-tight">Browser support</h2>
-      <p class="mb-4 text-sm text-muted-foreground">
-        Minimum stable version per engine. Everything degrades gracefully — the
-        “when missing” column is the actual behavior, not a broken page.
+      <p class="mb-4 max-w-[70ch] text-sm text-muted-foreground">
+        Minimum stable version per engine, resolved at build time from MDN's
+        browser-compat-data; Baseline status from the official web-features dataset.
+        Everything degrades gracefully — the “when missing” column is the actual
+        behavior, not a broken page.
       </p>
       <div class="overflow-x-auto rounded-lg border border-border">
         <table class="w-full border-collapse text-sm">
@@ -34,22 +55,44 @@ const version = (v: string) => (v === 'no' ? '✕' : v === '?' ? '—' : v);
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr class="border-b border-border last:border-0">
-                <th scope="row" class="px-3 py-2.5 text-left font-normal">
-                  <a href={row.mdn} class="underline decoration-border underline-offset-4 hover:decoration-foreground">
-                    {row.label}
-                  </a>
-                  {row.proxy && <sup aria-hidden="true">†</sup>}
-                  {!row.supportsQuery && <sup aria-hidden="true">‡</sup>}
-                </th>
-                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.chrome)}</td>
-                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.edge)}</td>
-                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.firefox)}</td>
-                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.safari)}</td>
-                <td class="px-3 py-2.5 text-muted-foreground">{row.fallback}</td>
-              </tr>
-            ))}
+            {rows.map((row) => {
+              const chip = chipFor(row);
+              return (
+                <tr class="border-b border-border last:border-0">
+                  <th scope="row" class="px-3 py-2.5 text-left font-normal">
+                    <a
+                      href={row.mdn}
+                      class="underline decoration-border underline-offset-4 hover:decoration-foreground"
+                    >
+                      {row.label}
+                    </a>
+                    {row.proxy && <sup aria-hidden="true">†</sup>}
+                    {!row.supportsQuery && <sup aria-hidden="true">‡</sup>}
+                    {chip && (
+                      <span
+                        class:list={[
+                          'mt-1.5 block w-fit rounded-full border px-2 py-px font-mono text-[0.62rem] whitespace-nowrap',
+                          chip.class,
+                        ]}
+                      >
+                        {chip.text(row.baselineYear)}
+                      </span>
+                    )}
+                  </th>
+                  {(['chrome', 'edge', 'firefox', 'safari'] as const).map((browser) => (
+                    <td
+                      class:list={[
+                        'px-3 py-2.5 text-center font-mono text-xs',
+                        row.versions[browser] === 'no' && 'text-muted-foreground',
+                      ]}
+                    >
+                      {version(row.versions[browser])}
+                    </td>
+                  ))}
+                  <td class="min-w-52 px-3 py-2.5 text-muted-foreground">{row.fallback}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

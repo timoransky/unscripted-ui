@@ -41,9 +41,10 @@ const darkToggleSnippet = `<button onclick="
         This is the shadcn variable contract mapped to Tailwind v4's <code>@theme</code>. If your
         project already uses shadcn/ui, you already have these variables — skip the
         <code>:root</code>/<code>.dark</code> blocks and keep your theme; the components will
-        match it automatically. The paste also carries two site-wide behaviors the components
-        rely on: <code>interpolate-size: allow-keywords</code> (animated <code>height: auto</code>)
-        and the <code>prefers-reduced-motion</code> rule.
+        match it automatically. The paste also carries the global
+        <code>prefers-reduced-motion</code> rule the components rely on. Anything else a
+        component needs (like the accordion's <code>interpolate-size</code>) travels inline
+        in its own markup — nothing hides in the config.
       </p>
       <CodeBlock code={tokensPaste} lang="css" />
 
