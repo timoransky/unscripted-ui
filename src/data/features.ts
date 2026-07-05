@@ -32,7 +32,7 @@ export const FEATURES = {
   'dialog-invokers': {
     label: 'Invoker commands (commandfor / command)',
     supportsQuery: null,
-    support: { chrome: '135', edge: '135', firefox: '?', safari: '?' },
+    support: { chrome: '135', edge: '135', firefox: '144', safari: '26.2' },
     fallback:
       'Buttons with commandfor do nothing. Until Baseline, open the dialog with a 3-line shim or from your framework.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/API/Invoker_Commands_API',
@@ -40,7 +40,7 @@ export const FEATURES = {
   closedby: {
     label: 'closedby="any" (light dismiss)',
     supportsQuery: null,
-    support: { chrome: '134', edge: '134', firefox: '?', safari: '?' },
+    support: { chrome: '134', edge: '134', firefox: '141', safari: 'no' },
     fallback:
       'Esc still closes the dialog (platform default); clicking the backdrop does not.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#closedby',
@@ -65,7 +65,7 @@ export const FEATURES = {
   'anchor-positioning': {
     label: 'CSS anchor positioning',
     supportsQuery: '(anchor-name: --a)',
-    support: { chrome: '125', edge: '125', firefox: 'no', safari: '26' },
+    support: { chrome: '125', edge: '125', firefox: '147', safari: '26' },
     fallback:
       'The popover opens centered in the viewport (the top-layer default) instead of attached to its trigger.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning',
@@ -73,7 +73,7 @@ export const FEATURES = {
   'details-content': {
     label: '::details-content pseudo-element',
     supportsQuery: 'selector(::details-content)',
-    support: { chrome: '131', edge: '131', firefox: '138', safari: '?' },
+    support: { chrome: '131', edge: '131', firefox: '143', safari: '18.4' },
     fallback: 'Panels open and close instantly, without the height animation.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/::details-content',
   },
@@ -94,7 +94,7 @@ export const FEATURES = {
   'base-select': {
     label: 'Customizable select (appearance: base-select)',
     supportsQuery: '(appearance: base-select)',
-    support: { chrome: '135', edge: '135', firefox: 'no', safari: 'no' },
+    support: { chrome: '135', edge: '135', firefox: '149', safari: '27' },
     fallback:
       'Falls back to the classic native select — fully functional and accessible, just not custom-styled.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Customizable_select',
@@ -102,7 +102,7 @@ export const FEATURES = {
   'scroll-markers': {
     label: 'CSS carousels (::scroll-marker / ::scroll-button)',
     supportsQuery: 'selector(::scroll-marker)',
-    support: { chrome: '135', edge: '135', firefox: 'no', safari: 'no' },
+    support: { chrome: '135', edge: '135', firefox: 'no', safari: 'no' }, // still Chromium-only per BCD 2026-07
     fallback: 'The carousel still scrolls and snaps; dots and arrow buttons simply do not render.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/::scroll-marker',
   },
@@ -116,7 +116,7 @@ export const FEATURES = {
   'field-sizing': {
     label: 'field-sizing: content',
     supportsQuery: '(field-sizing: content)',
-    support: { chrome: '123', edge: '123', firefox: '?', safari: 'no' },
+    support: { chrome: '123', edge: '123', firefox: '152', safari: '26.2' },
     fallback: 'The textarea keeps its fixed rows height and scrolls.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing',
   },
