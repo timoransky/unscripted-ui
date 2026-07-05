@@ -19,12 +19,12 @@ const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
 const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center' }> = {
   accordion: { demo: 'accordion/basic'},
   'dropdown-menu': { demo: 'dropdown-menu/basic' },
-  dialog: { demo: 'dialog/basic' },
-  drawer: { demo: 'drawer/basic' },
   select: { demo: 'select/basic' },
-  tooltip: { demo: 'tooltip/toolbar' },
+  drawer: { demo: 'drawer/basic' },
   carousel: { demo: 'carousel/basic', css: 'carousel/markers' },
   header: { demo: 'header/basic' },
+  dialog: { demo: 'dialog/basic' },
+  tooltip: { demo: 'tooltip/toolbar' },
   textarea: { demo: 'textarea/basic' },
   meter: { demo: 'meter/basic'},
 };
