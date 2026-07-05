@@ -1,0 +1,19 @@
+---
+title: Card
+description: Header, content, footer — a bordered box with good spacing defaults, shown here wrapping real zero-JS switches.
+order: 60
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="card/basic" />
+
+## How it works
+
+- Three stacked sections with `p-6` and trimmed inner edges — no dedicated CardHeader/CardContent
+  components, just padding.
+- The settings rows are the [Switch](/components/switch) component verbatim, with
+  `justify-between` to push the toggle to the edge — composition is copy-paste here.
+- Use semantic headings (`h3` or whatever fits your page outline) — the card doesn't care.

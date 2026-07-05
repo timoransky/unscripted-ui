@@ -1,0 +1,19 @@
+---
+title: Alert
+description: A callout with an icon, title and description. role="alert" does the announcing; the grid does the layout.
+order: 20
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="alert/variants" align="start" />
+
+## How it works
+
+- `grid-cols-[auto_1fr]` puts the icon in its own column and lets the text wrap cleanly.
+- `role="alert"` makes screen readers announce it when it appears dynamically. For static
+  page content you can drop it.
+- The destructive variant tints border, background and text from one token:
+  `border-destructive/30 bg-destructive/5 text-destructive`.

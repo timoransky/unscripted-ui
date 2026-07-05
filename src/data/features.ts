@@ -106,6 +106,13 @@ export const FEATURES = {
     fallback: 'The carousel still scrolls and snaps; dots and arrow buttons simply do not render.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/::scroll-marker',
   },
+  'user-invalid': {
+    label: ':user-invalid validation styling',
+    supportsQuery: 'selector(:user-invalid)',
+    support: { chrome: '119', edge: '119', firefox: '88', safari: '16.5' },
+    fallback: 'No live invalid styling; the field still validates normally on submit.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/:user-invalid',
+  },
   'field-sizing': {
     label: 'field-sizing: content',
     supportsQuery: '(field-sizing: content)',

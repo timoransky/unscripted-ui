@@ -1,0 +1,19 @@
+---
+title: Radio Group
+description: Native radios in a fieldset — the selected dot is a border-width trick, and arrow-key navigation is the platform's roving tabindex.
+order: 150
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="radio-group/basic" align="start" />
+
+## How it works
+
+- The dot is `checked:border-[5px]` — the thick primary border leaves a background-colored
+  hole in the middle. No pseudo-element needed.
+- `<fieldset>` + `<legend>` group the options for screen readers.
+- Arrow keys move selection within the group and Tab treats it as one stop — that's native
+  radio behavior JS libraries reimplement as "roving tabindex".

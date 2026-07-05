@@ -1,0 +1,19 @@
+---
+title: Input
+description: A styled text input with free validation states — :user-invalid flags bad values with zero JavaScript, and only after the user actually touched the field.
+order: 110
+plainCss: true
+features: [user-invalid]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="input/basic" />
+
+## How it works
+
+- `user-invalid:border-destructive` styles the field only after interaction — unlike `:invalid`,
+  it won't scream at an empty required field on page load. Type a bad email and tab away to see it.
+- Validation comes from the platform: `type="email"` + `required` here, or `pattern`,
+  `minlength`, `min`/`max` for anything else.
+- `placeholder:text-muted-foreground` and `disabled:opacity-50` cover the remaining states.

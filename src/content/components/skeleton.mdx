@@ -1,0 +1,20 @@
+---
+title: Skeleton
+description: Loading placeholders with animate-pulse. Reduced-motion users get a calm static block — that's in the token paste, not extra work.
+order: 170
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="skeleton/basic" />
+
+## How it works
+
+- Muted shapes + `animate-pulse`. Match the skeleton's geometry to the content it stands in for
+  (circle for the avatar, bars for text) so the swap doesn't jump.
+- The global `prefers-reduced-motion` rule from the Getting Started paste freezes the pulse for
+  users who ask for less motion.
+- Add `aria-hidden="true"` if the real content is announced elsewhere, or `aria-busy` on the
+  container while loading.

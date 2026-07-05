@@ -1,0 +1,19 @@
+---
+title: Checkbox
+description: A native checkbox restyled with appearance-none, with an SVG check that appears via peer-checked. All the semantics, none of the ARIA.
+order: 80
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="checkbox/basic" align="start" />
+
+## How it works
+
+- `appearance-none` clears the native look; `checked:bg-primary` paints the box.
+- The check glyph is a sibling SVG toggled with `peer-checked:visible` —
+  `pointer-events-none` keeps it from stealing clicks.
+- Wrapping everything in a `<label>` makes the text clickable with zero attributes.
+  Keyboard, forms, indeterminate state — all still native.
