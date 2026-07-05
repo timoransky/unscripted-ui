@@ -1,0 +1,40 @@
+---
+title: Drawer
+description: A panel that slides in from the edge — same native <dialog> as the modal, just anchored to the side and sliding instead of scaling. Focus trap, Esc and light dismiss come free.
+order: 95
+features: [dialog, dialog-invokers, closedby, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="drawer/basic" />
+
+## How it works
+
+It's the [Dialog](/components/dialog) with two changes: pin it to an edge, and slide instead of
+scale. Everything else — top layer, focus trap, inert background, `Esc`, declarative open — is
+identical, because it's the same native `<dialog>`.
+
+- `my-0 mr-0 ml-auto` overrides Tailwind's zeroed dialog margins to push the panel flush against
+  the right edge; `h-dvh max-h-dvh` makes it full height. Swap to `ml-0 mr-auto` for a left
+  drawer, or `mt-auto mb-0 w-full` for a bottom sheet.
+- The slide: the panel sits at `translate-x-full` (off-screen right) by default,
+  `open:translate-x-0` brings it in, and `starting:open:translate-x-full` sets the entry
+  frame. `transition-all transition-discrete` (`transition-behavior: allow-discrete`) keeps
+  `display`/`overlay` alive so the panel
+  slides *out* too, instead of vanishing.
+- `commandfor` + `command="show-modal"` opens it declaratively; `closedby="any"` gives you
+  backdrop-click dismiss. The header's close button is just `command="close"`.
+- Inside, a `flex flex-col` with a fixed header and footer and a `flex-1 overflow-y-auto` body —
+  so long content scrolls while the checkout bar stays put.
+
+## Accessibility
+
+Same as Dialog: focus moves into the drawer and is trapped, the page behind goes inert, `Esc`
+closes it, and focus returns to the trigger on close — all native. Give the panel an
+`aria-label` (or point `aria-labelledby` at the heading) if the title alone isn't clear.
+
+## Reduced motion
+
+The global `prefers-reduced-motion` rule in the token paste collapses the slide to an instant
+show/hide — the drawer still opens and closes, it just doesn't travel.

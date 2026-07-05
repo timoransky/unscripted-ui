@@ -1,0 +1,25 @@
+<div class="overflow-hidden isolate rounded-xl border border-border">
+  <div class="h-80 w-full max-w-sm overflow-y-auto [container-type:scroll-state]">
+    <header
+      class="sticky top-0 z-10 flex items-center rounded-t-xl gap-3 border-b border-border bg-background/85 px-4 py-3 backdrop-blur transition-[translate] duration-300 ease-out [@container_scroll-state(scrolled:block-end)]:-translate-y-full"
+    >
+      <span class="text-sm font-semibold tracking-tight">
+        unscripted<span class="text-muted-foreground">/ui</span>
+      </span>
+      <nav class="ml-auto flex items-center gap-4 text-sm text-muted-foreground">
+        <a href="#" class="transition-colors hover:text-foreground">Docs</a>
+        <a href="#" class="transition-colors hover:text-foreground">Components</a>
+      </nav>
+    </header>
+
+    <div class="space-y-4 p-4 text-sm/6 text-muted-foreground">
+      <p class="font-medium text-foreground">Scroll down — the bar slides away. Scroll up — it comes right back.</p>
+      <p>No scroll listener, no <code class="font-mono text-xs">requestAnimationFrame</code>, no state. The bar is a plain sticky element; a container scroll-state query does the hiding.</p>
+      <p>The trick is a single conditional: while the container was last scrolled toward its block-end, the bar translates up out of view. Reverse direction and the query stops matching, so it returns.</p>
+      <p>Because it reads scroll <em>direction</em> rather than position, the bar reappears the instant you scroll up — giving you the whole viewport back until you want the chrome again.</p>
+      <p>This is the pattern shipped by news sites and docs apps everywhere, usually built with a few dozen lines of JavaScript and a resize observer. Here it's four declarations.</p>
+      <p>Everything degrades cleanly: where scroll-state queries aren't supported yet, you keep an ordinary always-visible sticky header.</p>
+      <p>Keep scrolling to feel it settle, then flick back up. The motion respects <code class="font-mono text-xs">prefers-reduced-motion</code> automatically.</p>
+    </div>
+  </div>
+</div>

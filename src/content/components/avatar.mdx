@@ -1,0 +1,20 @@
+---
+title: Avatar
+description: Initials-first avatars and an overlapping stack. No image? No onError handler — initials are the default, images are the enhancement.
+order: 30
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="avatar/basic" />
+
+## How it works
+
+- Each avatar is a `size-9 rounded-full` span with initials; swap in
+  `<img class="size-9 rounded-full object-cover" …>` when you have a picture.
+- The stack is `flex -space-x-2` with a `border-background` ring on each item so overlaps
+  stay readable in both themes.
+- JS avatar components exist mostly to handle image load failures — putting initials in
+  markup and treating the image as optional removes the problem.

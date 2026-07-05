@@ -1,0 +1,19 @@
+---
+title: Textarea
+description: A textarea that grows with its content. The autogrow JavaScript you've written five times is one CSS declaration now.
+order: 210
+plainCss: true
+features: [field-sizing]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="textarea/basic" />
+
+## How it works
+
+- `field-sizing-content` (`field-sizing: content`) makes the textarea size itself to its value.
+  No hidden mirror element, no `scrollHeight` measuring, no resize listener.
+- `rows="3"` sets the starting height, `max-h-48` caps the growth — past that it scrolls.
+- Browsers without `field-sizing` simply keep the fixed `rows` height and scroll. Nothing to
+  polyfill.

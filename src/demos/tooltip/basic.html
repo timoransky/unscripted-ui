@@ -1,0 +1,15 @@
+<span class="group/tip relative inline-flex">
+  <button
+    aria-describedby="tip-library"
+    class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-input bg-transparent px-4 text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+  >
+    Hover or focus me
+  </button>
+  <span
+    id="tip-library"
+    role="tooltip"
+    class="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 translate-y-1 rounded-md bg-primary px-2.5 py-1.5 text-xs whitespace-nowrap text-primary-foreground opacity-0 transition-[opacity,translate] delay-100 group-hover/tip:translate-y-0 group-hover/tip:opacity-100 group-focus-within/tip:translate-y-0 group-focus-within/tip:opacity-100"
+  >
+    Add to library
+  </span>
+</span>

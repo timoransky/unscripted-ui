@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from 'astro:content';
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import SupportBadge from '../../components/SupportBadge.astro';
+import SupportTable from '../../components/SupportTable.astro';
+import { FEATURES } from '../../data/features';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('components');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const liveBadges = entry.data.features.filter((key) => FEATURES[key].supportsQuery);
+---
+
+<DocsLayout title={`${entry.data.title} — unscripted/ui`} description={entry.data.description}>
+  <article>
+    <header class="mb-2">
+      <h1 class="text-2xl font-bold tracking-tight">{entry.data.title}</h1>
+      <p class="mt-1.5 max-w-[60ch] text-muted-foreground">{entry.data.description}</p>
+      <p class="mt-3 flex flex-wrap gap-1.5">
+        {entry.data.plainCss && (
+          <span class="rounded-full border border-border px-2.5 py-0.5 font-mono text-[0.68rem] text-muted-foreground">
+            plain CSS — works everywhere
+          </span>
+        )}
+        {liveBadges.map((key) => <SupportBadge feature={key} />)}
+      </p>
+    </header>
+    <div class="docs-prose">
+      <Content />
+    </div>
+    <SupportTable features={entry.data.features} />
+  </article>
+</DocsLayout>

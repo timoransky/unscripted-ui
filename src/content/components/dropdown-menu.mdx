@@ -1,0 +1,32 @@
+---
+title: Dropdown Menu
+description: Top-layer rendering, Esc + click-outside dismiss, anchored under the trigger, auto-flips at viewport edges. All attributes and CSS.
+order: 100
+features: [popover, anchor-positioning, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="dropdown-menu/basic" />
+
+## How it works
+
+- The `popover` attribute + `popovertarget` on the button gives top-layer rendering, toggling,
+  Esc and click-outside dismiss — zero JavaScript.
+- CSS anchor positioning pins the panel under the trigger: `[anchor-name:--dd-options]` on the
+  button, then `[position-anchor:--dd-options]` + `[position-area:block-end_span-inline-end]`
+  on the panel — "place me below the anchor, growing to the right".
+  `[position-try-fallbacks:flip-block]` flips it above the trigger at the bottom of the viewport.
+- `position-area` is unknown to browsers without anchor support, so it's simply ignored there —
+  the menu opens centered instead (the top-layer default), which is why the base classes keep
+  `m-auto`. Only the margin reset (`m-0` + the `mt-1.5` gap) and the transform origin need
+  explicit `supports-[anchor-name:--a]:` guards.
+- One trap this dodges: resetting placement with the `inset` **shorthand** under a variant can
+  land later in the stylesheet than your `top`/`left` longhands and silently wipe them.
+  `position-area` doesn't touch insets at all.
+
+## Accessibility
+
+Focus moves into the menu with Tab; Esc returns to the trigger. This is a popover, not an ARIA
+menu — there's no roving arrow-key navigation. For most "actions under a button" cases that's
+fine; if you need full menu semantics, that genuinely still needs JavaScript.

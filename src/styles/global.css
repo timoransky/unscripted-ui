@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/* Demo fragments are rendered via set:html — make sure Tailwind always scans them. */
+@source "../demos";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   unscripted/ui tokens — the shadcn variable contract.
+   This block (through the reduced-motion rule) is the one-time
+   paste shown on the Installation page.
+   ============================================================ */
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(240 10% 3.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(240 10% 3.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  --primary: hsl(240 5.9% 10%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(240 4.8% 95.9%);
+  --secondary-foreground: hsl(240 5.9% 10%);
+  --muted: hsl(240 4.8% 95.9%);
+  --muted-foreground: hsl(240 3.8% 46.1%);
+  --accent: hsl(240 4.8% 95.9%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 5.9% 90%);
+  --input: hsl(240 5.9% 90%);
+  --ring: hsl(240 5.9% 10%);
+  --radius: 0.5rem;
+
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: hsl(240 10% 3.9%);
+  --foreground: hsl(0 0% 98%);
+  --card: hsl(240 10% 3.9%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(240 10% 3.9%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(0 0% 98%);
+  --primary-foreground: hsl(240 5.9% 10%);
+  --secondary: hsl(240 3.7% 15.9%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(240 3.7% 15.9%);
+  --muted-foreground: hsl(240 5% 64.9%);
+  --accent: hsl(240 3.7% 15.9%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 3.7% 15.9%);
+  --input: hsl(240 3.7% 15.9%);
+  --ring: hsl(240 4.9% 83.9%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --chevron: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="%2371717a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>');
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  ::details-content,
+  ::backdrop {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+/* ============== end of the token paste ============== */
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ============================================================
+   Live browser-support badge (site chrome, not component code).
+   Default state is "not supported"; SupportBadgeStyles.astro
+   generates one @supports block per feature that flips the
+   custom properties to the green state.
+   ============================================================ */
+.sup {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--sup-bd, hsl(38 92% 50% / 0.3));
+  background: var(--sup-bg, hsl(38 92% 50% / 0.12));
+  color: var(--sup-fg, light-dark(hsl(30 80% 40%), hsl(38 90% 60%)));
+}
+.sup::before {
+  content: var(--sup-mark, "✕ ");
+  white-space: pre;
+}
+
+/* ============================================================
+   Docs prose — hand-rolled instead of the typography plugin;
+   scoped to MDX bodies rendered inside DocsLayout.
+   Two containment measures keep it out of the component demos:
+   - every selector skips .not-prose subtrees (ComponentPreview
+     renders demos inside a .not-prose figure)
+   - the whole block lives in the components layer, so Tailwind
+     utilities (a later layer) always win a direct conflict
+   ============================================================ */
+@layer components {
+  .docs-prose {
+    max-width: 72ch;
+  }
+  .docs-prose h2:where(:not(.not-prose, .not-prose *)) {
+    margin: 2.25rem 0 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 5rem;
+  }
+  .docs-prose h3:where(:not(.not-prose, .not-prose *)) {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .docs-prose p:where(:not(.not-prose, .not-prose *)) {
+    margin: 0.75rem 0;
+    color: var(--muted-foreground);
+  }
+  .docs-prose li:where(:not(.not-prose, .not-prose *)) {
+    color: var(--muted-foreground);
+  }
+  .docs-prose ul:where(:not(.not-prose, .not-prose *)) {
+    margin: 0.75rem 0;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .docs-prose ol:where(:not(.not-prose, .not-prose *)) {
+    margin: 0.75rem 0;
+    padding-left: 1.25rem;
+    list-style: decimal;
+  }
+  .docs-prose li + li:where(:not(.not-prose, .not-prose *)) {
+    margin-top: 0.35rem;
+  }
+  .docs-prose a:where(:not(.not-prose, .not-prose *)) {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--border);
+  }
+  .docs-prose a:hover:where(:not(.not-prose, .not-prose *)) {
+    text-decoration-color: var(--foreground);
+  }
+  .docs-prose strong:where(:not(.not-prose, .not-prose *)) {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+  .docs-prose :not(pre) > code:where(:not(.not-prose, .not-prose *)) {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    background: var(--muted);
+    border-radius: 0.25rem;
+    padding: 0.15em 0.35em;
+  }
+}

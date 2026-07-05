@@ -1,0 +1,27 @@
+---
+title: Accordion
+description: Exclusive open, animated height auto, correct semantics, find-in-page support. The browser does all of it.
+order: 10
+features: [details-name, details-content, interpolate-size]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="accordion/basic" />
+
+## How it works
+
+- `<details name="acc-faq">` makes the group exclusive — the browser closes the other panels.
+- `details-content:h-0` → `open:details-content:h-auto` animates the panel height. The trick that
+  makes `height: auto` animatable is `[interpolate-size:allow-keywords]` on the wrapper — it's an
+  inherited property, so one wrapper class covers every panel and the snippet is fully
+  self-contained (nothing to add to your CSS config).
+- `details-content:transition-discrete` (`transition-behavior: allow-discrete`) keeps the content painted (`content-visibility`) while it
+  collapses, so the close animation is visible too.
+- The chevron is a `after:` pseudo-element rotated with `group-open:`.
+
+## Accessibility
+
+`<details>`/`<summary>` ship keyboard support and disclosure semantics natively, and unlike
+`display: none` accordions, collapsed content is still searchable with find-in-page in
+Chromium (`content-visibility: hidden` keeps it in the DOM).

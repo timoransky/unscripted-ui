@@ -1,0 +1,69 @@
+/* Dots + arrow buttons for the carousel — the CSS Carousels spec (Chrome 135+).
+   This can't be expressed as utilities: ::scroll-marker and ::scroll-button()
+   are generated pseudo-elements that need `content`, and the marker group is
+   its own layout box. In other browsers this whole block is inert and the
+   carousel simply scrolls by hand. */
+
+.carousel {
+  scroll-marker-group: after;
+  anchor-name: --carousel;
+}
+
+.carousel::scroll-marker-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-block: 0.875rem;
+}
+
+.carousel > li::scroll-marker {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.carousel > li::scroll-marker:target-current {
+  background: var(--primary);
+}
+
+.carousel::scroll-button(*) {
+  position: fixed;
+  position-anchor: --carousel;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+  transition: opacity 0.15s;
+}
+
+.carousel::scroll-button(*):disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.carousel::scroll-button(left) {
+  content: "‹" / "Scroll left";
+  top: anchor(center);
+  left: anchor(left);
+  translate: -50% -50%;
+}
+
+.carousel::scroll-button(right) {
+  content: "›" / "Scroll right";
+  top: anchor(center);
+  left: anchor(right);
+  translate: -50% -50%;
+}

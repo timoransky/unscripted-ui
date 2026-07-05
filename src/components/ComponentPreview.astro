@@ -1,0 +1,88 @@
+---
+import { Code } from 'astro:components';
+import CopyButton from './CopyButton.astro';
+
+interface Props {
+  /** "accordion/basic" -> src/demos/accordion/basic.html */
+  demo: string;
+  /** "select/required" -> src/demos/select/required.css — the rare escape hatch */
+  css?: string;
+  align?: 'center' | 'start';
+}
+
+// One import, two uses: the same raw fragment renders as the live preview
+// and is highlighted as the copyable code. It cannot drift.
+const demos = import.meta.glob<string>('../demos/**/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+const { demo, css, align = 'center' } = Astro.props;
+
+const code = demos[`../demos/${demo}.html`];
+if (code === undefined) throw new Error(`ComponentPreview: demo not found: src/demos/${demo}.html`);
+const requiredCss = css ? cssFiles[`../demos/${css}.css`] : undefined;
+if (css && requiredCss === undefined)
+  throw new Error(`ComponentPreview: css not found: src/demos/${css}.css`);
+
+const uid = demo.replace(/[^a-zA-Z0-9]/g, '-');
+const html = code.trim();
+---
+
+{/* The Preview/Code switcher is the library's own zero-JS radio-tabs technique. */}
+<figure class="not-prose my-6 grid grid-cols-[auto_auto_1fr] overflow-clip rounded-xl border border-border">
+  <input type="radio" name={`view-${uid}`} id={`view-${uid}-preview`} class="peer/preview sr-only" checked />
+  <input type="radio" name={`view-${uid}`} id={`view-${uid}-code`} class="peer/code sr-only" />
+
+  <label
+    for={`view-${uid}-preview`}
+    class="cursor-pointer border-b border-border px-4 py-2.5 font-mono text-xs text-muted-foreground underline-offset-8 transition-colors hover:text-foreground peer-checked/preview:text-foreground peer-checked/preview:underline peer-focus-visible/preview:outline-2 peer-focus-visible/preview:-outline-offset-2 peer-focus-visible/preview:outline-ring"
+  >
+    Preview
+  </label>
+  <label
+    for={`view-${uid}-code`}
+    class="cursor-pointer border-b border-border px-4 py-2.5 font-mono text-xs text-muted-foreground underline-offset-8 transition-colors hover:text-foreground peer-checked/code:text-foreground peer-checked/code:underline peer-focus-visible/code:outline-2 peer-focus-visible/code:-outline-offset-2 peer-focus-visible/code:outline-ring"
+  >
+    Code
+  </label>
+  <div class="flex items-center justify-end gap-1.5 border-b border-border px-4 py-2.5">
+    <slot name="badges" />
+  </div>
+
+  {requiredCss && <Fragment set:html={`<style>${requiredCss}</style>`} />}
+
+  <div
+    class:list={[
+      'col-span-3 hidden min-h-48 flex-wrap items-center gap-3 p-8',
+      'peer-checked/preview:flex',
+      align === 'center' && 'justify-center',
+    ]}
+    set:html={html}
+  />
+
+  <div
+    class="relative col-span-3 hidden bg-[#24292e] peer-checked/code:block [&_pre]:max-h-[26rem] [&_pre]:overflow-auto [&_pre]:p-5 [&_pre]:text-[0.8rem]/[1.7] [&_pre]:outline-none"
+    data-code-pane
+  >
+    <CopyButton />
+    <Code code={html} lang="html" theme="github-dark" />
+    {
+      requiredCss && (
+        <div class="relative border-t border-zinc-700" data-code-pane>
+          <p class="px-5 pt-3 pb-0 font-mono text-[0.68rem] text-zinc-400">
+            + required CSS — this part genuinely can't be expressed as utilities (the page explains why)
+          </p>
+          <CopyButton />
+          <Code code={requiredCss.trim()} lang="css" theme="github-dark" />
+        </div>
+      )
+    }
+  </div>
+</figure>

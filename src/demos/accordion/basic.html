@@ -1,0 +1,40 @@
+<div class="w-full max-w-md [interpolate-size:allow-keywords]">
+  <details
+    name="acc-faq"
+    open
+    class="group border-b border-border details-content:h-0 details-content:overflow-clip details-content:transition-[height,content-visibility] details-content:transition-discrete details-content:duration-250 details-content:ease-out open:details-content:h-auto"
+  >
+    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-4 text-sm font-medium hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden after:size-2.5 after:shrink-0 after:rotate-45 after:border-r-[1.5px] after:border-b-[1.5px] after:border-muted-foreground after:transition-transform after:content-[''] group-open:after:rotate-[225deg]">
+      Is it accessible?
+    </summary>
+    <div class="pb-4 text-sm text-muted-foreground">
+      Yes — <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> ship with keyboard support and
+      correct semantics, and the content stays in the DOM for crawlers and find-in-page.
+    </div>
+  </details>
+  <details
+    name="acc-faq"
+    class="group border-b border-border details-content:h-0 details-content:overflow-clip details-content:transition-[height,content-visibility] details-content:transition-discrete details-content:duration-250 details-content:ease-out open:details-content:h-auto"
+  >
+    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-4 text-sm font-medium hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden after:size-2.5 after:shrink-0 after:rotate-45 after:border-r-[1.5px] after:border-b-[1.5px] after:border-muted-foreground after:transition-transform after:content-[''] group-open:after:rotate-[225deg]">
+      Can it animate height: auto?
+    </summary>
+    <div class="pb-4 text-sm text-muted-foreground">
+      Yes. <code>interpolate-size: allow-keywords</code> on the wrapper lets
+      <code>::details-content</code> transition from <code>height: 0</code> to
+      <code>height: auto</code>. No measuring, no JavaScript.
+    </div>
+  </details>
+  <details
+    name="acc-faq"
+    class="group border-b border-border details-content:h-0 details-content:overflow-clip details-content:transition-[height,content-visibility] details-content:transition-discrete details-content:duration-250 details-content:ease-out open:details-content:h-auto"
+  >
+    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-4 text-sm font-medium hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden after:size-2.5 after:shrink-0 after:rotate-45 after:border-r-[1.5px] after:border-b-[1.5px] after:border-muted-foreground after:transition-transform after:content-[''] group-open:after:rotate-[225deg]">
+      Only one open at a time?
+    </summary>
+    <div class="pb-4 text-sm text-muted-foreground">
+      The <code>name</code> attribute makes the group exclusive — the browser closes the others
+      for you.
+    </div>
+  </details>
+</div>

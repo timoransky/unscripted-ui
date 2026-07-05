@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SupportBadge from '../components/SupportBadge.astro';
+import { FEATURES } from '../data/features';
+
+const demos = import.meta.glob<string>('../demos/**/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+// Which demo fragment represents each component on the landing page.
+const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center' }> = {
+  accordion: { demo: 'accordion/basic'},
+  'dropdown-menu': { demo: 'dropdown-menu/basic' },
+  dialog: { demo: 'dialog/basic' },
+  drawer: { demo: 'drawer/basic' },
+  select: { demo: 'select/basic' },
+  tooltip: { demo: 'tooltip/toolbar' },
+  carousel: { demo: 'carousel/basic', css: 'carousel/markers' },
+  header: { demo: 'header/basic' },
+  textarea: { demo: 'textarea/basic' },
+  meter: { demo: 'meter/basic'},
+};
+
+const components = (await getCollection('components')).filter(component => Object.keys(SHOWCASE).includes(component.id)).sort(
+  (a, b) => Object.keys(SHOWCASE).lastIndexOf(a.id) - Object.keys(SHOWCASE).lastIndexOf(b.id)
+);
+
+---
+
+<BaseLayout>
+  <div class="relative">
+  <main class="mx-auto w-full max-w-6xl flex-1 px-5 py-12">
+    <header class="mb-12">
+      <h1 class="text-3xl font-bold tracking-tight">
+        unscripted<span class="font-normal text-muted-foreground">/ui</span>
+      </h1>
+      <p class="mt-2.5 max-w-[52ch] text-muted-foreground">
+        shadcn-style components rebuilt on raw HTML and CSS primitives. Every interaction on
+        this page (opening, closing, animating, positioning, dismissing) happens with no script at all.
+        Copy the code, paste it, ship zero JavaScript. Works with your existing shadcn theme tokens.
+      </p>
+      <div class="mt-5 flex flex-col flex-wrap items-start gap-3">
+        <a
+          href="/docs/introduction"
+          class="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          Get started
+        </a>
+      </div>
+      <p class="mt-4 text-xs text-muted-foreground">
+        The badges below are live! They say whether <em>your</em> browser supports each
+        feature, detected with <code class="font-mono">@supports</code>, no JS.
+      </p>
+    </header>
+
+    <div class="relative">
+      <div class="grid grid-cols-2 gap-6">
+      {[0, 1].map(col => (
+        <div class="flex flex-col gap-6">
+        {
+          components.filter((c, index) => index % 2 === col).map((entry) => {
+            const config = SHOWCASE[entry.id]!;
+            const html = demos[`../demos/${config.demo}.html`];
+            const requiredCss = config.css ? cssFiles[`../demos/${config.css}.css`] : undefined;
+            const liveBadges = entry.data.features.filter((key) => FEATURES[key].supportsQuery).slice(0, 2);
+            return (
+              <section class="overflow-clip rounded-xl border border-border">
+                <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-border px-5 py-3.5">
+                  <h2 class="text-[0.95rem] font-semibold tracking-tight">
+                    <a href={`/components/${entry.id}`} class="underline-offset-4 hover:underline">
+                      {entry.data.title}
+                    </a>
+                  </h2>
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    {(entry.data.plainCss && !liveBadges.length) && (
+                      <span class="rounded-full border border-border px-2.5 py-0.5 font-mono text-[0.68rem] text-muted-foreground">
+                        plain CSS
+                      </span>
+                    )}
+                    {liveBadges.map((key) => (
+                      <SupportBadge feature={key} />
+                    ))}
+                    <a
+                      href={`/components/${entry.id}`}
+                      class="ml-1 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      code →
+                    </a>
+                  </div>
+                </div>
+                {requiredCss && <Fragment set:html={`<style>${requiredCss}</style>`} />}
+                <div
+                  class:list={[
+                    'flex flex-wrap items-center gap-3 p-8',
+                    (config.align ?? 'center') === 'center' && 'justify-center',
+                  ]}
+                  set:html={html}
+                />
+              </section>
+            );
+          })
+        }
+        </div>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <div class="pointer-events-none absolute flex items-end justify-center pb-10 inset-x-0 bottom-0 z-20 h-64 bg-linear-to-t from-background via-background/80 to-transparent lg:h-96 dark:via-background/80">
+    <a
+      href="/components/accordion"
+      class="pointer-events-auto flex h-9 items-center justify-center rounded-lg bg-background px-4 text-sm font-medium text-foreground border border-input transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+    >
+      Explore all components
+    </a>
+  </div>
+
+  </div>
+</BaseLayout>
