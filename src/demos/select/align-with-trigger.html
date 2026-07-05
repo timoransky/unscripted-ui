@@ -1,0 +1,44 @@
+<select
+  aria-label="Fruit"
+  class="h-9 min-w-48 cursor-pointer rounded-lg border border-input bg-background px-3 text-sm [--option-height:2.25rem] [appearance:base-select] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring [&::picker(select)]:[appearance:base-select] [&::picker(select)]:[position-area:auto] [&::picker(select)]:[align-self:auto] [&::picker(select)]:[position-try-fallbacks:none] [&::picker(select)]:[max-block-size:100vh] [&::picker(select)]:min-w-48 [&::picker(select)]:rounded-lg [&::picker(select)]:border [&::picker(select)]:border-border [&::picker(select)]:bg-popover [&::picker(select)]:p-0 [&::picker(select)]:text-popover-foreground [&::picker(select)]:opacity-0 [&::picker(select)]:shadow-lg [&::picker(select)]:transition-opacity [&::picker(select)]:duration-150 [&:open::picker(select)]:opacity-100 starting:[&:open::picker(select)]:opacity-0 [&:has(option:nth-of-type(1):checked)]:[--checked-index:1] [&:has(option:nth-of-type(2):checked)]:[--checked-index:2] [&:has(option:nth-of-type(3):checked)]:[--checked-index:3] [&:has(option:nth-of-type(4):checked)]:[--checked-index:4] [&:has(option:nth-of-type(5):checked)]:[--checked-index:5] [&:has(option:nth-of-type(6):checked)]:[--checked-index:6] [&::picker(select)]:[top:calc(var(--option-height)*-1*var(--checked-index,0))] [&::picker-icon]:relative [&::picker-icon]:top-0.5 [&::picker-icon]:flex [&::picker-icon]:items-center [&::picker-icon]:text-muted-foreground [&::picker-icon]:content-[--chevron]"
+>
+  <button>
+    <selectedcontent class="flex items-center gap-2"></selectedcontent>
+  </button>
+  <option
+    value=""
+    class="flex h-[var(--option-height)] cursor-pointer items-center gap-2 px-3 text-sm text-muted-foreground focus:bg-accent focus:outline-none [&::checkmark]:hidden"
+  >
+    Select a fruit
+  </option>
+  <option
+    value="apple"
+    class="flex h-[var(--option-height)] cursor-pointer items-center gap-2 px-3 text-sm focus:bg-accent focus:outline-none [&::checkmark]:hidden"
+  >
+    Apple
+  </option>
+  <option
+    value="banana"
+    class="flex h-[var(--option-height)] cursor-pointer items-center gap-2 px-3 text-sm focus:bg-accent focus:outline-none [&::checkmark]:hidden"
+  >
+    Banana
+  </option>
+  <option
+    value="blueberry"
+    class="flex h-[var(--option-height)] cursor-pointer items-center gap-2 px-3 text-sm focus:bg-accent focus:outline-none [&::checkmark]:hidden"
+  >
+    Blueberry
+  </option>
+  <option
+    value="grapes"
+    class="flex h-[var(--option-height)] cursor-pointer items-center gap-2 px-3 text-sm focus:bg-accent focus:outline-none [&::checkmark]:hidden"
+  >
+    Grapes
+  </option>
+  <option
+    value="pineapple"
+    class="flex h-[var(--option-height)] cursor-pointer items-center gap-2 px-3 text-sm focus:bg-accent focus:outline-none [&::checkmark]:hidden"
+  >
+    Pineapple
+  </option>
+</select>
