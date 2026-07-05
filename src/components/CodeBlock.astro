@@ -1,0 +1,19 @@
+---
+import { Code } from 'astro:components';
+import CopyButton from './CopyButton.astro';
+
+interface Props {
+  code: string;
+  lang?: 'css' | 'html' | 'js' | 'sh';
+}
+
+const { code, lang = 'css' } = Astro.props;
+---
+
+<div
+  class="not-prose relative my-4 overflow-clip rounded-xl bg-[#24292e] [&_pre]:max-h-[30rem] [&_pre]:overflow-auto [&_pre]:p-5 [&_pre]:text-[0.8rem]/[1.7] [&_pre]:outline-none"
+  data-code-pane
+>
+  <CopyButton />
+  <Code code={code} lang={lang} theme="github-dark" />
+</div>

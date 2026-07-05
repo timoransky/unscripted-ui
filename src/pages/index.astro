@@ -1,19 +1,125 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SupportBadge from '../components/SupportBadge.astro';
+import { FEATURES } from '../data/features';
+
+const demos = import.meta.glob<string>('../demos/**/*.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+// Which demo fragment represents each component on the landing page.
+const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center' }> = {
+  accordion: { demo: 'accordion/basic', align: 'start' },
+  alert: { demo: 'alert/variants', align: 'start' },
+  avatar: { demo: 'avatar/basic' },
+  badge: { demo: 'badge/variants' },
+  button: { demo: 'button/variants' },
+  card: { demo: 'card/basic' },
+  carousel: { demo: 'carousel/basic', css: 'carousel/markers' },
+  checkbox: { demo: 'checkbox/basic', align: 'start' },
+  dialog: { demo: 'dialog/basic' },
+  'dropdown-menu': { demo: 'dropdown-menu/basic' },
+  input: { demo: 'input/basic' },
+  label: { demo: 'label/basic' },
+  meter: { demo: 'meter/basic', align: 'start' },
+  progress: { demo: 'progress/basic' },
+  'radio-group': { demo: 'radio-group/basic', align: 'start' },
+  select: { demo: 'select/basic' },
+  skeleton: { demo: 'skeleton/basic' },
+  slider: { demo: 'slider/basic' },
+  switch: { demo: 'switch/basic' },
+  tabs: { demo: 'tabs/basic', align: 'start' },
+  textarea: { demo: 'textarea/basic' },
+  tooltip: { demo: 'tooltip/basic' },
+};
+
+const components = (await getCollection('components')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const missing = components.filter((c) => !SHOWCASE[c.id]).map((c) => c.id);
+if (missing.length > 0)
+  throw new Error(`index.astro SHOWCASE is missing entries for: ${missing.join(', ')}`);
 ---
 
 <BaseLayout>
-  <main class="mx-auto w-full max-w-6xl flex-1 px-5 py-10">
-    <header class="mb-10 max-w-2xl">
+  <main class="mx-auto w-full max-w-3xl flex-1 px-5 py-12">
+    <header class="mb-12">
       <h1 class="text-3xl font-bold tracking-tight">
         unscripted<span class="font-normal text-muted-foreground">/ui</span>
       </h1>
-      <p class="mt-2 max-w-[52ch] text-muted-foreground">
-        shadcn-style components rebuilt on raw web platform primitives. Every
-        interaction — opening, closing, animating, positioning, dismissing — is
-        HTML + CSS.
+      <p class="mt-2.5 max-w-[52ch] text-muted-foreground">
+        shadcn-style components rebuilt on raw web platform primitives. Every interaction on
+        this page — opening, closing, animating, positioning, dismissing — is HTML + CSS.
+        Copy the code, paste it, ship zero JavaScript.
+      </p>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        <a
+          href="/docs/getting-started"
+          class="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          Get started
+        </a>
+        <span class="rounded-full border border-border px-2.5 py-1 font-mono text-[0.7rem] text-muted-foreground">
+          &lt;script&gt; bytes shipped by components: 0
+        </span>
+      </div>
+      <p class="mt-4 text-xs text-muted-foreground">
+        The badges below are live — they say whether <em>your</em> browser supports each
+        feature, detected with <code class="font-mono">@supports</code>, no JS.
       </p>
     </header>
-    <p class="text-sm text-muted-foreground">Showcase assembling in M6 — components land here as they're built.</p>
+
+    {
+      components.map((entry) => {
+        const config = SHOWCASE[entry.id]!;
+        const html = demos[`../demos/${config.demo}.html`];
+        const requiredCss = config.css ? cssFiles[`../demos/${config.css}.css`] : undefined;
+        const liveBadges = entry.data.features.filter((key) => FEATURES[key].supportsQuery);
+        return (
+          <section class="mb-6 overflow-clip rounded-xl border border-border">
+            <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-border px-5 py-3.5">
+              <h2 class="text-[0.95rem] font-semibold tracking-tight">
+                <a href={`/components/${entry.id}`} class="underline-offset-4 hover:underline">
+                  {entry.data.title}
+                </a>
+              </h2>
+              <div class="flex flex-wrap items-center gap-1.5">
+                {entry.data.plainCss && (
+                  <span class="rounded-full border border-border px-2.5 py-0.5 font-mono text-[0.68rem] text-muted-foreground">
+                    plain CSS
+                  </span>
+                )}
+                {liveBadges.map((key) => (
+                  <SupportBadge feature={key} />
+                ))}
+                <a
+                  href={`/components/${entry.id}`}
+                  class="ml-1 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  code →
+                </a>
+              </div>
+            </div>
+            {requiredCss && <Fragment set:html={`<style>${requiredCss}</style>`} />}
+            <div
+              class:list={[
+                'flex flex-wrap items-center gap-3 p-8',
+                (config.align ?? 'center') === 'center' && 'justify-center',
+              ]}
+              set:html={html}
+            />
+          </section>
+        );
+      })
+    }
   </main>
 </BaseLayout>

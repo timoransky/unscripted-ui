@@ -1,0 +1,108 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+import globalCss from '../../styles/global.css?raw';
+
+// The paste is sliced out of the site's own global.css — one source of truth.
+const START = '@custom-variant dark';
+const END = '/* ============== end of the Getting Started paste ==============';
+const startIndex = globalCss.indexOf(START);
+const endIndex = globalCss.indexOf(END);
+if (startIndex === -1 || endIndex === -1)
+  throw new Error('getting-started: token paste markers not found in global.css');
+const tokensPaste = `@import "tailwindcss";\n\n${globalCss.slice(startIndex, endIndex).trimEnd()}\n`;
+
+const darkToggleSnippet = `<button onclick="
+  document.documentElement.classList.toggle('dark');
+  localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+">Toggle theme</button>`;
+---
+
+<DocsLayout title="Getting started — unscripted/ui">
+  <article>
+    <header class="mb-2">
+      <h1 class="text-2xl font-bold tracking-tight">Getting started</h1>
+      <p class="mt-1.5 max-w-[60ch] text-muted-foreground">
+        There is nothing to install, no package, no provider, no registry command. The
+        components are markup — this page is the entire setup.
+      </p>
+    </header>
+
+    <div class="docs-prose">
+      <h2>1. Have Tailwind CSS v4</h2>
+      <p>
+        Components are styled with Tailwind utility classes, including the newer variants
+        (<code>starting:</code>, <code>transition-discrete</code>, <code>details-content:</code>).
+        Any Tailwind v4.1+ setup works — Vite plugin, PostCSS, or the CLI.
+      </p>
+
+      <h2>2. Paste the tokens</h2>
+      <p>
+        This is the shadcn variable contract mapped to Tailwind v4's <code>@theme</code>. If your
+        project already uses shadcn/ui, you already have these variables — skip the
+        <code>:root</code>/<code>.dark</code> blocks and keep your theme; the components will
+        match it automatically. The paste also carries two site-wide behaviors the components
+        rely on: <code>interpolate-size: allow-keywords</code> (animated <code>height: auto</code>)
+        and the <code>prefers-reduced-motion</code> rule.
+      </p>
+      <CodeBlock code={tokensPaste} lang="css" />
+
+      <h2>3. Dark mode (optional)</h2>
+      <p>
+        The paste defines a <code>dark</code> variant driven by a <code>.dark</code> class on
+        <code>&lt;html&gt;</code>. How that class gets there is your call — this is the one
+        place where a few bytes of JavaScript are reasonable:
+      </p>
+      <CodeBlock code={darkToggleSnippet} lang="html" />
+      <p>
+        Prefer zero JS even here? Swap the variant for
+        <code>@custom-variant dark (&#123;@media (prefers-color-scheme: dark)&#125;)</code>-style media
+        query handling and skip the toggle.
+      </p>
+
+      <h2>4. Copy components</h2>
+      <p>
+        Every component page has a Preview/Code switcher (itself built with this library's
+        radio-tabs technique). Copy the HTML, paste it, done. Exactly one component
+        (<a href="/components/carousel">Carousel</a>) ships an extra CSS block, and its page
+        explains why.
+      </p>
+
+      <h2>Browser support philosophy</h2>
+      <p>
+        Some components use features that are Baseline and boring (dialog, details, popover).
+        Others use features that shipped in Chromium first (anchor positioning, customizable
+        select, CSS carousels). The rule for everything here: <strong>the fallback must be
+        functional</strong>. A select without <code>base-select</code> is the classic native
+        select. A dropdown without anchor positioning opens centered. A carousel without
+        scroll markers still scrolls. Each component page has a support table with the exact
+        versions and the exact fallback behavior.
+      </p>
+      <p>
+        The colored badges you see on component pages are <strong>live</strong> — they're
+        rendered by <code>@supports</code> blocks, so they report on the browser you're using
+        right now. No user-agent sniffing, no JS. One honest limitation: <code>@supports</code>
+        can only test CSS, so HTML features like <code>commandfor</code> get a table row but no
+        live badge.
+      </p>
+
+      <h2>Accessibility notes</h2>
+      <ul>
+        <li>
+          Native elements ship their own semantics and keyboard behavior: dialog traps focus,
+          details/summary announce as disclosures, radios give you arrow-key navigation.
+          That's behavior JS libraries reimplement — here it's the browser's job.
+        </li>
+        <li>
+          Where a pattern bends semantics, the component page says so out loud — see
+          <a href="/components/tabs">Tabs</a>, which announces as a radio group and explains
+          why that's the honest trade.
+        </li>
+        <li>
+          Reduced motion is handled once, globally, in the token paste — every transition and
+          animation in the library collapses to instant for users who ask for that.
+        </li>
+      </ul>
+    </div>
+  </article>
+</DocsLayout>
