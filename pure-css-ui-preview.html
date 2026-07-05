@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>unscripted/ui — zero-JS components on the web platform</title>
+<style>
+/* ============================================================
+   TOKENS — same variable contract as shadcn/ui
+   In the real project these map 1:1 to Tailwind v4 @theme.
+   ============================================================ */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --accent: 240 4.8% 95.9%;
+  --destructive: 0 84.2% 60.2%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+
+  /* the whole trick for animating height: auto */
+  interpolate-size: allow-keywords;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+/* ---- header ---- */
+.masthead { margin-bottom: 2.5rem; }
+.masthead h1 {
+  font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em;
+  margin: 0 0 .35rem;
+}
+.masthead h1 .slash { color: hsl(var(--muted-foreground)); font-weight: 400; }
+.masthead p { color: hsl(var(--muted-foreground)); margin: 0; max-width: 52ch; }
+.masthead .zero {
+  display: inline-block; margin-top: .75rem;
+  font-family: ui-monospace, monospace; font-size: .75rem;
+  border: 1px solid hsl(var(--border)); border-radius: 999px;
+  padding: .2rem .65rem; color: hsl(var(--muted-foreground));
+}
+
+/* ---- component card ---- */
+.demo {
+  border: 1px solid hsl(var(--border));
+  border-radius: calc(var(--radius) + 4px);
+  margin-bottom: 1.5rem;
+  overflow: clip;
+}
+.demo-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: .75rem; flex-wrap: wrap;
+  padding: .9rem 1.1rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+.demo-head h2 { font-size: .95rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.demo-head .built { font-family: ui-monospace, monospace; font-size: .7rem; color: hsl(var(--muted-foreground)); }
+.demo-body { padding: 1.5rem 1.1rem; display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.demo-note { padding: 0 1.1rem 1rem; font-size: .78rem; color: hsl(var(--muted-foreground)); }
+
+/* ---- live support badge (the point of this whole demo) ---- */
+.sup {
+  font-family: ui-monospace, monospace; font-size: .68rem;
+  border-radius: 999px; padding: .15rem .55rem;
+  background: hsl(38 92% 50% / .12); color: hsl(30 80% 32%);
+  border: 1px solid hsl(38 92% 50% / .3);
+}
+.sup::before { content: "✕ not in this browser"; }
+.sup.ok {
+  background: hsl(142 71% 45% / .1); color: hsl(142 72% 24%);
+  border-color: hsl(142 71% 45% / .3);
+}
+.sup.ok::before { content: "✓ supported here"; }
+
+@supports (transition-behavior: allow-discrete) { .sup[data-f="discrete"] { } }
+/* badges flip green per-feature */
+@supports (transition-behavior: allow-discrete) and (selector(::backdrop)) {
+  .sup[data-f="dialog"] { background: hsl(142 71% 45% / .1); color: hsl(142 72% 24%); border-color: hsl(142 71% 45% / .3); }
+  .sup[data-f="dialog"]::before { content: "✓ supported here"; }
+}
+@supports (anchor-name: --a) {
+  .sup[data-f="anchor"] { background: hsl(142 71% 45% / .1); color: hsl(142 72% 24%); border-color: hsl(142 71% 45% / .3); }
+  .sup[data-f="anchor"]::before { content: "✓ supported here"; }
+}
+@supports selector(::details-content) {
+  .sup[data-f="details"] { background: hsl(142 71% 45% / .1); color: hsl(142 72% 24%); border-color: hsl(142 71% 45% / .3); }
+  .sup[data-f="details"]::before { content: "✓ supported here"; }
+}
+@supports (interpolate-size: allow-keywords) {
+  .sup[data-f="interp"] { background: hsl(142 71% 45% / .1); color: hsl(142 72% 24%); border-color: hsl(142 71% 45% / .3); }
+  .sup[data-f="interp"]::before { content: "✓ supported here"; }
+}
+@supports (appearance: base-select) {
+  .sup[data-f="select"] { background: hsl(142 71% 45% / .1); color: hsl(142 72% 24%); border-color: hsl(142 71% 45% / .3); }
+  .sup[data-f="select"]::before { content: "✓ supported here"; }
+}
+
+/* ============================================================
+   BUTTON — plain CSS, always worked, sets the aesthetic
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  height: 2.25rem; padding: 0 1rem;
+  border-radius: var(--radius);
+  font-size: .875rem; font-weight: 500; font-family: inherit;
+  border: 1px solid transparent;
+  background: hsl(var(--primary)); color: hsl(var(--primary-foreground));
+  cursor: pointer; white-space: nowrap;
+  transition: opacity .15s, background-color .15s;
+}
+.btn:hover { opacity: .9; }
+.btn:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.btn-outline { background: transparent; color: hsl(var(--foreground)); border-color: hsl(var(--input)); }
+.btn-outline:hover { background: hsl(var(--accent)); opacity: 1; }
+.btn-ghost { background: transparent; color: hsl(var(--foreground)); }
+.btn-ghost:hover { background: hsl(var(--accent)); opacity: 1; }
+.btn-destructive { background: hsl(var(--destructive)); color: #fff; }
+
+/* ============================================================
+   DIALOG — <dialog> + command/commandfor + @starting-style
+   Zero JS: button opens it declaratively, Esc & backdrop close it
+   ============================================================ */
+dialog.sheet {
+  width: min(92vw, 26rem);
+  border: 1px solid hsl(var(--border));
+  border-radius: calc(var(--radius) + 4px);
+  padding: 1.5rem;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / .25);
+
+  opacity: 0;
+  transform: translateY(10px) scale(.97);
+  transition:
+    opacity .2s ease, transform .2s ease,
+    overlay .2s ease allow-discrete,
+    display .2s ease allow-discrete;
+}
+dialog.sheet[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  @starting-style { opacity: 0; transform: translateY(10px) scale(.97); }
+}
+dialog.sheet::backdrop {
+  background: rgb(0 0 0 / 0);
+  backdrop-filter: blur(0);
+  transition: background-color .2s, backdrop-filter .2s,
+    overlay .2s allow-discrete, display .2s allow-discrete;
+}
+dialog.sheet[open]::backdrop {
+  background: rgb(0 0 0 / .45);
+  backdrop-filter: blur(2px);
+  @starting-style { background: rgb(0 0 0 / 0); backdrop-filter: blur(0); }
+}
+dialog.sheet h3 { margin: 0 0 .35rem; font-size: 1.05rem; letter-spacing: -0.01em; }
+dialog.sheet p { margin: 0 0 1.25rem; color: hsl(var(--muted-foreground)); font-size: .875rem; }
+dialog.sheet .row { display: flex; justify-content: flex-end; gap: .5rem; }
+
+/* ============================================================
+   DROPDOWN MENU — popover + anchor positioning
+   ============================================================ */
+.menu-trigger { anchor-name: --menu-1; }
+.menu {
+  position: fixed;
+  margin: 0; padding: .3rem;
+  min-width: 11rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  background: hsl(var(--card));
+  box-shadow: 0 8px 24px -8px rgb(0 0 0 / .2);
+
+  opacity: 0; transform: scale(.96);
+  transition: opacity .13s, transform .13s,
+    overlay .13s allow-discrete, display .13s allow-discrete;
+}
+.menu:popover-open {
+  opacity: 1; transform: scale(1);
+  @starting-style { opacity: 0; transform: scale(.96); }
+}
+@supports (anchor-name: --a) {
+  .menu {
+    position-anchor: --menu-1;
+    inset: auto;
+    top: calc(anchor(bottom) + 6px);
+    left: anchor(left);
+    position-try-fallbacks: flip-block;
+    transform-origin: top left;
+  }
+}
+.menu button {
+  display: flex; width: 100%; align-items: center;
+  padding: .45rem .6rem; border: 0; border-radius: calc(var(--radius) - 2px);
+  background: transparent; font: inherit; font-size: .875rem; text-align: left;
+  color: hsl(var(--foreground)); cursor: pointer;
+}
+.menu button:hover, .menu button:focus-visible { background: hsl(var(--accent)); outline: none; }
+.menu button.danger { color: hsl(var(--destructive)); }
+.menu hr { border: 0; border-top: 1px solid hsl(var(--border)); margin: .3rem -0.3rem; }
+
+/* ============================================================
+   TOOLTIP — pure :hover/:focus, enhanced with anchor()
+   ============================================================ */
+.tip-wrap { position: relative; display: inline-flex; }
+.tip-wrap > .tip {
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  translate: -50% 4px;
+  padding: .35rem .6rem; border-radius: calc(var(--radius) - 2px);
+  background: hsl(var(--primary)); color: hsl(var(--primary-foreground));
+  font-size: .75rem; white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity .15s .1s, translate .15s .1s;
+}
+.tip-wrap:hover > .tip,
+.tip-wrap:focus-within > .tip { opacity: 1; translate: -50% 0; }
+
+/* ============================================================
+   ACCORDION — <details name> + ::details-content + interpolate-size
+   Exclusive open, animated height:auto, zero JS
+   ============================================================ */
+.acc { width: 100%; }
+.acc details { border-bottom: 1px solid hsl(var(--border)); }
+.acc summary {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 0; cursor: pointer; list-style: none;
+  font-weight: 500; font-size: .875rem;
+}
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary::after {
+  content: ""; width: .6rem; height: .6rem; flex: none;
+  border-right: 1.5px solid hsl(var(--muted-foreground));
+  border-bottom: 1.5px solid hsl(var(--muted-foreground));
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform .2s;
+}
+.acc details[open] summary::after { transform: rotate(225deg) translateY(-1px); }
+.acc summary:hover { text-decoration: underline; }
+.acc ::details-content {
+  height: 0; overflow: clip;
+  transition: height .25s ease, content-visibility .25s allow-discrete;
+}
+.acc details[open]::details-content { height: auto; }
+.acc .acc-body { padding: 0 0 1rem; color: hsl(var(--muted-foreground)); font-size: .875rem; }
+
+/* ============================================================
+   SELECT — appearance: base-select + ::picker + <selectedcontent>
+   Chrome 135+. Falls back to the native select elsewhere.
+   ============================================================ */
+select.sel, select.sel::picker(select) { appearance: base-select; }
+select.sel {
+  min-width: 12rem; height: 2.25rem; padding: 0 .75rem;
+  border: 1px solid hsl(var(--input)); border-radius: var(--radius);
+  background: hsl(var(--background)); font: inherit; font-size: .875rem;
+}
+select.sel:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 1px; }
+select.sel::picker-icon { color: hsl(var(--muted-foreground)); transition: rotate .2s; }
+select.sel:open::picker-icon { rotate: 180deg; }
+select.sel::picker(select) {
+  margin-top: 4px; padding: .3rem;
+  border: 1px solid hsl(var(--border)); border-radius: var(--radius);
+  background: hsl(var(--card));
+  box-shadow: 0 8px 24px -8px rgb(0 0 0 / .2);
+  opacity: 0; transform: scale(.97);
+  transition: opacity .13s, transform .13s,
+    overlay .13s allow-discrete, display .13s allow-discrete;
+}
+select.sel:open::picker(select) {
+  opacity: 1; transform: scale(1);
+  @starting-style { opacity: 0; transform: scale(.97); }
+}
+select.sel option {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .45rem .6rem; border-radius: calc(var(--radius) - 2px);
+  font-size: .875rem;
+}
+select.sel option:hover, select.sel option:focus-visible { background: hsl(var(--accent)); outline: none; }
+select.sel option::checkmark { order: 1; margin-left: auto; color: hsl(var(--primary)); }
+select.sel option .dot { width: .5rem; height: .5rem; border-radius: 999px; flex: none; }
+
+/* ============================================================
+   SWITCH — a checkbox in a trench coat (CSS since forever)
+   ============================================================ */
+.switch {
+  appearance: none; margin: 0; cursor: pointer;
+  width: 2.25rem; height: 1.25rem; border-radius: 999px;
+  background: hsl(var(--input)); position: relative; flex: none;
+  transition: background-color .15s;
+}
+.switch::before {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: calc(1.25rem - 4px); height: calc(1.25rem - 4px);
+  border-radius: 999px; background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .2);
+  transition: translate .15s;
+}
+.switch:checked { background: hsl(var(--primary)); }
+.switch:checked::before { translate: 1rem 0; }
+.switch:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.switch-row { display: flex; align-items: center; gap: .6rem; font-size: .875rem; font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after, ::details-content, ::backdrop { transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <h1>unscripted<span class="slash">/ui</span></h1>
+    <p>shadcn-style components rebuilt on raw web platform primitives. Every interaction below — opening, closing, animating, positioning, dismissing — is HTML + CSS.</p>
+    <span class="zero">&lt;script&gt; bytes shipped: 0*</span>
+  </header>
+
+  <!-- BUTTON -->
+  <section class="demo">
+    <div class="demo-head"><h2>Button</h2><span class="built">plain CSS</span></div>
+    <div class="demo-body">
+      <button class="btn">Save changes</button>
+      <button class="btn btn-outline">Cancel</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-destructive">Delete</button>
+    </div>
+  </section>
+
+  <!-- DIALOG -->
+  <section class="demo">
+    <div class="demo-head">
+      <h2>Dialog</h2>
+      <span class="sup" data-f="dialog"></span>
+    </div>
+    <div class="demo-body">
+      <button class="btn btn-outline" commandfor="demo-dialog" command="show-modal" data-open-dialog>Open dialog</button>
+      <dialog class="sheet" id="demo-dialog" closedby="any">
+        <h3>Delete project?</h3>
+        <p>This removes the project and all of its deployments. This can't be undone.</p>
+        <div class="row">
+          <button class="btn btn-outline" commandfor="demo-dialog" command="close" data-close-dialog>Cancel</button>
+          <button class="btn btn-destructive" commandfor="demo-dialog" command="close" data-close-dialog>Delete</button>
+        </div>
+      </dialog>
+    </div>
+    <p class="demo-note">Native <code>&lt;dialog&gt;</code> + invoker commands (<code>commandfor</code>/<code>command</code>) to open declaratively, <code>closedby="any"</code> for light dismiss, <code>@starting-style</code> + <code>allow-discrete</code> for the entry/exit animation, <code>::backdrop</code> for the blurred overlay. Focus trapping comes free.</p>
+  </section>
+
+  <!-- DROPDOWN -->
+  <section class="demo">
+    <div class="demo-head">
+      <h2>Dropdown menu</h2>
+      <span class="sup" data-f="anchor"></span>
+    </div>
+    <div class="demo-body">
+      <button class="btn btn-outline menu-trigger" popovertarget="demo-menu">Options ▾</button>
+      <div class="menu" id="demo-menu" popover>
+        <button>Edit</button>
+        <button>Duplicate</button>
+        <button>Share…</button>
+        <hr>
+        <button class="danger">Delete</button>
+      </div>
+    </div>
+    <p class="demo-note"><code>popover</code> attribute gives top-layer rendering, Esc + click-outside dismiss, and toggling with zero JS via <code>popovertarget</code>. CSS anchor positioning pins it under the trigger and auto-flips at viewport edges (<code>position-try-fallbacks</code>). Without anchor support it opens centered.</p>
+  </section>
+
+  <!-- TOOLTIP -->
+  <section class="demo">
+    <div class="demo-head"><h2>Tooltip</h2><span class="built">plain CSS</span></div>
+    <div class="demo-body">
+      <span class="tip-wrap">
+        <button class="btn btn-outline">Hover or focus me</button>
+        <span class="tip" role="tooltip">Add to library</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- ACCORDION -->
+  <section class="demo">
+    <div class="demo-head">
+      <h2>Accordion</h2>
+      <span class="sup" data-f="details"></span>
+      <span class="sup" data-f="interp"></span>
+    </div>
+    <div class="demo-body">
+      <div class="acc">
+        <details name="faq" open>
+          <summary>Is it accessible?</summary>
+          <div class="acc-body">Yes — <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> ship with keyboard support and correct semantics, and the content is in the DOM for crawlers and find-in-page.</div>
+        </details>
+        <details name="faq">
+          <summary>Can it animate height: auto?</summary>
+          <div class="acc-body">Yes. <code>interpolate-size: allow-keywords</code> lets the <code>::details-content</code> pseudo-element transition from <code>height: 0</code> to <code>height: auto</code>. No measuring, no JS.</div>
+        </details>
+        <details name="faq">
+          <summary>Only one open at a time?</summary>
+          <div class="acc-body">The <code>name</code> attribute makes a group of details exclusive — the browser closes the others for you.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECT -->
+  <section class="demo">
+    <div class="demo-head">
+      <h2>Select</h2>
+      <span class="sup" data-f="select"></span>
+    </div>
+    <div class="demo-body">
+      <select class="sel" aria-label="Status">
+        <button>
+          <selectedcontent></selectedcontent>
+        </button>
+        <option value="active"><span class="dot" style="background:hsl(142 71% 45%)"></span> Active</option>
+        <option value="paused"><span class="dot" style="background:hsl(38 92% 50%)"></span> Paused</option>
+        <option value="archived"><span class="dot" style="background:hsl(240 4% 65%)"></span> Archived</option>
+      </select>
+    </div>
+    <p class="demo-note"><code>appearance: base-select</code> opts the real <code>&lt;select&gt;</code> into full styling: rich HTML inside options, <code>::picker(select)</code> for the dropdown panel, <code>&lt;selectedcontent&gt;</code> mirrors the choice into the button, <code>::checkmark</code> marks the selection. Chromium-only for now — everyone else gets the classic native select, which still works.</p>
+  </section>
+
+  <!-- SWITCH -->
+  <section class="demo">
+    <div class="demo-head"><h2>Switch</h2><span class="built">plain CSS</span></div>
+    <div class="demo-body">
+      <label class="switch-row"><input type="checkbox" class="switch" checked> Marketing emails</label>
+      <label class="switch-row"><input type="checkbox" class="switch"> Security alerts</label>
+    </div>
+  </section>
+
+  <footer style="color:hsl(var(--muted-foreground)); font-size:.78rem; max-width:56ch;">
+    * One asterisk-sized exception: this demo page includes a 6-line fallback so the dialog button also works in browsers without invoker commands. The library itself ships none.
+  </footer>
+</div>
+
+<script>
+// Progressive-enhancement shim ONLY for browsers without invoker commands.
+if (!('command' in document.createElement('button'))) {
+  const dlg = document.getElementById('demo-dialog');
+  document.querySelector('[data-open-dialog]').addEventListener('click', () => dlg.showModal());
+  document.querySelectorAll('[data-close-dialog]').forEach(b => b.addEventListener('click', () => dlg.close()));
+}
+</script>
+</body>
+</html>
