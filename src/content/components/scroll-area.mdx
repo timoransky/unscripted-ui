@@ -1,0 +1,38 @@
+---
+title: Scroll Area
+description: A scroll container with a thin themed scrollbar and fade edges that appear only when there's more to scroll — styled scrollbars plus a scroll-state query, no JavaScript.
+order: 155
+features: [scrollbar-color, scroll-state-scrollable]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="scroll-area/basic" />
+
+For years, restyling a scrollbar meant `::-webkit-scrollbar` — a nonstandard pseudo-element that only
+Chromium and WebKit ever implemented. That era is over: `scrollbar-color` and `scrollbar-width` are
+the standard, cross-engine way to do it, and the top/bottom fades that used to need a scroll listener
+now come from a container query.
+
+## How it works
+
+- `[scrollbar-width:thin]` and `[scrollbar-color:var(--border)_transparent]` give you a slim scrollbar
+  in your own theme tokens — the thumb picks up `--border`, so it flips automatically in dark mode.
+  Two declarations replace the whole `::-webkit-scrollbar` stack, and they work in Firefox too.
+- `[scrollbar-gutter:stable]` reserves the scrollbar's space up front, so content doesn't jump sideways
+  the moment it becomes scrollable.
+- The fade edges are the fun part. The scroller is a `[container-type:scroll-state]` container, and each
+  fade is a `sticky` gradient toggled by a scroll-state query:
+  `[@container_scroll-state(scrollable:top)]:opacity-100` shows the top fade only while there's content
+  hidden above, and `scrollable:bottom` does the mirror at the bottom. No scroll listener, no
+  `IntersectionObserver` — the browser already knows whether the box can scroll each way.
+- Each fade uses a negative margin (`-mb-6` / `-mt-6`) to cancel its own height, so it overlays the
+  content instead of taking up scroll length, and `pointer-events-none` lets clicks pass through to
+  the rows underneath.
+
+## The fallback story
+
+`scrollbar-color`/`scrollbar-width` are newly Baseline, so nearly everywhere you get the thin themed
+bar; the odd older engine just shows its default scrollbar — still perfectly scrollable. Scroll-state
+queries are Chromium-only for now, so elsewhere the fade edges simply never appear. Nothing breaks:
+you keep an ordinary scroll box.

@@ -163,6 +163,20 @@ export const FEATURES = {
     fallback: 'The docked header simply does not gain its elevation shadow.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Conditional_rules/Container_scroll-state_queries',
   },
+  'scroll-state-scrollable': {
+    label: 'Scroll-state query: scrollable',
+    short: 'scrollable query',
+    supportsQuery: '(container-type: scroll-state)',
+    proxy:
+      '@supports can’t test @container descriptors, so the badge checks container-type: scroll-state — the scrollable query landed alongside it in Chrome 133.',
+    bcd: [
+      'css.properties.container-type.scroll-state',
+      'css.at-rules.container.scroll-state_queries.scrollable',
+    ],
+    webFeature: 'container-scroll-state-queries',
+    fallback: 'The fade edges never appear; the panel still scrolls normally.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Conditional_rules/Container_scroll-state_queries',
+  },
   'interest-invokers': {
     label: 'Interest invokers (interestfor + popover="hint")',
     short: 'interest invokers',
@@ -190,6 +204,16 @@ export const FEATURES = {
     webFeature: 'field-sizing',
     fallback: 'The textarea keeps its fixed rows height and scrolls.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing',
+  },
+  'scrollbar-color': {
+    label: 'Styled scrollbars (scrollbar-color / scrollbar-width)',
+    short: 'scrollbar-color',
+    supportsQuery: '(scrollbar-color: auto)',
+    bcd: ['css.properties.scrollbar-color', 'css.properties.scrollbar-width'],
+    webFeature: 'scrollbar-color',
+    fallback:
+      'You get the default platform scrollbar instead of the thin themed one — still fully scrollable.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color',
   },
 } as const satisfies Record<string, FeatureInfo>;
 
