@@ -1,0 +1,63 @@
+<button
+  commandfor="drawer-cart"
+  command="show-modal"
+  class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-input bg-transparent px-4 text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+>
+  Open cart
+</button>
+
+<dialog
+  id="drawer-cart"
+  closedby="any"
+  class="my-0 mr-0 ml-auto h-dvh max-h-dvh w-[min(92vw,22rem)] translate-x-full overflow-hidden rounded-l-xl border-l border-border bg-card p-0 text-card-foreground shadow-2xl transition-all transition-discrete duration-300 open:translate-x-0 starting:open:translate-x-full backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/45 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none"
+>
+  <div class="flex h-full flex-col">
+    <header class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
+      <div>
+        <h3 class="text-base font-semibold tracking-tight">Your cart</h3>
+        <p class="text-sm text-muted-foreground">2 items</p>
+      </div>
+      <button
+        commandfor="drawer-cart"
+        command="close"
+        aria-label="Close cart"
+        class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </header>
+
+    <div class="flex-1 space-y-4 overflow-y-auto px-5 py-4">
+      <div class="flex items-center gap-3">
+        <div class="size-12 shrink-0 rounded-md bg-muted"></div>
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-medium">Mechanical keyboard</p>
+          <p class="text-sm text-muted-foreground">Qty 1</p>
+        </div>
+        <span class="text-sm font-medium">$149</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="size-12 shrink-0 rounded-md bg-muted"></div>
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-medium">Aluminium wrist rest</p>
+          <p class="text-sm text-muted-foreground">Qty 1</p>
+        </div>
+        <span class="text-sm font-medium">$39</span>
+      </div>
+    </div>
+
+    <footer class="border-t border-border px-5 py-4">
+      <div class="mb-3 flex items-center justify-between text-sm">
+        <span class="text-muted-foreground">Subtotal</span>
+        <span class="font-semibold">$188</span>
+      </div>
+      <button
+        class="inline-flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium whitespace-nowrap text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      >
+        Checkout
+      </button>
+    </footer>
+  </div>
+</dialog>
