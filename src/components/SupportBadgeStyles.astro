@@ -1,0 +1,19 @@
+---
+import { FEATURES } from '../data/features';
+
+// One @supports block per detectable feature. When the visitor's browser
+// supports it, the badge's custom properties flip to the green state.
+const OK = [
+  '--sup-bg: hsl(142 71% 45% / 0.1)',
+  '--sup-fg: light-dark(hsl(142 72% 26%), hsl(142 60% 55%))',
+  '--sup-bd: hsl(142 71% 45% / 0.3)',
+  '--sup-txt: "✓ supported here"',
+].join('; ');
+
+const css = Object.entries(FEATURES)
+  .filter(([, f]) => f.supportsQuery)
+  .map(([key, f]) => `@supports ${f.supportsQuery} { .sup[data-f="${key}"] { ${OK}; } }`)
+  .join('\n');
+---
+
+<Fragment set:html={`<style>${css}</style>`} />

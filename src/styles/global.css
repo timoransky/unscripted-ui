@@ -133,3 +133,63 @@
 .sup::before {
   content: var(--sup-txt, "✕ not in this browser");
 }
+
+/* ============================================================
+   Docs prose — hand-rolled instead of the typography plugin;
+   scoped to MDX bodies rendered inside DocsLayout.
+   ============================================================ */
+.docs-prose {
+  max-width: 72ch;
+}
+.docs-prose h2 {
+  margin: 2.25rem 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 5rem;
+}
+.docs-prose h3 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.docs-prose p {
+  margin: 0.75rem 0;
+  color: var(--muted-foreground);
+}
+.docs-prose li {
+  color: var(--muted-foreground);
+}
+.docs-prose ul {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.docs-prose ol {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+  list-style: decimal;
+}
+.docs-prose li + li {
+  margin-top: 0.35rem;
+}
+.docs-prose a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--border);
+}
+.docs-prose a:hover {
+  text-decoration-color: var(--foreground);
+}
+.docs-prose strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.docs-prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: var(--muted);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+}

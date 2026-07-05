@@ -1,0 +1,17 @@
+---
+import { FEATURES, type FeatureKey } from '../data/features';
+
+interface Props {
+  feature: FeatureKey;
+}
+
+const { feature } = Astro.props;
+const info = FEATURES[feature];
+if (!info.supportsQuery) {
+  throw new Error(
+    `SupportBadge: "${feature}" is an HTML feature and cannot be live-detected with @supports — list it in the support table only.`
+  );
+}
+---
+
+<span class="sup" data-f={feature} title={info.label}></span>

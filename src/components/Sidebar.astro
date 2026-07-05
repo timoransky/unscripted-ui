@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+
+const components = (await getCollection('components')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const current = Astro.url.pathname.replace(/\/$/, '');
+
+const groups = [
+  {
+    label: 'Docs',
+    links: [{ href: '/docs/getting-started', title: 'Getting started' }],
+  },
+  {
+    label: 'Components',
+    links: components.map((c) => ({
+      href: `/components/${c.id}`,
+      title: c.data.title,
+    })),
+  },
+];
+---
+
+<aside class="lg:py-8">
+  {/* mobile: zero-JS disclosure, same <details> primitive the library documents */}
+  <details class="border-b border-border py-3 lg:hidden">
+    <summary class="cursor-pointer list-none text-sm font-medium [&::-webkit-details-marker]:hidden">
+      Browse components
+    </summary>
+    <nav class="pt-3">
+      {groups.map((group) => (
+        <div class="mb-4">
+          <p class="mb-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{group.label}</p>
+          <ul class="space-y-0.5">
+            {group.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={current === link.href ? 'page' : undefined}
+                  class="block rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
+                >
+                  {link.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </nav>
+  </details>
+
+  <nav class="sticky top-20 hidden max-h-[calc(100dvh-6rem)] overflow-y-auto pr-2 pb-8 lg:block">
+    {groups.map((group) => (
+      <div class="mb-6">
+        <p class="mb-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{group.label}</p>
+        <ul class="space-y-0.5">
+          {group.links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={current === link.href ? 'page' : undefined}
+                class="block rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
+              >
+                {link.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </nav>
+</aside>

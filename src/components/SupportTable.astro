@@ -1,0 +1,71 @@
+---
+import { FEATURES, type FeatureKey } from '../data/features';
+
+interface Props {
+  features: FeatureKey[];
+}
+
+const { features } = Astro.props;
+const rows = features.map((key) => ({ key, ...FEATURES[key] }));
+const proxied = rows.filter((r) => r.proxy);
+const undetectable = rows.filter((r) => !r.supportsQuery);
+
+const version = (v: string) => (v === 'no' ? '✕' : v === '?' ? '—' : v);
+---
+
+{
+  rows.length > 0 && (
+    <section class="mt-12">
+      <h2 class="mb-1 text-lg font-semibold tracking-tight">Browser support</h2>
+      <p class="mb-4 text-sm text-muted-foreground">
+        Minimum stable version per engine. Everything degrades gracefully — the
+        “when missing” column is the actual behavior, not a broken page.
+      </p>
+      <div class="overflow-x-auto rounded-lg border border-border">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-border bg-muted/50 text-left">
+              <th scope="col" class="px-3 py-2 font-medium">Feature</th>
+              <th scope="col" class="px-3 py-2 text-center font-medium">Chrome</th>
+              <th scope="col" class="px-3 py-2 text-center font-medium">Edge</th>
+              <th scope="col" class="px-3 py-2 text-center font-medium">Firefox</th>
+              <th scope="col" class="px-3 py-2 text-center font-medium">Safari</th>
+              <th scope="col" class="px-3 py-2 font-medium">When missing</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr class="border-b border-border last:border-0">
+                <th scope="row" class="px-3 py-2.5 text-left font-normal">
+                  <a href={row.mdn} class="underline decoration-border underline-offset-4 hover:decoration-foreground">
+                    {row.label}
+                  </a>
+                  {row.proxy && <sup aria-hidden="true">†</sup>}
+                  {!row.supportsQuery && <sup aria-hidden="true">‡</sup>}
+                </th>
+                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.chrome)}</td>
+                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.edge)}</td>
+                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.firefox)}</td>
+                <td class="px-3 py-2.5 text-center font-mono text-xs">{version(row.support.safari)}</td>
+                <td class="px-3 py-2.5 text-muted-foreground">{row.fallback}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {(proxied.length > 0 || undetectable.length > 0) && (
+        <div class="mt-3 space-y-1 text-xs text-muted-foreground">
+          {proxied.map((row) => (
+            <p>† {row.proxy}</p>
+          ))}
+          {undetectable.length > 0 && (
+            <p>
+              ‡ HTML feature — <code class="font-mono">@supports</code> can only test CSS, and we ship
+              no JS to detect it, so it gets no live badge.
+            </p>
+          )}
+        </div>
+      )}
+    </section>
+  )
+}

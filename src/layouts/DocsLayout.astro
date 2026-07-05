@@ -1,0 +1,18 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+---
+
+<BaseLayout {...Astro.props}>
+  <div class="mx-auto grid w-full max-w-6xl flex-1 gap-x-10 px-5 lg:grid-cols-[220px_minmax(0,1fr)]">
+    <Sidebar />
+    <main class="min-w-0 py-8">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
