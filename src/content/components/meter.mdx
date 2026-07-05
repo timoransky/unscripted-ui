@@ -13,9 +13,12 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 ## How it works
 
 - `low` / `high` / `optimum` tell the browser which ranges are good; it then exposes one of
-  three pseudo-elements — `::-webkit-meter-optimum-value`, `-suboptimum-value`, or
-  `-even-less-good-value` — and each gets its own color utility. The state logic ships with
+  three pseudo-elements — all sharing the `::-webkit-meter-` prefix: `-optimum-value`,
+  `-suboptimum-value`, or `-even-less-good-value` — and each gets its own color utility. The state logic ships with
   the browser.
+- The native bar ships a glossy vertical gradient as a `background-image`, so a
+  `background-color` alone can't flatten it — set `bg-none` first to reset `background-image`,
+  then your `bg-*` color lands flat.
 - Firefox only exposes `::-moz-meter-bar`, so it keeps its native state colors under your
   radius — an honest fallback.
 - Fair warning: meter is the platform's dustiest corner. Keep styling modest (height, radius,

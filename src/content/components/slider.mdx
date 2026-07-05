@@ -15,8 +15,10 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 - The element itself is the track (`h-1.5 bg-secondary rounded-full` after `appearance-none`);
   the thumb is styled twice — `[&::-webkit-slider-thumb]:` and `[&::-moz-range-thumb]:` —
   and each engine ignores the other's selectors because every utility is its own rule.
-- WebKit top-aligns the thumb to the track, so `-mt-[5px]` re-centers it
-  ((16px thumb − 6px track) / 2). Firefox centers it automatically.
+- Current engines center the thumb on the track automatically. If you still support older
+  WebKit builds that top-align it, add `[&::-webkit-slider-thumb]:-mt-[5px]`
+  ((16px thumb − 6px track) / 2) — but don't ship that to modern browsers, where it pushes
+  the thumb above the track.
 - `[&::-moz-range-progress]:bg-primary` fills the track's left side in Firefox. WebKit has no
   filled-track pseudo-element — that genuinely requires JS (or a background gradient bound to
   the value), so this component ships without it. Honesty over hacks.

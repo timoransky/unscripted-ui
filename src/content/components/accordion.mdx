@@ -16,7 +16,7 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   makes `height: auto` animatable is `[interpolate-size:allow-keywords]` on the wrapper — it's an
   inherited property, so one wrapper class covers every panel and the snippet is fully
   self-contained (nothing to add to your CSS config).
-- `details-content:transition-discrete` keeps the content painted (`content-visibility`) while it
+- `details-content:transition-discrete` (`transition-behavior: allow-discrete`) keeps the content painted (`content-visibility`) while it
   collapses, so the close animation is visible too.
 - The chevron is a `after:` pseudo-element rotated with `group-open:`.
 
