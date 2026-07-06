@@ -11,19 +11,15 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 ## Dialog vs Alert Dialog
 
-A [Dialog](/components/dialog) is furniture — settings, previews, forms — and light dismiss is a
-courtesy: click anywhere outside and it's gone. An alert dialog interrupts to demand a decision,
-usually a destructive one, so a stray click on the backdrop must **not** dismiss it. Same element,
-opposite dismissal policy.
+An alert dialog interrupts to demand a decision, usually a destructive one, so a stray click on
+the backdrop must not dismiss it. Same element as [Dialog](/components/dialog) but with a
+different dismissal policy.
 
 ## How it works
 
-- `closedby="closerequest"` is the whole behavioral diff: `Esc` (and other platform close
-  requests) still works, but clicking the backdrop does nothing — deliberate friction, so the
-  only ways out are the buttons or an explicit close request. This also happens to be the
-  default modal behavior in browsers without `closedby` support, so the dismissal policy is
-  identical everywhere `<dialog>` exists — which is why there's no `closedby` row in the
-  support table below.
+- `closedby="closerequest"` prevents the user from dismissing the dialog by clicking on the
+  backdrop. This is also the default behavior in browsers without `closedby` support, so the
+  dismissal policy is identical everywhere `<dialog>` exists.
 - `role="alertdialog"` tells screen readers this is an interruption that needs a response, and
   with `aria-describedby` pointing at the consequence text, the question is announced in full
   when the dialog opens.

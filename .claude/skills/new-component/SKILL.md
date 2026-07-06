@@ -138,11 +138,30 @@ demo as `<ComponentPreview demo="<slug>/basic" />`):
 3. **`## The fallback story`** (when `features` is non-empty) — per feature: what a
    browser without it shows, and why that's still functional.
 
-Voice: confident, specific, a little dry. Explain *why*, not just *what* ("a stray click
-must **not** dismiss it"). Contrast with the JS-library way when it makes the point ("the
-autogrow JavaScript you've written five times is one CSS declaration now"). Cross-link
-sibling components with relative links (`[Dialog](/components/dialog)`). No marketing
-fluff, no unexplained jargon, no claims the demo doesn't back.
+### Voice — say it straight
+
+Write short declarative sentences that state behavior and mechanism. Explain *why* when
+it changes what the copier should do, in one clause, not a story.
+
+- **Cut scene-setting and metaphor from body prose.** If a sentence doesn't teach the
+  reader something about the component, delete it. Real example from review:
+  - Bad: "A Dialog is furniture — settings, previews, forms — and light dismiss is a
+    courtesy: click anywhere outside and it's gone."
+  - Good: "An alert dialog interrupts to demand a decision, usually a destructive one,
+    so a stray click on the backdrop must not dismiss it."
+  The bad version is filler dressed as insight; the good one is the whole point in one
+  sentence. Flowery framing like this reads as AI-generated and got rewritten.
+- **Go easy on em-dash asides and triads.** One "— like this —" flourish per paragraph
+  at most; stacking them is padding. Prefer a second plain sentence over a decorated
+  long one.
+- **A bullet is one or two sentences.** If a bullet needs four, it is explaining more
+  than the reader needs — keep the behavior and the mechanism, drop the rest.
+- A frontmatter `description` may carry one dry hook ("A checkbox in a trench coat");
+  body prose stays plain.
+- Contrast with the JS-library way only when it makes a concrete point ("the autogrow
+  JavaScript you've written five times is one CSS declaration now").
+- Cross-link sibling components with relative links (`[Dialog](/components/dialog)`).
+- No marketing fluff, no unexplained jargon, no claims the demo doesn't back.
 
 ## The feature registry (src/data/features.ts)
 
