@@ -90,6 +90,18 @@ export const FEATURES = {
       'The popover opens centered in the viewport (the top-layer default) instead of attached to its trigger.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning',
   },
+  'anchor-inset': {
+    label: 'anchor() function positioning',
+    short: 'anchor()',
+    supportsQuery: '(anchor-name: --a)',
+    proxy:
+      '@supports cannot test the anchor() function inside a value, so the badge checks anchor-name: --a — anchor-name and anchor() shipped together in every engine.',
+    bcd: ['css.properties.anchor-name', 'css.types.anchor'],
+    webFeature: 'anchor-positioning',
+    fallback:
+      'An element positioned with the anchor() function falls back to its normal position, so an indicator that tracks another element simply does not move; the underlying content stays fully usable.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/anchor',
+  },
   'details-content': {
     label: '::details-content pseudo-element',
     short: 'details-content',

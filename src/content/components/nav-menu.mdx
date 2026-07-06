@@ -1,0 +1,43 @@
+---
+title: Navigation Menu
+description: A horizontal nav where a highlight pill slides between links on hover and focus — CSS anchor positioning makes a pseudo-element track whichever link owns the anchor.
+order: 132
+features: [anchor-inset]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="nav-menu/basic" />
+
+A row of links with a highlight that glides to whatever you point at. There is no JavaScript
+measuring element positions — a single pseudo-element reads the active link through CSS anchor
+positioning.
+
+## How it works
+
+- The pill is the `<ul>`'s `::before` (`before:content-['']`), set `before:absolute` and pushed
+  behind the links with `before:-z-10`. `isolate` on the `<ul>` scopes that negative layer so the
+  pill paints above the bar's background but under the link text.
+- Hover or focus hands the link's `<li>` an anchor name — `has-[a:hover]:[anchor-name:--nav]` and
+  `has-[a:focus-visible]:[anchor-name:--nav]`. Only one link is ever hovered or focused, so `--nav`
+  has exactly one owner at a time.
+- **The pill tracks that owner with `inset: anchor(inside)`.** Each edge resolves to the anchored
+  `<li>`'s matching edge, so the pill exactly covers it, and `before:transition-[inset,opacity]`
+  turns the recompute into a slide when the owner changes. The `<ul>` reads the anchor via
+  `supports-[anchor-name:--a]:before:[position-anchor:--nav]` and
+  `supports-[anchor-name:--a]:before:[inset:anchor(inside)]`.
+- The `supports-[anchor-name:--a]:` guard also runs the fade: the pill is `before:opacity-0` until a
+  link is engaged (`supports-[anchor-name:--a]:has-[a:hover]:before:opacity-100`), so it is invisible
+  at rest and never flashes as a stray box.
+
+## Accessibility
+
+- Real `<a href>` links inside a `<nav aria-label="Main">` landmark: native focus order, keyboard
+  activation, and navigation, none of it re-implemented.
+- The pill is a decorative empty `::before` with no text, so it is never announced.
+
+## The fallback story
+
+Without the `anchor()` function the pill has no anchor to read, so the guard holds its opacity at
+zero and it never appears. The links still navigate and still shift from `text-muted-foreground` to
+`text-foreground` on hover and focus — the nav loses the sliding highlight, not its feedback.
