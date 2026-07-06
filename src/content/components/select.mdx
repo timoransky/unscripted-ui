@@ -13,7 +13,7 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 - `[appearance:base-select]` on **both** the `<select>` and its `::picker(select)` pseudo-element
   opts into the new customizable select rendering.
-- Options can contain real HTML (the colored status dots) — `<selectedcontent>` mirrors the
+- Options can contain real HTML (the colored status dots). `<selectedcontent>` mirrors the
   chosen option's content into the closed button.
 - `::picker(select)` is the dropdown panel: styled, animated with `transition-discrete`
   (`transition-behavior: allow-discrete`) + `starting:`, rendered in the top layer.
@@ -24,15 +24,15 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 <ComponentPreview demo="select/align-with-trigger" />
 
 The classic OS popup menu move: instead of dropping below, the picker opens *over* the trigger with
-your current choice already sitting under the cursor. It's a tiny bit of Fitts's-law generosity —
-the option you're most likely to want is exactly where your pointer already is.
+your current choice already sitting under the cursor. It's a tiny bit of Fitts's-law generosity.
+The option you're most likely to want is exactly where your pointer already is.
 
 - Undo the UA placement: `position-area: auto`, `align-self: auto`, `position-try-fallbacks: none`,
   so the picker is a plain top-layer box we position by hand instead of an anchored dropdown.
 - Give every `<option>` a fixed `--option-height` equal to the trigger's own height. The panel's
   default position sits just under the trigger, so nudging it up by `--checked-index × --option-height`
   pulls the selected row right onto the trigger.
-- The catch: the picker can't read *which* option is checked (`sibling-index()` won't help — it only
+- The catch: the picker can't read *which* option is checked (`sibling-index()` won't help: it only
   reports an element's own slot, never a descendant's). So it stays a `:has()` chain, one rule per
   option, on `nth-of-type` to skip the `<button>`. Keep it DRY by having each rule set a bare
   `--checked-index` and doing the math once: `top: calc(var(--option-height) * -1 * var(--checked-index, 0))`.
@@ -43,6 +43,6 @@ the option you're most likely to want is exactly where your pointer already is.
 
 ## The fallback is the feature
 
-In browsers without `base-select`, this renders as the **classic native select** — ugly options,
+In browsers without `base-select`, this renders as the **classic native select**. Ugly options,
 maybe, but fully functional, accessible, and familiar. That's a much better floor than a
 JS-powered listbox that breaks without hydration.

@@ -12,7 +12,7 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 ## How it works
 
 It's the [Dialog](/components/dialog) with two changes: pin it to an edge, and slide instead of
-scale. Everything else — top layer, focus trap, inert background, `Esc`, declarative open — is
+scale. Everything else (top layer, focus trap, inert background, `Esc`, declarative open) is
 identical, because it's the same native `<dialog>`.
 
 - `my-0 mr-0 ml-auto` overrides Tailwind's zeroed dialog margins to push the panel flush against
@@ -25,17 +25,17 @@ identical, because it's the same native `<dialog>`.
   slides *out* too, instead of vanishing.
 - `commandfor` + `command="show-modal"` opens it declaratively; `closedby="any"` gives you
   backdrop-click dismiss. The header's close button is just `command="close"`.
-- Inside, a `flex flex-col` with a fixed header and footer and a `flex-1 overflow-y-auto` body —
-  so long content scrolls while the checkout bar stays put.
+- Inside, a `flex flex-col` with a fixed header and footer and a `flex-1 overflow-y-auto` body.
+  Long content scrolls while the footer stays put.
 
 ## Accessibility
 
 Same as Dialog: focus moves into the drawer and is trapped, the page behind goes inert, `Esc`
-closes it, and focus returns to the trigger on close — all native. Like the dialog, the panel
+closes it, and focus returns to the trigger on close. Like the dialog, the panel
 needs an accessible name: the demo points `aria-labelledby` at the heading, so it announces
 as "Your cart".
 
 ## Reduced motion
 
 The global `prefers-reduced-motion` rule in the token paste collapses the slide to an instant
-show/hide — the drawer still opens and closes, it just doesn't travel.
+show/hide. The drawer still opens and closes, it just doesn't travel.
