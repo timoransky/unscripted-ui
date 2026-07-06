@@ -16,6 +16,8 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 - `focus-visible:outline-*` gives a visible keyboard focus ring without flashing on mouse clicks.
 - `disabled:*` utilities handle the disabled state — add the `disabled` attribute and you're done.
 - Tailwind v4 no longer forces `cursor: pointer` on buttons, so the class sets it explicitly.
+- Inside a `<form>`, a bare `<button>` defaults to `type="submit"` — add `type="button"` to
+  anything that isn't the submit action. The library's own menu and toolbar demos do this.
 
 ## Variants
 

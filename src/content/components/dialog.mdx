@@ -26,4 +26,6 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 ## Accessibility
 
 Everything the JS dialog libraries reimplement — focus trap, `aria-modal`, inert page behind,
-focus restore on close — is the browser's native behavior here.
+focus restore on close — is the browser's native behavior here. The one thing `<dialog>` does
+*not* supply is an accessible name: point `aria-labelledby` at the title (and `aria-describedby`
+at the body text) like the demo does, so screen readers announce what the dialog is asking.

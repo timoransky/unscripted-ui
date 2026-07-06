@@ -22,10 +22,17 @@ document.addEventListener('click', (event) => {
   if (copyButton) {
     const pre = copyButton.closest('[data-code-pane]')?.querySelector('pre');
     if (!pre) return;
-    navigator.clipboard.writeText(pre.innerText.trimEnd()).then(() => {
-      copyButton.setAttribute('data-copied', '');
-      window.setTimeout(() => copyButton.removeAttribute('data-copied'), 1500);
-    });
+    navigator.clipboard
+      .writeText(pre.innerText.trimEnd())
+      .then(() => {
+        copyButton.setAttribute('data-copied', '');
+        window.setTimeout(() => copyButton.removeAttribute('data-copied'), 1500);
+      })
+      .catch(() => {
+        // Clipboard access can be denied (permissions policy, non-secure context).
+        copyButton.setAttribute('data-copy-failed', '');
+        window.setTimeout(() => copyButton.removeAttribute('data-copy-failed'), 1500);
+      });
     return;
   }
 

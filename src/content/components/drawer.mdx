@@ -31,8 +31,9 @@ identical, because it's the same native `<dialog>`.
 ## Accessibility
 
 Same as Dialog: focus moves into the drawer and is trapped, the page behind goes inert, `Esc`
-closes it, and focus returns to the trigger on close — all native. Give the panel an
-`aria-label` (or point `aria-labelledby` at the heading) if the title alone isn't clear.
+closes it, and focus returns to the trigger on close — all native. Like the dialog, the panel
+needs an accessible name: the demo points `aria-labelledby` at the heading, so it announces
+as "Your cart".
 
 ## Reduced motion
 

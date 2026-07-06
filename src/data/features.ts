@@ -184,7 +184,7 @@ export const FEATURES = {
     bcd: ['html.elements.button.interestfor', 'css.properties.interest-delay-start'],
     webFeature: 'interest-invokers',
     fallback:
-      'The hover tooltips simply never appear — the buttons keep their aria-labels, so screen readers lose nothing. Use the plain-CSS tooltip variant if you need hover tips everywhere today.',
+      'The hover UI simply never appears — triggers keep their aria-labels and links still navigate, so nothing is lost. If you need it everywhere today, the plain-CSS technique on the Tooltip page works in every browser.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/interestfor',
   },
   'user-invalid': {

@@ -35,11 +35,22 @@ function bcdVersion(path: string, browser: Browser): string {
   return version.replace(/^≤/, '');
 }
 
+/** Compare dotted version strings segment by segment ("15.10" beats "15.4"). */
+function newerVersion(a: string, b: string): string {
+  const left = a.split('.').map(Number);
+  const right = b.split('.').map(Number);
+  for (let i = 0; i < Math.max(left.length, right.length); i++) {
+    const diff = (right[i] ?? 0) - (left[i] ?? 0);
+    if (diff !== 0) return diff > 0 ? b : a;
+  }
+  return a;
+}
+
 /** A browser supports a feature only if it supports ALL of its BCD keys. */
 function mergedVersion(paths: readonly string[], browser: Browser): string {
   const versions = paths.map((path) => bcdVersion(path, browser));
   if (versions.includes('no')) return 'no';
-  return versions.reduce((a, b) => (parseFloat(b) > parseFloat(a) ? b : a));
+  return versions.reduce(newerVersion);
 }
 
 export function resolveSupport(key: FeatureKey): ResolvedSupport {
