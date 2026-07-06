@@ -7,11 +7,24 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
     <header class="mb-2">
       <h1 class="text-2xl font-bold tracking-tight">Introduction</h1>
       <p class="mt-1.5 max-w-[60ch] text-muted-foreground">
-        Lately I've been exploring the most recent possibilities of pure CSS and whether they are production ready. This website explores most of them and since I like things to be coherent, I created this collection of components.
+        shadcn-style components rebuilt on raw web platform primitives. Every interaction here —
+        opening, closing, animating, positioning, dismissing — is HTML and CSS. The components
+        ship zero JavaScript.
       </p>
     </header>
 
     <div class="docs-prose">
+      <h2>Why this exists</h2>
+      <p>
+        This started as a simple question: how much of a modern component library survives with
+        the script tag deleted? More than you'd expect. Recent platform work — the Popover API,
+        invoker commands, anchor positioning, scroll-state queries, the customizable select —
+        keeps absorbing jobs that used to belong to JavaScript. This site collects the results
+        as a coherent set: each component is a copyable HTML fragment styled with Tailwind
+        utilities on the same token contract shadcn/ui uses, so an existing shadcn theme works
+        unchanged.
+      </p>
+
       <h2>Browser support philosophy</h2>
       <p>
         Some components use features that are Baseline and boring (dialog, details, popover).
@@ -47,6 +60,18 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
           animation in the library collapses to instant for users who ask for that.
         </li>
       </ul>
+
+      <h2>What's deliberately missing</h2>
+      <p>
+        Some components genuinely still need JavaScript, and pretending otherwise would break
+        the functional-fallback rule. Toasts need a timer and a queue. A combobox or command
+        palette needs filtering — that's data work, not styling. Full ARIA
+        <code>tablist</code>/<code>menu</code> semantics need roving focus management
+        (<a href="/components/tabs">Tabs</a> and
+        <a href="/components/dropdown-menu">Dropdown&nbsp;Menu</a> each explain the trade they
+        make instead). When you need one of those, reach for a JS library without guilt — and
+        keep shipping the zero-JS pieces for everything else.
+      </p>
     </div>
   </article>
 </DocsLayout>
