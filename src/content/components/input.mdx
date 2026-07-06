@@ -11,8 +11,8 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 <ComponentPreview demo="input/basic" />
 
-- `user-invalid:border-destructive` styles the field only after interaction — unlike `:invalid`,
-  it won't scream at an empty required field on page load. Type a bad email and tab away to see it.
+- `user-invalid:border-destructive` styles the field only after interaction. Unlike `:invalid`,
+  it won't scream at an empty required field on page load.
 - Validation comes from the platform: `type="email"` + `required` here, or `pattern`,
   `minlength`, `min`/`max` for anything else.
 - `placeholder:text-muted-foreground` and `disabled:opacity-50` cover the remaining states.
@@ -24,15 +24,15 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 Card numbers, verification codes, phone and account numbers *look* numeric, so the reflex is
 `type="number"`. Resist it. That type treats digits as a **quantity**: it bolts on spinner buttons
 nobody asked for, lets a stray scroll-wheel tick silently change the value, and quietly drops any
-character it can't parse as a float — no warning to the user, nothing announced to their screen
-reader. A verification code isn't a magnitude; getting the last digit wrong by one is exactly as
+character it can't parse as a float, with no warning to the user and nothing announced to their
+screen reader. A verification code isn't a magnitude; getting the last digit wrong by one is exactly as
 wrong as getting every digit wrong. ([The GOV.UK team walked this exact path.](https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/))
 
 - `type="text"` hands control back to the user and stops the browser "helpfully" mangling the value.
-- `inputmode="numeric"` still summons the big numeric keypad on phones — the one thing most people
+- `inputmode="numeric"` still summons the big numeric keypad on phones, the one thing most people
   actually wanted from `type="number"`.
 - `pattern="[0-9]{6}"` does the validating (six digits), and `user-invalid:border-destructive` paints
-  the field red *after* they tab away — the same honest, post-interaction validation as above. Before
+  the field red *after* they tab away, the same honest, post-interaction validation as above. Before
   `inputmode` shipped, `pattern="[0-9]*"` was the trick that coaxed the numeric keypad out of old iOS.
 - Reserve `type="number"` for values you'd genuinely add, subtract, or step through: quantities,
   ratings, years.

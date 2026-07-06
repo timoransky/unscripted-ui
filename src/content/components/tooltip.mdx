@@ -11,39 +11,37 @@ There are two ways to build a tooltip here. The **plain-CSS** one works in every
 control. The **interest-invoker** one is cutting-edge (Chromium only, for now) and earns its
 keep the moment you have a *group* of controls, because it can dynamically adjust the display delay.
 
-## Plain CSS — maximum compatibility
+## Plain CSS - maximum compatibility
 
 <ComponentPreview demo="tooltip/basic" />
 
 The safe default. No new platform features, no build caveats, works everywhere.
 
-- A `group/tip` wrapper toggles the tip via `group-hover/tip:` and `group-focus-within/tip:` —
+- A `group/tip` wrapper toggles the tip via `group-hover/tip:` and `group-focus-within/tip:`,
   so keyboard users get it too.
 - `delay-100` waits a beat before showing, so a cursor passing through doesn't flash it.
 - `pointer-events-none` keeps the tip from stealing hover and flickering itself.
 
-The trade-off: because it's positioned by hand, it can't reroute at a viewport edge — keep tips
+The trade-off: because it's positioned by hand, it can't flip at a viewport edge, so keep tips
 short. And, as the next section explains, a *row* of these can't get the toolbar delay behavior
 right. For one button in the middle of a form, this is all you need.
 
-## Interest invokers — cutting edge, built for groups
+## Interest invokers - cutting edge, built for groups
 
 <ComponentPreview demo="tooltip/toolbar" />
 
 The editor-toolbar pattern: the **first** tooltip waits 300ms, but once one is showing, moving
-to the next button switches instantly — then a beat after you leave, the delay resets. Hover
-the buttons to feel it, then scroll the toolbar near the top edge and hover again: the tip
-flips below the button on its own.
+to the next button switches instantly. The delay resets the moment you move the mouse away.
 
 - `interestfor` on each button points at its tip, a `popover="hint"` element. The browser
-  handles showing on hover **and** keyboard focus, hiding, delays, and the top layer — no
+  handles showing on hover **and** keyboard focus, hiding, delays, and the top layer. No
   `group`/`peer` wiring, no `pointer-events` guard.
-- The delay trick (protip via Emil Kowalski), written once on the wrapper:
+- The delay trick (via Emil Kowalski), written once on the wrapper:
   `[&>button]:[interest-delay-start:0.3s]` makes the first tooltip wait, and
   `[&:has(:interest-source)>button]:[interest-delay-start:0s]` zeroes the delay while *any*
-  sibling already shows interest — moving between buttons switches tips instantly. The default
-  `interest-delay-end` keeps a button's interest "warm" for a moment after you leave it, which
-  is the overlap that makes the switch feel instant, so don't set it to `0s`.
+  sibling already shows interest. Moving between buttons switches tips instantly. The default
+  `interest-delay-end` keeps a button's interest "warm" for a moment after you leave it. That
+  overlap is what makes the switch feel instant, so don't set it to `0s`.
 - Every button declares its own `[anchor-name:--tt-*]` and its tip's `[position-anchor:--tt-*]`
   points back at it, so `[position-area:top]` centers each tip over its own button.
 - `[position-try-fallbacks:flip-block]` keeps tips on screen: when a tip would poke past the
@@ -51,7 +49,7 @@ flips below the button on its own.
 
 ## The fallback story
 
-In browsers without interest invokers the toolbar's hover tips simply never appear. The buttons
+In browsers without interest invokers the toolbar's hover tips never appear. The buttons
 keep their `aria-label`s, so assistive tech loses nothing. If you need hover tooltips for
-everyone today, use the plain-CSS variant — accepting that a *row* of them will share one fixed
+everyone today, use the plain-CSS variant. A *row* of them will then share one fixed
 delay rather than the adaptive toolbar timing.

@@ -10,7 +10,7 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 <ComponentPreview demo="hover-card/basic" align="start" />
 
 A hover card is a [tooltip](/components/tooltip)'s bigger sibling. A tooltip is a scrap of text on
-an icon button; a hover card is a *card* — an avatar, a name, a bio — surfaced from a link in running
+an icon button; a hover card is a *card* (an avatar, a name, a bio) surfaced from a link in running
 text. Rather than wire up hover state, delays and a `pointer-events` bridge by hand, this hands the
 whole job to the platform with an interest invoker.
 
@@ -18,19 +18,19 @@ whole job to the platform with an interest invoker.
 
 - `interestfor` on the link points at the card, a `popover="hint"` element. The browser handles
   showing it on hover **and** keyboard focus, the open/close delays, the top layer, and keeping it
-  alive while you move the cursor toward it — no `group`/`peer` wiring, no `pointer-events` guard.
+  open while you move the cursor toward it. No `group`/`peer` wiring, no `pointer-events` guard.
 - The card declares `[position-anchor:--hc-janedoe]` back at the link's `[anchor-name:--hc-janedoe]`,
   so `[position-area:block-end_span-inline-end]` places it below and to the right.
 - `[position-try-fallbacks:flip-block]` keeps it on screen: near the bottom of the viewport the
-  browser flips the card above the link on its own. Try it near a screen edge and watch it move.
-- The entry/exit animation is the same discrete-transition pattern used across the library —
-  `@starting-style` for the opening frame, `transition-behavior: allow-discrete` so it animates out
-  before `display` flips back.
+  browser flips the card above the link on its own.
+- The entry/exit animation is the same discrete-transition pattern used across the library.
+  `@starting-style` sets the opening frame, and `transition-behavior: allow-discrete` keeps it
+  animating out before `display` flips back.
 
 ## The fallback story
 
-Interest invokers are Chromium-only for now. In other browsers the card simply never appears — the
-link still works and still navigates, so nothing is lost. If you need hover previews for everyone
-today, the same idea works with a `group/card` wrapper and `group-hover`/`group-focus-within` (see
-the plain-CSS [tooltip](/components/tooltip) for that technique), accepting that a hand-positioned
-card can't reroute at a viewport edge.
+Interest invokers are Chromium-only for now. In other browsers the card never appears, but the
+link still works. If you need hover previews for everyone today, the same idea works with a
+`group/card` wrapper and `group-hover`/`group-focus-within` (see the plain-CSS
+[tooltip](/components/tooltip) for that technique), though a hand-positioned card can't flip at a
+viewport edge.

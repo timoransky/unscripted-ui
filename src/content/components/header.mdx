@@ -8,7 +8,7 @@ features: [scroll-state-scrolled, scroll-state-stuck]
 import ComponentPreview from '../../components/ComponentPreview.astro';
 
 A header does two things while you scroll: it can get **out of the way**, and it can **announce
-when it's docked**. Both are pure CSS here — container scroll-state queries let a sticky element
+when it's docked**. Container scroll-state queries let a sticky element
 react to how its scroller is moving, with no scroll listeners, observers, or state.
 
 ## Hide on scroll down, reveal on scroll up
@@ -16,8 +16,8 @@ react to how its scroller is moving, with no scroll listeners, observers, or sta
 <ComponentPreview demo="header/basic" />
 
 Scroll down and the bar slides up out of view; the instant you scroll back up, it returns. Because
-it reads scroll *direction* rather than position, the chrome is gone the moment you don't want it
-and back the moment you do.
+it reads scroll *direction* rather than position, the bar responds to which way you're going, not
+how far down the page you are.
 
 - The scroll container is marked `[container-type:scroll-state]`, which lets its descendants query
   its scroll state. The bar itself is a plain `sticky top-0` element.
@@ -25,7 +25,7 @@ and back the moment you do.
   *down*, and applies `translate: 0 -100%` to slide the bar away; scroll up and the query stops
   matching, so it returns to `0`. In Tailwind that whole conditional is one utility:
   `[@container_scroll-state(scrolled:block-end)]:-translate-y-full`.
-- The demo scrolls inside its own bounded box on purpose — a `scrolled` query reads the nearest
+- The demo scrolls inside its own bounded box on purpose. A `scrolled` query reads the nearest
   scroll-container ancestor, so a self-contained region keeps each example independent. In a real
   layout you'd mark the element that actually scrolls, often the document root.
 
@@ -34,23 +34,23 @@ and back the moment you do.
 <ComponentPreview demo="header/stuck" />
 
 A section header that sits flat in the flow, then lifts with a shadow the moment it pins to the top
-edge — the cue that content is now scrolling beneath it.
+edge. The shadow is the cue that content is now scrolling beneath it.
 
 - Here `container-type: scroll-state` goes on the sticky element itself, and
   `@container scroll-state(stuck: top)` matches once it's pinned to the top edge.
 - Scroll-state queries only style a container's *descendants*, so the shadow lives on an inner bar
   inside the `<header>` rather than on the header node.
 - It's the "flat until it sticks, then it lifts" affordance you'd normally build with an
-  `IntersectionObserver` sentinel — here it's one utility and zero JavaScript.
+  `IntersectionObserver` sentinel. Here it's one utility and zero JavaScript.
 
 ## Accessibility
 
-The bar only ever moves *visually* — it stays in the DOM, in the tab order, and reachable by
-keyboard and screen reader the whole time. Nothing is inserted or removed on scroll, so there's no
-focus loss or announcement churn. Mark the `<header>` up as a `banner`/`navigation` landmark as you
+The bar moves only *visually*. It stays in the DOM, in the tab order, and reachable by
+keyboard and screen reader the whole time. Nothing is inserted or removed on scroll, so focus and
+announcements stay stable. Mark the `<header>` up as a `banner`/`navigation` landmark as you
 normally would.
 
 ## Reduced motion
 
 The global `prefers-reduced-motion` rule collapses the slide and the shadow fade to an instant
-change — the bar still hides and reveals, it just doesn't travel.
+change. The bar still hides and reveals, it just doesn't travel.

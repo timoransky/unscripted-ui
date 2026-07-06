@@ -13,20 +13,20 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 - Native `<dialog>` gives you the top layer, focus trapping, inert background and Esc-to-close
   for free.
-- `commandfor` + `command="show-modal"` on the trigger opens it **declaratively** — the invoker
-  commands API is the piece that removes the last line of JavaScript.
+- `commandfor` + `command="show-modal"` on the trigger opens it **declaratively**. This invoker
+  commands API replaces the `dialog.showModal()` call you'd otherwise write in JavaScript.
 - `closedby="any"` adds light dismiss: clicking the backdrop closes it. If a stray click must
   not dismiss it (destructive confirms), use the [Alert Dialog](/components/alert-dialog) instead.
 - Entry animation: `starting:open:*` (that's `@starting-style`) defines where the dialog animates
   *from*. Exit animation: the base classes are the closed state, and `transition-discrete`
   (`transition-behavior: allow-discrete`) keeps `display` alive until the transition finishes.
-- The backdrop animates the same way via `backdrop:` — including a `backdrop-blur`.
+- The backdrop animates the same way via `backdrop:`, including a `backdrop-blur`.
 - Tailwind v4's preflight zeroes all margins, which removes the browser's built-in dialog
-  centering — `m-auto` puts it back. Keep it.
+  centering. `m-auto` puts it back so keep it.
 
 ## Accessibility
 
-Everything the JS dialog libraries reimplement — focus trap, `aria-modal`, inert page behind,
-focus restore on close — is the browser's native behavior here. The one thing `<dialog>` does
+Everything the JS dialog libraries reimplement (focus trap, `aria-modal`, inert page behind,
+focus restore on close) is the browser's native behavior here. The one thing `<dialog>` does
 *not* supply is an accessible name: point `aria-labelledby` at the title (and `aria-describedby`
 at the body text) like the demo does, so screen readers announce what the dialog is asking.

@@ -13,25 +13,25 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 Both float a panel in the top layer, both anchor under a trigger, both dismiss on Esc and outside
 click. The difference is the *contents*. A [Dropdown Menu](/components/dropdown-menu) is a list of
-actions. A popover holds whatever you want — a little form, a set of controls, a preview. When the
+actions. A popover holds whatever you want: a little form, a set of controls, a preview. When the
 panel has inputs and labels rather than a column of commands, reach for this.
 
 ## How it works
 
 - The `popover` attribute + `popovertarget` on the button give you top-layer rendering, toggling,
-  Esc and click-outside dismiss — no JavaScript, no focus-trap library. Tab moves into the fields;
+  Esc and click-outside dismiss. No JavaScript, no focus-trap library. Tab moves into the fields;
   Esc returns to the trigger.
 - CSS anchor positioning pins the panel under the button: `[anchor-name:--pop-dimensions]` on the
   trigger, then `[position-anchor:--pop-dimensions]` + `[position-area:block-end_span-inline-end]`
-  on the panel — "below the anchor, growing to the right." `[position-try-fallbacks:flip-block]`
-  flips it above when there's no room below.
+  on the panel ("below the anchor, growing to the right").
+- `[position-try-fallbacks:flip-block]` flips the panel above when there's no room below.
 - The inputs are plain `<input>`s. Because the panel lives in the top layer, they focus, type and
-  tab exactly as they would in normal flow — the popover isn't a rendering trick that traps them.
+  tab exactly as they would in normal flow. The popover isn't a rendering trick that traps them.
 
 ## The fallback story
 
 Without the Popover API the panel renders in normal document flow, always visible, and the button
-does nothing — so keep the markup somewhere sensible in the source order. Without anchor positioning
+does nothing, so keep the markup somewhere sensible in the source order. Without anchor positioning
 the popover still opens, just centered in the viewport (the top-layer default) instead of pinned to
 the trigger; that's why the base classes keep `m-auto` and only the offset is wrapped in a
 `supports-[anchor-name:--a]:` guard.
