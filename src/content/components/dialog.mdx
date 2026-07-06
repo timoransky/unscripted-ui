@@ -15,7 +15,8 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   for free.
 - `commandfor` + `command="show-modal"` on the trigger opens it **declaratively** — the invoker
   commands API is the piece that removes the last line of JavaScript.
-- `closedby="any"` adds light dismiss: clicking the backdrop closes it.
+- `closedby="any"` adds light dismiss: clicking the backdrop closes it. When a stray click must
+  *not* dismiss — destructive confirms — use the [Alert Dialog](/components/alert-dialog) instead.
 - Entry animation: `starting:open:*` (that's `@starting-style`) defines where the dialog animates
   *from*. Exit animation: the base classes are the closed state, and `transition-discrete`
   (`transition-behavior: allow-discrete`) keeps `display` alive until the transition finishes.
