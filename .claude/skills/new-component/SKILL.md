@@ -192,8 +192,9 @@ a matching content entry fails the build.
 ## Verify before you're done
 
 ```sh
-npm run check   # typecheck + frontmatter schema (plainCss/features exclusivity, feature keys)
-npm run build   # fails on missing demos, bad BCD paths, moved token-paste markers
+npm run check        # typecheck + frontmatter schema (plainCss/features exclusivity, feature keys)
+npm run build        # fails on missing demos, bad BCD paths, moved token-paste markers
+npm run build:skill  # regenerates skills/unscripted-ui/references/ — commit the result
 ```
 
 Both must pass — CI runs exactly these. Then re-read the prose against the demo one last

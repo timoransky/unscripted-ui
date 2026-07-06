@@ -42,7 +42,32 @@ src/styles/global.css                  the token contract; Getting Started slice
 src/scripts/site.ts                    the docs site's entire JS budget: copy buttons,
                                        theme toggle, and a dialog shim for browsers
                                        without invoker commands
+skills/unscripted-ui/                  the distributable Claude Code skill (see below)
+scripts/build-skill.mjs                regenerates the skill's references from the repo
 reference/pure-css-ui-preview.html     the original proof-of-concept
+```
+
+## Using the library from an AI agent
+
+`skills/unscripted-ui/` is an [Agent Skill](https://code.claude.com/docs/en/skills) that
+teaches a coding agent how to use the library in any project: the setup steps, every
+component's copyable fragment, the adaptation rules (what to rename, which mechanism
+classes never to delete), and each component's browser-fallback story.
+
+Install it into a consumer project by copying the folder:
+
+```sh
+cp -r skills/unscripted-ui  <your-project>/.claude/skills/unscripted-ui
+```
+
+From then on, asking Claude Code for "a dialog" or "tabs" in that project pulls in the
+current fragment instead of a from-memory JS reimplementation.
+
+`SKILL.md` is written by hand; everything under `skills/unscripted-ui/references/` is
+generated. After changing demos, docs pages or `features.ts`, regenerate and commit:
+
+```sh
+npm run build:skill
 ```
 
 ## The one rule
