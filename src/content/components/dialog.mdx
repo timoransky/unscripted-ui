@@ -21,6 +21,11 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   *from*. Exit animation: the base classes are the closed state, and `transition-discrete`
   (`transition-behavior: allow-discrete`) keeps `display` alive until the transition finishes.
 - The backdrop animates the same way via `backdrop:`, including a `backdrop-blur`.
+- The one thing native modals *don't* give you is a scroll lock: the page behind is inert but
+  still scrolls. `overscroll-none` on the dialog plus `backdrop:overflow-hidden backdrop:overscroll-contain`
+  on the backdrop keep the scroll from chaining out — `none` rather than `contain` so the dialog's
+  own scroll doesn't rubber-band at its edges either. Needs Chrome 144+ (where `overscroll-behavior`
+  starts applying to non-scrollable containers); everywhere else the background scrolls, nothing breaks.
 - Tailwind v4's preflight zeroes all margins, which removes the browser's built-in dialog
   centering. `m-auto` puts it back so keep it.
 

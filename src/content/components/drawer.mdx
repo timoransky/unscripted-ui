@@ -27,6 +27,10 @@ identical, because it's the same native `<dialog>`.
   backdrop-click dismiss. The header's close button is just `command="close"`.
 - Inside, a `flex flex-col` with a fixed header and footer and a `flex-1 overflow-y-auto` body.
   Long content scrolls while the footer stays put.
+- The panel and that scrollable body both get `overscroll-none`, and the backdrop gets
+  `backdrop:overflow-hidden backdrop:overscroll-contain`, so scrolling the cart to its end neither
+  drags the page behind it nor rubber-bands the list. Needs Chrome 144+; elsewhere the background
+  scrolls, nothing breaks.
 
 ## Accessibility
 
