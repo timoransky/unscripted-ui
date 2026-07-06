@@ -1,13 +1,17 @@
 ---
-import { FEATURES, type FeatureKey } from '../data/features';
-import { resolveSupport } from '../data/support';
+import { FEATURES, type FeatureInfo, type FeatureKey } from '../data/features';
+import { resolveSupport, type ResolvedSupport } from '../data/support';
 
 interface Props {
   features: FeatureKey[];
 }
 
+// The widened Row type matters: FEATURES entries are literal types, and only
+// some carry `proxy` — accessing it on their union is a type error.
+type Row = FeatureInfo & ResolvedSupport & { key: FeatureKey };
+
 const { features } = Astro.props;
-const rows = features.map((key) => ({ key, ...FEATURES[key], ...resolveSupport(key) }));
+const rows: Row[] = features.map((key) => ({ key, ...FEATURES[key], ...resolveSupport(key) }));
 const proxied = rows.filter((r) => r.proxy);
 const undetectable = rows.filter((r) => !r.supportsQuery);
 

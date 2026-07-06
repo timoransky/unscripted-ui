@@ -55,15 +55,21 @@ function mergedVersion(paths: readonly string[], browser: Browser): string {
 
 export function resolveSupport(key: FeatureKey): ResolvedSupport {
   const feature = FEATURES[key];
-  const status = feature.webFeature ? webFeatures[feature.webFeature]?.status : undefined;
+  // webFeatures entries can also be moved/split markers, which carry no status.
+  const webFeature = feature.webFeature ? webFeatures[feature.webFeature] : undefined;
+  const status = webFeature && 'status' in webFeature ? webFeature.status : undefined;
 
   const versions = Object.fromEntries(
     BROWSERS.map((browser) => [browser, mergedVersion(feature.bcd, browser)])
   ) as Record<Browser, string>;
 
+  // web-features types baseline more loosely than its data ever is; keep only
+  // the documented 'high' | 'low' | false values and treat anything else as unknown.
+  const baseline = status?.baseline;
+
   return {
     versions,
-    baseline: status ? status.baseline : null,
+    baseline: baseline === 'high' || baseline === 'low' || baseline === false ? baseline : null,
     baselineYear: status?.baseline_low_date?.slice(0, 4),
   };
 }
