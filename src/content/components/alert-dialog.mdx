@@ -1,0 +1,33 @@
+---
+title: Alert Dialog
+description: A confirmation that interrupts on purpose — the same native <dialog> as the modal, with light dismiss switched off and alertdialog semantics. The whole diff is a few attributes.
+order: 25
+features: [dialog, dialog-invokers, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="alert-dialog/basic" />
+
+## Dialog vs Alert Dialog
+
+An alert dialog interrupts to demand a decision, usually a destructive one, so a stray click on
+the backdrop must not dismiss it. Same element as [Dialog](/components/dialog) but with a
+different dismissal policy.
+
+## How it works
+
+- `closedby="closerequest"` prevents the user from dismissing the dialog by clicking on the
+  backdrop. This is also the default behavior in browsers without `closedby` support, so the
+  dismissal policy is identical everywhere `<dialog>` exists.
+- `role="alertdialog"` tells screen readers this is an interruption that needs a response, and
+  with `aria-describedby` pointing at the consequence text, the question is announced in full
+  when the dialog opens.
+- Everything else — top layer, focus trap, inert background, the declarative `commandfor`
+  trigger, the entry/exit animation — is the [Dialog](/components/dialog) verbatim.
+
+## Accessibility
+
+Focus lands on the first focusable element when the dialog opens — here that's **Cancel**,
+because it comes first in the markup. That's the right default for a destructive confirm: `Enter`
+pressed out of reflex backs out instead of deleting. Keep the safe action first in source order.

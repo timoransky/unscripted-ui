@@ -15,7 +15,8 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   for free.
 - `commandfor` + `command="show-modal"` on the trigger opens it **declaratively** — the invoker
   commands API is the piece that removes the last line of JavaScript.
-- `closedby="any"` adds light dismiss: clicking the backdrop closes it.
+- `closedby="any"` adds light dismiss: clicking the backdrop closes it. If a stray click must
+  not dismiss it (destructive confirms), use the [Alert Dialog](/components/alert-dialog) instead.
 - Entry animation: `starting:open:*` (that's `@starting-style`) defines where the dialog animates
   *from*. Exit animation: the base classes are the closed state, and `transition-discrete`
   (`transition-behavior: allow-discrete`) keeps `display` alive until the transition finishes.
@@ -26,4 +27,6 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 ## Accessibility
 
 Everything the JS dialog libraries reimplement — focus trap, `aria-modal`, inert page behind,
-focus restore on close — is the browser's native behavior here.
+focus restore on close — is the browser's native behavior here. The one thing `<dialog>` does
+*not* supply is an accessible name: point `aria-labelledby` at the title (and `aria-describedby`
+at the body text) like the demo does, so screen readers announce what the dialog is asking.

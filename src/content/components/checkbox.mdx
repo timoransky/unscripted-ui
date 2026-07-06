@@ -13,7 +13,7 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 ## How it works
 
 - `appearance-none` clears the native look; `checked:bg-primary` paints the box.
-- The check glyph is a sibling SVG toggled with `peer-checked:visible` —
-  `pointer-events-none` keeps it from stealing clicks.
+- The check glyph is a sibling SVG faded and scaled in with `peer-checked:opacity-100` +
+  `peer-checked:scale-100` — `pointer-events-none` keeps it from stealing clicks.
 - Wrapping everything in a `<label>` makes the text clickable with zero attributes.
   Keyboard, forms, indeterminate state — all still native.

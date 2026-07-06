@@ -16,22 +16,29 @@ const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
 });
 
 // Which demo fragment represents each component on the landing page.
+// Order matters: the first half fills the left column, the second half the
+// right one, and on small screens the cards stack in exactly this order.
 const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center' }> = {
   accordion: { demo: 'accordion/basic'},
-  'dropdown-menu': { demo: 'dropdown-menu/basic' },
   select: { demo: 'select/basic' },
-  drawer: { demo: 'drawer/basic' },
   carousel: { demo: 'carousel/basic', css: 'carousel/markers' },
-  header: { demo: 'header/basic' },
   dialog: { demo: 'dialog/basic' },
-  tooltip: { demo: 'tooltip/toolbar' },
   textarea: { demo: 'textarea/basic' },
+  'dropdown-menu': { demo: 'dropdown-menu/basic' },
+  drawer: { demo: 'drawer/basic' },
+  header: { demo: 'header/basic' },
+  tooltip: { demo: 'tooltip/toolbar' },
   meter: { demo: 'meter/basic'},
 };
 
-const components = (await getCollection('components')).filter(component => Object.keys(SHOWCASE).includes(component.id)).sort(
-  (a, b) => Object.keys(SHOWCASE).lastIndexOf(a.id) - Object.keys(SHOWCASE).lastIndexOf(b.id)
-);
+const entries = await getCollection('components');
+const components = Object.keys(SHOWCASE).map((id) => {
+  const entry = entries.find((candidate) => candidate.id === id);
+  if (!entry) throw new Error(`index: SHOWCASE id "${id}" has no matching component entry`);
+  return entry;
+});
+const half = Math.ceil(components.length / 2);
+const columns = [components.slice(0, half), components.slice(half)];
 
 ---
 
@@ -62,11 +69,11 @@ const components = (await getCollection('components')).filter(component => Objec
     </header>
 
     <div class="relative">
-      <div class="grid grid-cols-2 gap-6">
-      {[0, 1].map(col => (
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {columns.map(column => (
         <div class="flex flex-col gap-6">
         {
-          components.filter((c, index) => index % 2 === col).map((entry) => {
+          column.map((entry) => {
             const config = SHOWCASE[entry.id]!;
             const html = demos[`../demos/${config.demo}.html`];
             const requiredCss = config.css ? cssFiles[`../demos/${config.css}.css`] : undefined;
@@ -80,8 +87,11 @@ const components = (await getCollection('components')).filter(component => Objec
                     </a>
                   </h2>
                   <div class="flex flex-wrap items-center gap-1.5">
-                    {(entry.data.plainCss && !liveBadges.length) && (
-                      <span class="rounded-full border border-border px-2.5 py-0.5 font-mono text-[0.68rem] text-muted-foreground">
+                    {entry.data.plainCss && (
+                      <span
+                        class="rounded-full border border-border px-2.5 py-0.5 font-mono text-[0.68rem] text-muted-foreground"
+                        title="Uses no leading-edge platform features"
+                      >
                         plain CSS
                       </span>
                     )}

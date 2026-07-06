@@ -35,24 +35,41 @@ function bcdVersion(path: string, browser: Browser): string {
   return version.replace(/^≤/, '');
 }
 
+/** Compare dotted version strings segment by segment ("15.10" beats "15.4"). */
+function newerVersion(a: string, b: string): string {
+  const left = a.split('.').map(Number);
+  const right = b.split('.').map(Number);
+  for (let i = 0; i < Math.max(left.length, right.length); i++) {
+    const diff = (right[i] ?? 0) - (left[i] ?? 0);
+    if (diff !== 0) return diff > 0 ? b : a;
+  }
+  return a;
+}
+
 /** A browser supports a feature only if it supports ALL of its BCD keys. */
 function mergedVersion(paths: readonly string[], browser: Browser): string {
   const versions = paths.map((path) => bcdVersion(path, browser));
   if (versions.includes('no')) return 'no';
-  return versions.reduce((a, b) => (parseFloat(b) > parseFloat(a) ? b : a));
+  return versions.reduce(newerVersion);
 }
 
 export function resolveSupport(key: FeatureKey): ResolvedSupport {
   const feature = FEATURES[key];
-  const status = feature.webFeature ? webFeatures[feature.webFeature]?.status : undefined;
+  // webFeatures entries can also be moved/split markers, which carry no status.
+  const webFeature = feature.webFeature ? webFeatures[feature.webFeature] : undefined;
+  const status = webFeature && 'status' in webFeature ? webFeature.status : undefined;
 
   const versions = Object.fromEntries(
     BROWSERS.map((browser) => [browser, mergedVersion(feature.bcd, browser)])
   ) as Record<Browser, string>;
 
+  // web-features types baseline more loosely than its data ever is; keep only
+  // the documented 'high' | 'low' | false values and treat anything else as unknown.
+  const baseline = status?.baseline;
+
   return {
     versions,
-    baseline: status ? status.baseline : null,
+    baseline: baseline === 'high' || baseline === 'low' || baseline === false ? baseline : null,
     baselineYear: status?.baseline_low_date?.slice(0, 4),
   };
 }

@@ -1,27 +1,28 @@
 <button
   type="button"
-  commandfor="dlg-delete"
+  commandfor="dlg-account"
   command="show-modal"
   class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-input bg-transparent px-4 text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
 >
-  Open dialog
+  Delete account
 </button>
 
 <dialog
-  id="dlg-delete"
-  closedby="any"
-  aria-labelledby="dlg-delete-title"
-  aria-describedby="dlg-delete-desc"
+  id="dlg-account"
+  role="alertdialog"
+  closedby="closerequest"
+  aria-labelledby="dlg-account-title"
+  aria-describedby="dlg-account-desc"
   class="m-auto w-[min(92vw,26rem)] translate-y-2.5 scale-[.97] rounded-xl border border-border bg-card p-6 text-card-foreground opacity-0 shadow-2xl transition-all transition-discrete duration-200 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-200 open:translate-y-0 open:scale-100 open:opacity-100 open:backdrop:bg-black/45 open:backdrop:backdrop-blur-xs starting:open:translate-y-2.5 starting:open:scale-[.97] starting:open:opacity-0 starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none"
 >
-  <h3 id="dlg-delete-title" class="text-base font-semibold tracking-tight">Delete project?</h3>
-  <p id="dlg-delete-desc" class="mt-1 mb-5 text-sm text-muted-foreground">
-    This removes the project and all of its deployments. This can't be undone.
+  <h3 id="dlg-account-title" class="text-base font-semibold tracking-tight">Are you absolutely sure?</h3>
+  <p id="dlg-account-desc" class="mt-1 mb-5 text-sm text-muted-foreground">
+    This permanently deletes your account and all of its data. This action cannot be undone.
   </p>
   <div class="flex justify-end gap-2">
     <button
       type="button"
-      commandfor="dlg-delete"
+      commandfor="dlg-account"
       command="close"
       class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-input bg-transparent px-4 text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     >
@@ -29,11 +30,11 @@
     </button>
     <button
       type="button"
-      commandfor="dlg-delete"
+      commandfor="dlg-account"
       command="close"
       class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg bg-destructive px-4 text-sm font-medium whitespace-nowrap text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-destructive"
     >
-      Delete
+      Yes, delete account
     </button>
   </div>
 </dialog>

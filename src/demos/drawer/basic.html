@@ -1,4 +1,5 @@
 <button
+  type="button"
   commandfor="drawer-cart"
   command="show-modal"
   class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-input bg-transparent px-4 text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -9,15 +10,17 @@
 <dialog
   id="drawer-cart"
   closedby="any"
+  aria-labelledby="drawer-cart-title"
   class="my-0 mr-0 ml-auto h-dvh max-h-dvh w-[min(92vw,22rem)] translate-x-full overflow-hidden rounded-l-xl border-l border-border bg-card p-0 text-card-foreground shadow-2xl transition-all transition-discrete duration-300 open:translate-x-0 starting:open:translate-x-full backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/45 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none"
 >
   <div class="flex h-full flex-col">
     <header class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
       <div>
-        <h3 class="text-base font-semibold tracking-tight">Your cart</h3>
+        <h3 id="drawer-cart-title" class="text-base font-semibold tracking-tight">Your cart</h3>
         <p class="text-sm text-muted-foreground">2 items</p>
       </div>
       <button
+        type="button"
         commandfor="drawer-cart"
         command="close"
         aria-label="Close cart"
