@@ -1,6 +1,7 @@
 ---
 import { FEATURES, type FeatureInfo, type FeatureKey } from '../data/features';
 import { resolveSupport, type ResolvedSupport } from '../data/support';
+import BaselineLogo from './BaselineLogo.astro';
 
 interface Props {
   features: FeatureKey[];
@@ -32,8 +33,16 @@ const BASELINE_CHIP = {
   },
 } as const;
 
-const chipFor = (row: (typeof rows)[number]) =>
-  row.baseline === null ? null : BASELINE_CHIP[row.baseline === false ? 'limited' : row.baseline];
+type ChipStatus = keyof typeof BASELINE_CHIP;
+
+const chipStatusFor = (row: (typeof rows)[number]): ChipStatus | null =>
+  row.baseline === null ? null : row.baseline === false ? 'limited' : row.baseline;
+
+// The official Baseline entry for a feature. Whenever a chip renders, baseline
+// is non-null, which means the row's webFeature id exists — so this resolves to
+// a feature-specific page; the generic explainer is just a defensive fallback.
+const baselineHref = (row: (typeof rows)[number]) =>
+  row.webFeature ? `https://webstatus.dev/features/${row.webFeature}` : 'https://web.dev/baseline';
 ---
 
 {
@@ -60,7 +69,8 @@ const chipFor = (row: (typeof rows)[number]) =>
           </thead>
           <tbody>
             {rows.map((row) => {
-              const chip = chipFor(row);
+              const status = chipStatusFor(row);
+              const chip = status && BASELINE_CHIP[status];
               return (
                 <tr class="border-b border-border last:border-0">
                   <th scope="row" class="px-3 py-2.5 text-left font-normal">
@@ -72,15 +82,18 @@ const chipFor = (row: (typeof rows)[number]) =>
                     </a>
                     {row.proxy && <sup aria-hidden="true">†</sup>}
                     {!row.supportsQuery && <sup aria-hidden="true">‡</sup>}
-                    {chip && (
-                      <span
+                    {chip && status && (
+                      <a
+                        href={baselineHref(row)}
+                        aria-label={`${chip.text(row.baselineYear)} — learn more on webstatus.dev`}
                         class:list={[
-                          'mt-1.5 block w-fit rounded-full border px-2 py-px font-mono text-[0.62rem] whitespace-nowrap',
+                          'mt-1.5 flex w-fit items-center gap-1 rounded-full border px-2 py-px font-mono text-[0.62rem] whitespace-nowrap transition-colors hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
                           chip.class,
                         ]}
                       >
-                        {chip.text(row.baselineYear)}
-                      </span>
+                        <BaselineLogo status={status} class="h-[0.85em] w-auto shrink-0" />
+                        <span>{chip.text(row.baselineYear)}</span>
+                      </a>
                     )}
                   </th>
                   {(['chrome', 'edge', 'firefox', 'safari'] as const).map((browser) => (
