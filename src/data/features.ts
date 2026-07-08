@@ -217,6 +217,16 @@ export const FEATURES = {
     fallback: 'The textarea keeps its fixed rows height and scrolls.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing',
   },
+  'sibling-index': {
+    label: 'sibling-index() function',
+    short: 'sibling-index',
+    supportsQuery: '(transition-delay: calc(sibling-index() * 1ms))',
+    bcd: ['css.types.sibling-index'],
+    webFeature: 'sibling-count',
+    fallback:
+      'The computed delay is invalid, so the declaration is dropped and every item animates at the same time — the entrance still plays, just without the cascade.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/sibling-index',
+  },
   'scrollbar-color': {
     label: 'Styled scrollbars (scrollbar-color / scrollbar-width)',
     short: 'scrollbar-color',

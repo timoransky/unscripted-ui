@@ -1,0 +1,36 @@
+<div class="flex w-full max-w-sm flex-col items-start gap-4">
+  <input type="checkbox" id="stagger-replay" class="peer/replay sr-only" />
+  <label
+    for="stagger-replay"
+    class="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-input bg-transparent px-4 text-sm font-medium whitespace-nowrap text-foreground transition-colors select-none hover:bg-accent peer-focus-visible/replay:outline-2 peer-focus-visible/replay:outline-offset-2 peer-focus-visible/replay:outline-ring"
+  >
+    Toggle the list
+  </label>
+
+  <ul class="w-full space-y-2 peer-checked/replay:hidden">
+    <li
+      class="rounded-lg border border-border px-4 py-3 transition-[opacity,translate] duration-500 ease-out starting:translate-y-2 starting:opacity-0 motion-safe:[transition-delay:calc(sibling-index()*100ms)]"
+    >
+      <p class="font-medium">Build passed</p>
+      <p class="text-xs text-muted-foreground">main · 34s</p>
+    </li>
+    <li
+      class="rounded-lg border border-border px-4 py-3 transition-[opacity,translate] duration-500 ease-out starting:translate-y-2 starting:opacity-0 motion-safe:[transition-delay:calc(sibling-index()*100ms)]"
+    >
+      <p class="font-medium">Preview deployed</p>
+      <p class="text-xs text-muted-foreground">pr-214 · 1m</p>
+    </li>
+    <li
+      class="rounded-lg border border-border px-4 py-3 transition-[opacity,translate] duration-500 ease-out starting:translate-y-2 starting:opacity-0 motion-safe:[transition-delay:calc(sibling-index()*100ms)]"
+    >
+      <p class="font-medium">Checks green</p>
+      <p class="text-xs text-muted-foreground">12 of 12 · 2m</p>
+    </li>
+    <li
+      class="rounded-lg border border-border px-4 py-3 transition-[opacity,translate] duration-500 ease-out starting:translate-y-2 starting:opacity-0 motion-safe:[transition-delay:calc(sibling-index()*100ms)]"
+    >
+      <p class="font-medium">Released v2.1.0</p>
+      <p class="text-xs text-muted-foreground">production · 3m</p>
+    </li>
+  </ul>
+</div>

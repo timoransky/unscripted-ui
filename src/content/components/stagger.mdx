@@ -1,0 +1,47 @@
+---
+title: Stagger
+description: Staggered entrance animations where each item computes its own delay from sibling-index(). The cascade you'd reach for a motion library to get, in two CSS declarations per item.
+order: 185
+features: [sibling-index, discrete-transitions]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="stagger/basic" />
+
+## How it works
+
+- **`sibling-index()` computes the delay**: `motion-safe:[transition-delay:calc(sibling-index()*100ms)]`
+  gives each item a delay from its 1-based position among its siblings. No per-item delay
+  classes, no loops, no timers — add or reorder items and the cascade just follows.
+- The entrance itself is `@starting-style`: base classes are the settled state,
+  `starting:opacity-0 starting:translate-y-2` is the frame each item transitions *from* the
+  first time it renders. `transition-[opacity,translate] duration-500 ease-out` does the rest.
+- First render includes coming back from `display: none`. The demo's toggle
+  (`peer-checked/replay:hidden` on the list) unmounts and remounts it, and the cascade replays —
+  the same thing happens when your framework mounts the fragment.
+- The delay is gated behind `motion-safe:` because the global reduced-motion rule shortens
+  durations but leaves delays alone, and a delayed item holds its invisible starting frame
+  until the delay expires. This is the one motion pattern in the library where the global
+  rule isn't enough by itself.
+- The landing page of this site cascades its header and showcase cards with the same
+  `sibling-index()` delay trick.
+
+## Accessibility
+
+- The motion is decorative. Every item is in the DOM from the first byte, so crawlers,
+  find-in-page, and screen readers see the full list regardless of animation state.
+- The demo's toggle is an `sr-only` checkbox named by its visible label; the focus ring is
+  forwarded onto the label with `peer-focus-visible/replay:outline-*`.
+
+## Reduced motion
+
+The global `prefers-reduced-motion` rule collapses the transition to an instant appearance, and
+`motion-safe:` removes the per-item delays entirely, so no content is ever held invisible.
+
+## The fallback story
+
+- Without `sibling-index()`, the `calc()` is invalid and the delay declaration is dropped —
+  every item animates at once. The entrance still plays, just without the cascade.
+- Without `@starting-style`, there is no starting frame: items render already settled.
+  You lose the animation and nothing else.
