@@ -101,8 +101,8 @@ const baselineHref = (row: (typeof rows)[number]) =>
                           chip.class,
                         ]}
                       >
-                        <BaselineLogo status={status} class="h-[0.85em] w-auto shrink-0 translate-y-[0.5px]" />
-                        <span>{chip.text(row.baselineYear)}</span>
+                        <BaselineLogo status={status} class="h-[0.85em] w-auto shrink-0" />
+                        <span class="translate-y-[0.5px]">{chip.text(row.baselineYear)}</span>
                         <ExternalArrow class="size-[0.8em] shrink-0 opacity-60 transition-opacity group-hover:opacity-100" />
                       </a>
                     )}
