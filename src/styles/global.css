@@ -101,6 +101,13 @@
 /* ============== end of the token paste ============== */
 
 @layer base {
+  /* Smooth in-page anchor navigation (heading links, deep links landing on a
+     hash). Off for reduced-motion, matching the global motion rule above. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   body {
     background: var(--background);
     color: var(--foreground);
