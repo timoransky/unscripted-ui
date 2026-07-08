@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://unscripted-ui.vercel.app',
+  site: 'https://unscripted.janci.dev',
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
