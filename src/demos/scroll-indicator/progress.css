@@ -1,0 +1,9 @@
+/* A scroll-driven animation needs a @keyframes block, and keyframes have no utility
+   syntax. The markup references it by name — [animation-name:grow-progress] — and binds
+   it to the scroll box's own timeline with [animation-timeline:scroll()]. The animation
+   is scrubbed by scroll position, not time, so it never runs on its own. */
+
+@keyframes grow-progress {
+  from { width: 0; }
+  to   { width: 100%; }
+}

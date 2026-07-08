@@ -1,0 +1,61 @@
+---
+title: Scroll Indicator
+description: A progress bar pinned to the top of a scroll area that fills as you read — one CSS animation bound to the container's scroll, no scroll listener.
+order: 158
+features: [scroll-driven-animations]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="scroll-indicator/basic" css="scroll-indicator/progress" />
+
+A reading-progress bar normally ships as a scroll listener: read `scrollTop`, divide by
+scroll height, set a width every frame. It is one `animation-timeline` declaration now.
+
+## How it works
+
+- The box is an ordinary scroll container: `h-64 overflow-y-auto` gives it a fixed height
+  and lets the content scroll. That part works everywhere.
+- The rail is a `sticky top-0` strip that stays pinned to the top edge of the box while
+  the content scrolls under it. Inside it, the fill starts at `w-0` and grows rightward.
+- **The fill's `[animation-timeline:scroll()]` binds its `@keyframes` animation to the
+  box's scroll position instead of a clock** — `scroll()` resolves to the nearest scrolling
+  ancestor, which is the box, not the page. Scrolling top to bottom scrubs it from
+  `width: 0` to `width: 100%`.
+- The keyframes animate `width`, not `transform: scaleX()`: scaling a `rounded-r-full` fill
+  warps its cap, so the rounded end would change shape as you scroll. `width` keeps the
+  radius constant, and the layout cost of one thin bar is nothing.
+- `[animation-duration:auto]` maps the animation's length to the scroll range, so the bar
+  reads empty at the top and full at the bottom. It's a longhand on purpose — Tailwind's
+  `animate-[…]` shorthand silently drops the `auto` keyword.
+- Because `scroll()` picks the nearest scroller by context, the same fill becomes a
+  page-level reading indicator with no rule change: move it out of the box and make it
+  `fixed` at the top of the viewport, and `scroll()` now resolves to the page.
+
+## Accessibility
+
+- The rail is `aria-hidden="true"`. It only visualizes scroll position, which the platform
+  already reports through the scrollbar and to assistive tech, so announcing it would add
+  no information a screen-reader user is missing.
+- Keyboard and pointer scrolling are untouched: the indicator is a passive overlay and
+  never intercepts input.
+- The global `prefers-reduced-motion` rule caps `animation-duration`, which a
+  scroll-*timeline* animation ignores — its progress comes from scroll position, not time.
+  No per-component override is needed: the bar only ever moves as fast as the user scrolls,
+  so it is not autonomous motion.
+
+## The fallback story
+
+`animation-timeline: scroll()` is not Baseline yet (Chrome and Safari ship it; Firefox
+still keeps it behind a flag). The rail is `hidden` and only revealed by
+`supports-[animation-timeline:scroll()]:block`, so a browser without the feature never
+shows an empty or stuck bar — it just gets an ordinary scroll box. The indicator enhances;
+it never carries.
+
+## Why the CSS block
+
+`@keyframes` has no utility syntax. The markup can name the animation —
+`[animation-name:grow-progress]` — but the frames themselves must be written as CSS. The
+block is that one rule and does nothing else, the same escape hatch
+[Marquee](/components/marquee) and [Carousel](/components/carousel) use. For a thin
+scrollbar and fade edges on the scroll box itself, see [Scroll Area](/components/scroll-area).
