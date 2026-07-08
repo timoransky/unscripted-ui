@@ -43,6 +43,13 @@ const ogImage = new URL('/og.png', Astro.site);
         : matchMedia('(prefers-color-scheme: dark)').matches;
       document.documentElement.classList.toggle('dark', dark);
     </script>
+    <!-- Cloudflare Web Analytics: cookieless, privacy-friendly page + Core Web Vitals -->
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={`{"token": "0bb1ba7bc67748b780d389a24b0730d4"}`}
+    ></script>
   </head>
   <body class="flex min-h-dvh flex-col">
     <Header />
@@ -52,8 +59,9 @@ const ogImage = new URL('/og.png', Astro.site);
         <div class="space-y-1">
           <p id="footnote" class="max-w-lg">
             * The docs site ships a few tiny scripts: copy-to-clipboard, the theme
-            toggle, and a shim so dialog demos work in browsers without invoker
-            commands. The components ship none.
+            toggle, a shim so dialog demos work in browsers without invoker
+            commands, and a cookieless, privacy-friendly analytics beacon. The
+            components ship none.
           </p>
           <p>
             Built on the web platform. Components are yours to copy — no attribution, no install.
