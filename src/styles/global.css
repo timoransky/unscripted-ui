@@ -101,6 +101,13 @@
 /* ============== end of the token paste ============== */
 
 @layer base {
+  /* Smooth in-page anchor navigation (heading links, deep links landing on a
+     hash). Off for reduced-motion, matching the global motion rule above. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   body {
     background: var(--background);
     color: var(--foreground);
@@ -156,6 +163,42 @@
     margin: 1.75rem 0 0.5rem;
     font-size: 1rem;
     font-weight: 600;
+    scroll-margin-top: 5rem;
+  }
+  /* Linkable headings: a "#" that appears on hover/focus and copies the
+     section's URL to the clipboard (see src/scripts/site.ts). Shared by the
+     docs-prose subheadings and the "Browser support" heading, so these rules
+     are intentionally not scoped to .docs-prose. The prose link rules below
+     exclude .heading-anchor so they don't fight over color/underline. */
+  .heading-anchor {
+    display: inline-block;
+    margin-left: 0.4em;
+    color: var(--muted-foreground);
+    font-weight: 400;
+    text-decoration: none;
+    opacity: 0;
+    transition:
+      opacity 0.15s ease,
+      color 0.15s ease;
+    user-select: none;
+  }
+  .heading-anchor::before {
+    content: '#';
+  }
+  :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor,
+  .heading-anchor:focus-visible {
+    opacity: 1;
+  }
+  .heading-anchor:hover {
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .heading-anchor[data-copied] {
+    opacity: 1;
+    color: #10b981;
+  }
+  .heading-anchor[data-copied]::before {
+    content: '✓';
   }
   .docs-prose p:where(:not(.not-prose, .not-prose *)) {
     margin: 0.75rem 0;
@@ -177,13 +220,13 @@
   .docs-prose li + li:where(:not(.not-prose, .not-prose *)) {
     margin-top: 0.35rem;
   }
-  .docs-prose a:where(:not(.not-prose, .not-prose *)) {
+  .docs-prose a:where(:not(.not-prose, .not-prose *, .heading-anchor)) {
     color: var(--foreground);
     text-decoration: underline;
     text-underline-offset: 4px;
     text-decoration-color: var(--border);
   }
-  .docs-prose a:hover:where(:not(.not-prose, .not-prose *)) {
+  .docs-prose a:hover:where(:not(.not-prose, .not-prose *, .heading-anchor)) {
     text-decoration-color: var(--foreground);
   }
   .docs-prose strong:where(:not(.not-prose, .not-prose *)) {
