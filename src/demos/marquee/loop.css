@@ -1,0 +1,12 @@
+/* A @keyframes block has no utility syntax. The markup references the
+   animation by name — animate-[marquee_30s_linear_infinite] compiles to the
+   animation shorthand — but the keyframes themselves must be written as CSS.
+   One iteration slides the track by half its own width, which is exactly one
+   copy of the duplicated content, so the last frame is pixel-identical to
+   the first and the loop closes without a seam. */
+
+@keyframes marquee {
+  to {
+    translate: -50% 0;
+  }
+}

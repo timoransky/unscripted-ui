@@ -19,9 +19,9 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   are real, focusable, auto-disabling buttons the **browser** creates and operates. The arrows
   are pinned to the carousel's edges with anchor positioning.
 
-## The one required-CSS block in the library
+## Why the CSS block
 
 Generated pseudo-elements need `content` and their own layout — there's no utility syntax for
-"create a button per scroll target". This is the only component where copy-paste means
-"markup + a CSS block", and the block is optional: skip it and you keep a working scroll-snap
-carousel.
+"create a button per scroll target". Copy-paste here means "markup + a CSS block" — allowed
+only when utilities genuinely can't express the effect ([Marquee](/components/marquee) is the
+other case) — and the block is optional: skip it and you keep a working scroll-snap carousel.

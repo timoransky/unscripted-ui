@@ -1,0 +1,54 @@
+---
+title: Marquee
+description: An infinite logo loop from a duplicated list and one keyframe — the track slides half its own width, so the last frame lands exactly on the first.
+order: 125
+plainCss: true
+features: []
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="marquee/basic" css="marquee/loop" />
+
+The logo river usually ships as a React component with a resize observer and a
+requestAnimationFrame loop. It is a duplicated list and one CSS animation.
+
+## How it works
+
+- The outer div is the viewport: `overflow-hidden` clips, `mask-x-from-80%` fades both edges.
+  Inside it, a `flex w-max` track holds **two identical copies** of the logo list — `w-max`
+  sizes the track to its content instead of the container.
+- The track animates with `animate-[marquee_30s_linear_infinite]`, and the keyframe in the CSS
+  block moves it by `translate: -50% 0`. **Translate percentages resolve against the element's
+  own size, so −50% of the track is exactly one copy of the content** — the moment the animation
+  wraps, the second copy sits precisely where the first started. No seam, no measuring, and the
+  container's width never enters the math.
+- The spacing must be part of each copy for that to hold: every list carries `gap-12` between
+  logos plus `pr-12` after the last one (the seam gap). A `gap` on the track instead would make
+  the halfway point land mid-gap and the loop would jump.
+- Because the mask fades the element itself rather than painting the background color on top
+  (the [Scroll Area](/components/scroll-area) approach), it works over any backdrop. A browser
+  without mask support shows hard edges; the row still scrolls.
+- `hover:[animation-play-state:paused]` freezes the row under the pointer so the logos can
+  actually be read.
+- Speed is the duration: with `linear` timing the rate is one copy's width per iteration. Add
+  logos and the copy gets wider, so raise the duration to keep the same pace.
+
+## Accessibility
+
+- The second list is `aria-hidden="true"`, so screen readers announce each logo once. Keep it a
+  literal copy of the first list — if the two drift apart, the seam shows.
+- The global `prefers-reduced-motion` rule in the token paste caps the animation at one instant
+  iteration. The end frame equals the start frame, so reduced-motion users see a static row.
+- Hover-to-pause does nothing for keyboard and touch users. WCAG 2.2.2 requires a way to pause
+  motion that runs longer than five seconds — where that applies, add a visible pause checkbox
+  that drives the track's `animation-play-state` through the same peer pattern
+  [Tabs](/components/tabs) uses, still without JavaScript.
+- Keep the moving track non-interactive. A link inside it drags keyboard focus along at 30 px/s
+  and hides it behind the mask; if the logos must be clickable, use a static grid instead.
+
+## Why the CSS block
+
+`@keyframes` has no utility syntax. The markup can reference an animation by name —
+`animate-[marquee_30s_linear_infinite]` compiles to the `animation` shorthand — but the frames
+themselves must be written as CSS. The block is one rule and does nothing else.
