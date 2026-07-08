@@ -46,7 +46,7 @@ const columns = [components.slice(0, half), components.slice(half)];
 <BaseLayout>
   <div class="relative">
   <main class="mx-auto w-full max-w-6xl flex-1 px-5 py-12">
-    <header class="mb-12">
+    <header class="stagger mb-12">
       <h1 class="text-3xl font-bold tracking-tight">
         unscripted<span class="font-normal text-muted-foreground">/ui</span>
       </h1>
@@ -72,7 +72,7 @@ const columns = [components.slice(0, half), components.slice(half)];
     <div class="relative">
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       {columns.map(column => (
-        <div class="flex flex-col gap-6">
+        <div class="stagger flex flex-col gap-6 [--stagger-base:250ms] [--stagger-step:100ms]">
         {
           column.map((entry) => {
             const config = SHOWCASE[entry.id]!;
@@ -125,7 +125,7 @@ const columns = [components.slice(0, half), components.slice(half)];
     </div>
   </main>
 
-  <div class="pointer-events-none absolute flex items-end justify-center pb-15 inset-x-0 bottom-0 z-20 h-64 bg-linear-to-t from-background via-background/80 to-transparent lg:h-96 dark:via-background/80">
+  <div class="stagger pointer-events-none absolute flex items-end justify-center pb-15 inset-x-0 bottom-0 z-20 h-64 bg-linear-to-t from-background via-background/80 to-transparent lg:h-96 dark:via-background/80 [--stagger-base:750ms]">
     <a
       href="/components/accordion"
       class="pointer-events-auto flex h-9 items-center justify-center rounded-lg bg-background px-4 text-sm font-medium text-foreground border border-input transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -136,3 +136,29 @@ const columns = [components.slice(0, half), components.slice(half)];
 
   </div>
 </BaseLayout>
+
+<style>
+  @keyframes landing-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  .stagger > * {
+    animation: landing-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  /* The stagger itself is an enhancement: engines without sibling-index()
+     drop the declaration and everything rises together at delay 0. The
+     delays sit behind no-preference because the global reduced-motion rule
+     shortens durations but leaves delays alone — a delayed `backwards` fill
+     would keep content invisible. */
+  @media (prefers-reduced-motion: no-preference) {
+    .stagger > * {
+      animation-delay: calc(
+        var(--stagger-base, 0ms) + (sibling-index() - 1) * var(--stagger-step, 80ms)
+      );
+    }
+  }
+</style>
