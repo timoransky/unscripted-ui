@@ -19,16 +19,16 @@ const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
 // Order matters: the first half fills the left column, the second half the
 // right one, and on small screens the cards stack in exactly this order.
 const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center' }> = {
+  drawer: { demo: 'drawer/basic' },
+  tooltip: { demo: 'tooltip/toolbar' },
   carousel: { demo: 'carousel/basic', css: 'carousel/markers' },
   textarea: { demo: 'textarea/basic' },
   'dropdown-menu': { demo: 'dropdown-menu/basic' },
-  drawer: { demo: 'drawer/basic' },
-  tooltip: { demo: 'tooltip/toolbar' },
   meter: { demo: 'meter/basic'},
-  header: { demo: 'header/basic' },
   accordion: { demo: 'accordion/basic'},
-  select: { demo: 'select/basic' },
   'nav-menu': { demo: 'nav-menu/basic' },
+  header: { demo: 'header/basic' },
+  select: { demo: 'select/basic' },
   marquee: { demo: 'marquee/basic', css: 'marquee/loop' },
 };
 
