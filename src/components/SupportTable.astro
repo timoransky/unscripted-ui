@@ -39,7 +39,15 @@ const chipFor = (row: (typeof rows)[number]) =>
 {
   rows.length > 0 && (
     <section class="mt-12">
-      <h2 class="mb-1 text-lg font-semibold tracking-tight">Browser support</h2>
+      <h2 id="browser-support" class="mb-1 scroll-mt-20 text-lg font-semibold tracking-tight">
+        Browser support
+        <a
+          class="heading-anchor"
+          data-heading-anchor
+          href="#browser-support"
+          aria-label="Copy link to this section"
+        />
+      </h2>
       <p class="mb-4 max-w-[70ch] text-sm text-muted-foreground">
         Minimum stable version per engine, resolved at build time from MDN's
         browser-compat-data; Baseline status from the official web-features dataset.
