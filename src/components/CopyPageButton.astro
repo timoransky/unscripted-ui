@@ -1,0 +1,98 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+}
+
+const { slug, title } = Astro.props;
+
+// The Markdown twin of this page, generated at build time by
+// src/pages/components/[slug].md.ts.
+const mdPath = `/components/${slug}.md`;
+const mdUrl = new URL(mdPath, Astro.site).href;
+
+// Deep links hand the AI tool the *public* .md URL to fetch — short link,
+// always-fresh content — rather than stuffing the whole page into a query string.
+const q = encodeURIComponent(
+  `Read ${mdUrl} and help me use the ${title} component from unscripted/ui in my project.`,
+);
+const tools = [
+  { label: 'Open in Claude', href: `https://claude.ai/new?q=${q}` },
+  { label: 'Open in ChatGPT', href: `https://chatgpt.com/?hints=search&q=${q}` },
+  { label: 'Open in v0', href: `https://v0.dev/chat?q=${q}` },
+];
+---
+
+{/* Split button: copy on the left, more options on the right — the docs site's
+    zero-config Popover + CSS anchor positioning, same as the dropdown-menu demo. */}
+<div class="inline-flex shrink-0 items-stretch">
+  <button
+    type="button"
+    data-copy-page={mdPath}
+    aria-label={`Copy the ${title} page as Markdown`}
+    class="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-l-lg border border-input bg-transparent px-3 text-xs font-medium whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+  >
+    <svg class="size-3.5 [[data-copied]_&]:hidden [[data-copy-failed]_&]:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect width="14" height="14" x="8" y="8" rx="2"></rect>
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+    </svg>
+    <svg class="hidden size-3.5 text-emerald-500 [[data-copied]_&]:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 6 9 17l-5-5"></path>
+    </svg>
+    <svg class="hidden size-3.5 text-red-500 [[data-copy-failed]_&]:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M18 6 6 18M6 6l12 12"></path>
+    </svg>
+    <span class="[[data-copied]_&]:hidden [[data-copy-failed]_&]:hidden">Copy page</span>
+    <span class="hidden [[data-copied]_&]:inline">Copied</span>
+    <span class="hidden [[data-copy-failed]_&]:inline">Copy failed</span>
+  </button>
+
+  <button
+    type="button"
+    popovertarget="copy-page-menu"
+    aria-label="More options"
+    class="-ml-px inline-flex size-8 cursor-pointer items-center justify-center rounded-r-lg border border-input bg-transparent text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--copy-page]"
+  >
+    <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </button>
+
+  <div
+    id="copy-page-menu"
+    popover
+    class="m-auto min-w-52 scale-95 rounded-lg border border-border bg-popover p-1 text-popover-foreground opacity-0 shadow-lg transition-[opacity,scale,overlay,display] transition-discrete duration-150 open:scale-100 open:opacity-100 starting:open:scale-95 starting:open:opacity-0 [position-anchor:--copy-page] [position-area:block-end_span-inline-start] [position-try-fallbacks:flip-block] supports-[anchor-name:--a]:m-0 supports-[anchor-name:--a]:mt-1.5 supports-[anchor-name:--a]:origin-top-right"
+  >
+    <a
+      href={mdPath}
+      class="flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm no-underline hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
+    >
+      <svg class="size-3.5 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+        <path d="m9 18 3-3-3-3"></path>
+      </svg>
+      View as Markdown
+    </a>
+    <hr class="-mx-1 my-1 border-border" />
+    {
+      tools.map((tool) => (
+        <a
+          href={tool.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm no-underline hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
+        >
+          <svg class="size-3.5 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.962 0z" />
+          </svg>
+          <span class="flex-1">{tool.label}</span>
+          <svg class="size-3 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 7h10v10" />
+            <path d="M7 17 17 7" />
+          </svg>
+        </a>
+      ))
+    }
+  </div>
+</div>

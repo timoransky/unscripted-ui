@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
 import SupportBadge from '../../components/SupportBadge.astro';
 import SupportTable from '../../components/SupportTable.astro';
+import CopyPageButton from '../../components/CopyPageButton.astro';
 import { FEATURES } from '../../data/features';
 
 export async function getStaticPaths() {
@@ -18,7 +19,10 @@ const liveBadges = entry.data.features.filter((key) => FEATURES[key].supportsQue
 <DocsLayout title={`${entry.data.title} — unscripted/ui`} description={entry.data.description}>
   <article>
     <header class="mb-2">
-      <h1 class="text-2xl font-bold tracking-tight">{entry.data.title}</h1>
+      <div class="flex items-start justify-between gap-4">
+        <h1 class="text-2xl font-bold tracking-tight">{entry.data.title}</h1>
+        <CopyPageButton slug={entry.id} title={entry.data.title} />
+      </div>
       <p class="mt-1.5 max-w-[60ch] text-muted-foreground">{entry.data.description}</p>
       <p class="mt-3 flex flex-wrap gap-1.5">
         {entry.data.plainCss && (
