@@ -44,7 +44,7 @@ const columns = [components.slice(0, half), components.slice(half)];
 ---
 
 <BaseLayout>
-  <div class="relative">
+  <div class="relative bg-linear-to-b from-transparent via-transparent to-primary-foreground/80">
   <main class="mx-auto w-full max-w-6xl flex-1 px-5 py-12">
     <header class="stagger mb-12">
       <h1 class="text-3xl font-bold tracking-tight">
@@ -81,7 +81,7 @@ const columns = [components.slice(0, half), components.slice(half)];
             const requiredCss = config.css ? cssFiles[`../demos/${config.css}.css`] : undefined;
             const liveBadges = entry.data.features.filter((key) => FEATURES[key].supportsQuery).slice(0, 2);
             return (
-              <section class="overflow-clip rounded-xl border border-border">
+              <section class="overflow-clip bg-background rounded-xl border border-border">
                 <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-border px-5 py-3.5">
                   <h2 class="text-[0.95rem] font-semibold tracking-tight">
                     <a href={`/components/${entry.id}`} class="underline-offset-4 hover:underline">
@@ -126,7 +126,7 @@ const columns = [components.slice(0, half), components.slice(half)];
     </div>
   </main>
 
-  <div class="stagger pointer-events-none absolute flex items-end justify-center pb-15 inset-x-0 bottom-0 z-20 h-64 bg-linear-to-t from-background via-background/80 to-transparent lg:h-96 dark:via-background/80 [--stagger-base:750ms]">
+  <div class="stagger pointer-events-none absolute flex items-end justify-center pb-15 inset-x-0 bottom-0 z-20 h-64 bg-linear-to-t from-background via-background/60 to-transparent lg:h-96 dark:via-background/80 [--stagger-base:750ms]">
     <a
       href="/components/accordion"
       class="pointer-events-auto flex h-9 items-center justify-center rounded-lg bg-background px-4 text-sm font-medium text-foreground border border-input transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
