@@ -25,14 +25,14 @@ const tokensPaste = `@import "tailwindcss";\n\n${globalCss.slice(startIndex, end
     </header>
 
     <div class="docs-prose">
-      <h2>1. Have Tailwind CSS v4</h2>
+      <h2 id="1-have-tailwind-css-v4">1. Have Tailwind CSS v4</h2>
       <p>
         Components are styled with Tailwind utility classes, including the newer variants
         (<code>starting:</code>, <code>transition-discrete</code>, <code>details-content:</code>).
         Any Tailwind v4.1+ setup works (Vite plugin, PostCSS, or the CLI).
       </p>
 
-      <h2>2. Copy the shadcn's tokens (optional)</h2>
+      <h2 id="2-copy-the-shadcns-tokens-optional">2. Copy the shadcn's tokens (optional)</h2>
       <p>
         These are the shadcn variables mapped to Tailwind v4's <code>@theme</code>. If your
         project already uses shadcn/ui, you already have these variables so you can skip most of this and keep your theme.
@@ -45,7 +45,7 @@ const tokensPaste = `@import "tailwindcss";\n\n${globalCss.slice(startIndex, end
       </p>
       <CodeBlock code={tokensPaste} lang="css" />
 
-      <h2>3. Copy components</h2>
+      <h2 id="3-copy-components">3. Copy components</h2>
       <p>
         Every component page has a Preview/Code switcher (itself built with this library's
         radio-tabs technique 😉). Copy the HTML, paste it, modify as needed, done. Exactly two components

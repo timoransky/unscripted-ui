@@ -15,7 +15,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
     </header>
 
     <div class="docs-prose">
-      <h2>Why this exists</h2>
+      <h2 id="why-this-exists">Why this exists</h2>
       <p>
         This started as a simple question: how many shadcn components can be recreated using only HTML and CSS? It turns out more than you'd expect. Recent web platform features like the Popover API,
         invoker commands, anchor positioning, scroll-state queries, the customizable select, and many more allow for relatively smooth replacements. This website collects the results
@@ -24,7 +24,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
         unchanged.
       </p>
 
-      <h2>Browser support philosophy</h2>
+      <h2 id="browser-support-philosophy">Browser support philosophy</h2>
       <p>
         Some components use features that are already Baseline, others use features that shipped in Chromium first. The rule for every component is that <strong>the fallback must be
         functional</strong>. A select without <code>base-select</code> is the classic native
@@ -38,7 +38,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
         live badge.
       </p>
 
-      <h2>Accessibility notes</h2>
+      <h2 id="accessibility-notes">Accessibility notes</h2>
       <ul>
         <li>
           Since all of the HTML components are native, it's mostly the browsers job to handle the A11Y features like traping focus and keyboard navigation.

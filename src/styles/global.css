@@ -156,6 +156,42 @@
     margin: 1.75rem 0 0.5rem;
     font-size: 1rem;
     font-weight: 600;
+    scroll-margin-top: 5rem;
+  }
+  /* Linkable subheadings: a "#" that appears on hover/focus and copies the
+     section's URL to the clipboard (see src/scripts/site.ts). */
+  .docs-prose :is(h2, h3):where(:not(.not-prose, .not-prose *)) {
+    position: relative;
+  }
+  .docs-prose .heading-anchor {
+    display: inline-block;
+    margin-left: 0.4em;
+    color: var(--muted-foreground);
+    font-weight: 400;
+    text-decoration: none;
+    opacity: 0;
+    transition:
+      opacity 0.15s ease,
+      color 0.15s ease;
+    user-select: none;
+  }
+  .docs-prose .heading-anchor::before {
+    content: '#';
+  }
+  .docs-prose :is(h2, h3):hover .heading-anchor,
+  .docs-prose .heading-anchor:focus-visible {
+    opacity: 1;
+  }
+  .docs-prose .heading-anchor:hover {
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .docs-prose .heading-anchor[data-copied] {
+    opacity: 1;
+    color: #10b981;
+  }
+  .docs-prose .heading-anchor[data-copied]::before {
+    content: '✓';
   }
   .docs-prose p:where(:not(.not-prose, .not-prose *)) {
     margin: 0.75rem 0;
