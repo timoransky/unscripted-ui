@@ -1,0 +1,58 @@
+<div class="w-full max-w-md">
+  <div class="h-64 overflow-y-auto overscroll-contain rounded-xl border border-border">
+    <!-- Progress rail: sticky at the top of the scroll box. Hidden where scroll
+         timelines aren't supported, so the fallback is a plain scroll box. -->
+    <div
+      class="sticky top-0 z-10 hidden h-1.5 w-full bg-muted supports-[animation-timeline:scroll()]:block"
+      aria-hidden="true"
+    >
+      <div
+        class="h-full w-0 rounded-r-full bg-primary [animation-name:grow-progress] [animation-duration:auto] [animation-timing-function:linear] [animation-timeline:scroll()]"
+      ></div>
+    </div>
+
+    <div class="space-y-3 p-5 text-sm/6 text-muted-foreground">
+      <h3 class="text-base font-semibold text-foreground">Terms of Service</h3>
+      <p>
+        By using this service you agree to the terms below. Read them in full — scrolling
+        to the bottom is the fastest way to confirm you have seen everything, and the bar
+        above tracks exactly how far you have come.
+      </p>
+      <p>
+        <span class="font-medium text-foreground">1. Accounts.</span> You are responsible
+        for the activity under your account and for keeping your credentials secret. Tell
+        us the moment you suspect they have leaked so we can lock things down.
+      </p>
+      <p>
+        <span class="font-medium text-foreground">2. Acceptable use.</span> Do not abuse
+        the service, probe it for weaknesses without permission, or use it to store
+        content you have no right to distribute. We reserve the right to suspend accounts
+        that put other people at risk.
+      </p>
+      <p>
+        <span class="font-medium text-foreground">3. Content.</span> You keep ownership of
+        everything you upload. You grant us only the narrow licence we need to store,
+        back up, and display it back to you — nothing more.
+      </p>
+      <p>
+        <span class="font-medium text-foreground">4. Billing.</span> Paid plans renew
+        automatically until you cancel. Cancelling stops the next charge; it does not
+        refund the period you are already inside.
+      </p>
+      <p>
+        <span class="font-medium text-foreground">5. Termination.</span> You can close
+        your account at any time. We can close it too, with notice, if you break these
+        terms in a way that harms other users.
+      </p>
+      <p>
+        <span class="font-medium text-foreground">6. Changes.</span> When these terms
+        change in a material way we will tell you before the change takes effect, so you
+        always know what you have agreed to.
+      </p>
+      <p>
+        That is the whole agreement. The bar above should now be full — thanks for
+        actually reading to the end.
+      </p>
+    </div>
+  </div>
+</div>

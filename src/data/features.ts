@@ -237,6 +237,16 @@ export const FEATURES = {
       'You get the default platform scrollbar instead of the thin themed one — still fully scrollable.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color',
   },
+  'scroll-driven-animations': {
+    label: 'Scroll-driven animations (animation-timeline)',
+    short: 'scroll timelines',
+    supportsQuery: '(animation-timeline: scroll())',
+    bcd: ['css.properties.animation-timeline.scroll'],
+    webFeature: 'scroll-driven-animations',
+    fallback:
+      'The scroll-linked animation never runs; the element stays in its base state and the container still scrolls normally.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline',
+  },
 } as const satisfies Record<string, FeatureInfo>;
 
 export type FeatureKey = keyof typeof FEATURES;
