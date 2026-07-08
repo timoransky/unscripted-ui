@@ -17,9 +17,12 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 - The entrance itself is `@starting-style`: base classes are the settled state,
   `starting:opacity-0 starting:translate-y-2` is the frame each item transitions *from* the
   first time it renders. `transition-[opacity,translate] duration-500 ease-out` does the rest.
-- First render includes coming back from `display: none`. The demo's toggle
-  (`peer-checked/replay:hidden` on the list) unmounts and remounts it, and the cascade replays —
-  the same thing happens when your framework mounts the fragment.
+- The demo's toggle replays the cascade without moving the layout:
+  `peer-checked/replay:*:translate-y-2 peer-checked/replay:*:opacity-0` on the list moves every
+  item to its hidden frame, so checking staggers them out and unchecking staggers them back in.
+  Opacity and translate don't affect layout, so nothing below the list shifts.
+- `@starting-style` also applies when an element comes back from `display: none`, so the
+  entrance runs whenever your framework mounts the fragment — not only on full page load.
 - The delay is gated behind `motion-safe:` because the global reduced-motion rule shortens
   durations but leaves delays alone, and a delayed item holds its invisible starting frame
   until the delay expires. This is the one motion pattern in the library where the global
@@ -33,6 +36,9 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   find-in-page, and screen readers see the full list regardless of animation state.
 - The demo's toggle is an `sr-only` checkbox named by its visible label; the focus ring is
   forwarded onto the label with `peer-focus-visible/replay:outline-*`.
+- The toggle only fades the items — they keep their space and stay in the accessibility tree.
+  It's a replay control, not a disclosure; use a real show/hide pattern to actually remove
+  content.
 
 ## Reduced motion
 
