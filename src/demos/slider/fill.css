@@ -1,0 +1,53 @@
+/* Progress-style track fill for WebKit/Chromium (Chrome 115+, Safari 26+).
+   These engines expose no filled-track pseudo-element, so we read the thumb's
+   position with a scroll-driven view-timeline, map it onto a registered custom
+   property, and paint the fill with a gradient on the runnable track. None of
+   this has a Tailwind-utility form (@property, @keyframes, view-timeline and
+   timeline-scope), so it lives here.
+
+   Firefox stable has no scroll-driven animations but already fills natively via
+   ::-moz-range-progress (a utility on the input). Every rule below is scoped
+   behind @supports, so any engine without scroll-driven animations simply keeps
+   the plain secondary track — the slider stays fully usable. */
+
+@property --range-fill {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* The thumb's inline view-timeline runs right-to-left relative to the value, so
+   the keyframe counts down: 100 at the timeline's start maps to a full track at
+   value=max, 0 at the end to an empty track at value=min. */
+@keyframes range-fill {
+  from {
+    --range-fill: 100;
+  }
+  to {
+    --range-fill: 0;
+  }
+}
+
+@supports (animation-timeline: --t) {
+  /* overflow makes the input the thumb's scroll-progress scrollport;
+     the animation reads that timeline and drives --range-fill 0 → 100. */
+  .slider-fill {
+    overflow: hidden;
+    timeline-scope: --range-thumb;
+    animation: range-fill linear both;
+    animation-timeline: --range-thumb;
+    animation-range: contain;
+  }
+
+  .slider-fill::-webkit-slider-runnable-track {
+    background: linear-gradient(
+      to right,
+      var(--primary) calc(var(--range-fill) * 1%),
+      var(--secondary) calc(var(--range-fill) * 1%)
+    );
+  }
+
+  .slider-fill::-webkit-slider-thumb {
+    view-timeline: --range-thumb inline;
+  }
+}
