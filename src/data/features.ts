@@ -227,6 +227,22 @@ export const FEATURES = {
       'The computed delay is invalid, so the declaration is dropped and every item animates at the same time — the entrance still plays, just without the cascade.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/sibling-index',
   },
+  'scroll-driven-animations': {
+    label: 'Scroll-driven animations (view-timeline / timeline-scope)',
+    short: 'scroll-driven',
+    supportsQuery: '(animation-timeline: --t)',
+    proxy:
+      'The badge tests animation-timeline as a stand-in — the range fill also needs view-timeline, timeline-scope and @property, which all shipped together with scroll-driven animations in every engine that has them.',
+    bcd: [
+      'css.properties.animation-timeline',
+      'css.properties.view-timeline',
+      'css.properties.timeline-scope',
+    ],
+    webFeature: 'scroll-driven-animations',
+    fallback:
+      'WebKit/Chromium show a plain secondary track with no filled portion; Firefox still fills natively via ::-moz-range-progress. The slider stays fully usable — only the progress-style fill is missing.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline',
+  },
   'scrollbar-color': {
     label: 'Styled scrollbars (scrollbar-color / scrollbar-width)',
     short: 'scrollbar-color',

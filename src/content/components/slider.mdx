@@ -2,23 +2,29 @@
 title: Slider
 description: input type=range with a styled track and thumb. Keyboard stepping, Home/End, form participation — all native.
 order: 180
-plainCss: true
-features: []
+features: [scroll-driven-animations]
 ---
 
 import ComponentPreview from '../../components/ComponentPreview.astro';
 
-<ComponentPreview demo="slider/basic" />
+<ComponentPreview demo="slider/basic" css="slider/fill" />
 
 ## How it works
 
-- The element itself is the track (`h-1.5 bg-secondary rounded-full` after `appearance-none`);
-  the thumb is styled twice — `[&::-webkit-slider-thumb]:` and `[&::-moz-range-thumb]:` —
-  and each engine ignores the other's selectors because every utility is its own rule.
-- Current engines center the thumb on the track automatically. If you still support older
-  WebKit builds that top-align it, add `[&::-webkit-slider-thumb]:-mt-[5px]`
-  ((16px thumb − 6px track) / 2) — but don't ship that to modern browsers, where it pushes
-  the thumb above the track.
-- `[&::-moz-range-progress]:bg-primary` fills the track's left side in Firefox. WebKit has no
-  filled-track pseudo-element — that genuinely requires JS (or a background gradient bound to
-  the value), so this component ships without it. Honesty over hacks.
+- The `<input>` is a 16px-tall transparent box (`h-4 bg-transparent`) — just big enough to hold
+  the thumb — and the _visible_ track is the runnable-track pseudo (`::-webkit-slider-runnable-track`
+  / `::-moz-range-track`, both `h-1.5 bg-secondary rounded-full`). The thumb is styled twice,
+  `[&::-webkit-slider-thumb]:` and `[&::-moz-range-thumb]:`, and each engine ignores the other's
+  selectors because every utility compiles to its own rule.
+- On WebKit the 16px thumb rides a 6px track, so `[&::-webkit-slider-thumb]:-mt-[5px]` drops it
+  back onto center ((16 − 6) / 2). Firefox lines `::-moz-range-thumb` up with `::-moz-range-track`
+  by itself.
+- The fill is the fun part. Firefox just hands it to you: `[&::-moz-range-progress]:bg-primary`
+  and the left side is filled. WebKit still has no filled-track pseudo-element — so we borrow a
+  timeline. The thumb exposes a `view-timeline`, the input reads it through `timeline-scope`, and
+  an `animation` drives a registered `--range-fill` property that a `linear-gradient` paints onto
+  the track. No JS, no `oninput` — the fill is a pure function of where the thumb sits. (That part
+  lives in a separate CSS block: `@property` and `view-timeline` have no utility form.)
+- Where scroll-driven animations haven't landed yet, `@supports` skips the whole block and you're
+  left with a plain secondary track — still perfectly usable. So the old "WebKit can't fill a
+  range without JS" line was only ever half true: not impossible, just not everywhere _yet_.
