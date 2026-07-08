@@ -11,20 +11,22 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 ## How it works
 
-- The `<input>` is a 16px-tall transparent box (`h-4 bg-transparent`) — just big enough to hold
-  the thumb — and the _visible_ track is the runnable-track pseudo (`::-webkit-slider-runnable-track`
-  / `::-moz-range-track`, both `h-1.5 bg-secondary rounded-full`). The thumb is styled twice,
-  `[&::-webkit-slider-thumb]:` and `[&::-moz-range-thumb]:`, and each engine ignores the other's
+- The `<input>` is a transparent 16px box (`h-4 bg-transparent`) holding the thumb; the visible
+  track is the runnable-track pseudo (`::-webkit-slider-runnable-track` / `::-moz-range-track`,
+  both `h-1.5 bg-secondary rounded-full`). The thumb is styled twice
+  (`[&::-webkit-slider-thumb]:` and `[&::-moz-range-thumb]:`) and each engine ignores the other's
   selectors because every utility compiles to its own rule.
-- On WebKit the 16px thumb rides a 6px track, so `[&::-webkit-slider-thumb]:-mt-[5px]` drops it
-  back onto center ((16 − 6) / 2). Firefox lines `::-moz-range-thumb` up with `::-moz-range-track`
-  by itself.
-- The fill is the fun part. Firefox just hands it to you: `[&::-moz-range-progress]:bg-primary`
-  and the left side is filled. WebKit still has no filled-track pseudo-element — so we borrow a
-  timeline. The thumb exposes a `view-timeline`, the input reads it through `timeline-scope`, and
+- On WebKit the 16px thumb rides a 6px track, so `[&::-webkit-slider-thumb]:-mt-[5px]` recenters
+  it ((16 − 6) / 2). Firefox aligns `::-moz-range-thumb` with `::-moz-range-track` automatically.
+- **The fill is the load-bearing trick.** Firefox fills the left of the track natively with
+  `[&::-moz-range-progress]:bg-primary`. WebKit has no filled-track pseudo-element, so the fill is
+  scroll-driven: the thumb exposes a `view-timeline`, the input reads it via `timeline-scope`, and
   an `animation` drives a registered `--range-fill` property that a `linear-gradient` paints onto
-  the track. No JS, no `oninput` — the fill is a pure function of where the thumb sits. (That part
-  lives in a separate CSS block: `@property` and `view-timeline` have no utility form.)
-- Where scroll-driven animations haven't landed yet, `@supports` skips the whole block and you're
-  left with a plain secondary track — still perfectly usable. So the old "WebKit can't fill a
-  range without JS" line was only ever half true: not impossible, just not everywhere _yet_.
+  the track — a pure function of thumb position, no JS or `oninput`. This block lives in a separate
+  CSS file because `@property` and `view-timeline` have no utility form.
+
+## The fallback story
+
+- Without scroll-driven animations, `@supports` skips the block: WebKit/Chromium show a plain
+  secondary track with no fill, Firefox still fills natively via `::-moz-range-progress`. The
+  slider stays fully usable — only the progress-style fill on WebKit is missing.
