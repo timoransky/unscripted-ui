@@ -88,7 +88,7 @@ const baselineHref = (row: (typeof rows)[number]) =>
                       class="group underline decoration-border underline-offset-4 hover:decoration-foreground"
                     >
                       {row.label}
-                      <ExternalArrow class="ml-0.5 inline-block size-[0.9em] align-[-0.05em] opacity-60 transition-opacity group-hover:opacity-100" />
+                      <ExternalArrow class="ml-0.5 inline-block size-[10px] align-[-0.05em] opacity-60 transition-opacity group-hover:opacity-100" />
                     </a>
                     {row.proxy && <sup aria-hidden="true">†</sup>}
                     {!row.supportsQuery && <sup aria-hidden="true">‡</sup>}
@@ -103,7 +103,7 @@ const baselineHref = (row: (typeof rows)[number]) =>
                       >
                         <BaselineLogo status={status} class="h-[0.85em] w-auto shrink-0" />
                         <span class="translate-y-[1px]">{chip.text(row.baselineYear)}</span>
-                        <ExternalArrow class="size-[0.9em] shrink-0 opacity-60 transition-opacity group-hover:opacity-100" />
+                        <ExternalArrow class="size-[10px] shrink-0 opacity-60 transition-opacity group-hover:opacity-100" />
                       </a>
                     )}
                   </th>
