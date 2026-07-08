@@ -1,0 +1,26 @@
+---
+/**
+ * Small "arrow up-right" (↗) mark denoting a link to an external reference.
+ * Decorative — the link's own text / aria-label carries the meaning. Inherits
+ * currentColor and is sized via the `class` prop.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class:list={className}
+>
+  <path d="M7 17 17 7" />
+  <path d="M8 7h9v9" />
+</svg>
