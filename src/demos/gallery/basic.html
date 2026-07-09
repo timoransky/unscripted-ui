@@ -3,16 +3,22 @@
        open. The dialog's open resting place is dead-center; its closed and @starting-style
        frames are pinned to the thumbnail via anchor(), so it grows *out of* the thumbnail on
        open and collapses back *into* it on close. Without anchor() both frames fall back to
-       center (a plain centered zoom). The gradient tiles are placeholders — drop in <img>
-       with a real src/alt to use it. -->
+       center (a plain centered zoom). Images are hotlinked from Unsplash; swap each src/alt
+       for your own. The <button> takes its accessible name from the <img alt>, so no
+       aria-label is needed. -->
   <button
     type="button"
     command="show-modal"
     commandfor="gal-photo-1"
-    aria-label="Open photo: Dawn over the ridge"
-    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-1]"
+    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-shadow duration-300 ease-out hover:ring-2 hover:ring-ring/70 hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-1]"
   >
-    <span class="block size-full bg-linear-to-br from-indigo-400 to-fuchsia-500 transition-transform duration-300 group-hover:scale-105"></span>
+    <img
+      src="https://images.unsplash.com/photo-1759816671674-b0d233903533?auto=format&fit=crop&w=600&q=80"
+      alt="Dawn over the ridge"
+      loading="lazy"
+      decoding="async"
+      class="block size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+    />
   </button>
   <dialog
     id="gal-photo-1"
@@ -20,8 +26,14 @@
     aria-labelledby="gal-cap-1"
     class="fixed top-1/2 left-1/2 w-[min(90vw,40rem)] max-h-[85vh] scale-[0.22] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 opacity-0 shadow-2xl [translate:-50%_-50%] [position-anchor:--gal-1] transition-[left,top,scale,opacity,overlay,display] transition-discrete duration-300 ease-out open:scale-100 open:opacity-100 starting:open:scale-[0.22] starting:open:opacity-0 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/60 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-1_center)] supports-[anchor-name:--a]:starting:open:[top:anchor(--gal-1_center)] supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-1_center)] supports-[anchor-name:--a]:[&:not([open])]:[top:anchor(--gal-1_center)]"
   >
-    <div class="aspect-[4/3] w-full rounded-xl bg-linear-to-br from-indigo-400 to-fuchsia-500"></div>
-    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+    <img
+      src="https://images.unsplash.com/photo-1759816671674-b0d233903533?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="aspect-[4/3] w-full rounded-xl object-cover"
+    />
+    <div class="flex items-center justify-between gap-3 px-2.5 pt-2 pb-0.5">
       <p id="gal-cap-1" class="text-sm font-medium text-popover-foreground">Dawn over the ridge</p>
       <button
         type="button"
@@ -39,10 +51,15 @@
     type="button"
     command="show-modal"
     commandfor="gal-photo-2"
-    aria-label="Open photo: Harbor at golden hour"
-    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-2]"
+    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-shadow duration-300 ease-out hover:ring-2 hover:ring-ring/70 hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-2]"
   >
-    <span class="block size-full bg-linear-to-br from-amber-400 to-rose-500 transition-transform duration-300 group-hover:scale-105"></span>
+    <img
+      src="https://images.unsplash.com/photo-1569150159137-fec7ce0a077d?auto=format&fit=crop&w=600&q=80"
+      alt="Harbor at golden hour"
+      loading="lazy"
+      decoding="async"
+      class="block size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+    />
   </button>
   <dialog
     id="gal-photo-2"
@@ -50,8 +67,14 @@
     aria-labelledby="gal-cap-2"
     class="fixed top-1/2 left-1/2 w-[min(90vw,40rem)] max-h-[85vh] scale-[0.22] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 opacity-0 shadow-2xl [translate:-50%_-50%] [position-anchor:--gal-2] transition-[left,top,scale,opacity,overlay,display] transition-discrete duration-300 ease-out open:scale-100 open:opacity-100 starting:open:scale-[0.22] starting:open:opacity-0 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/60 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-2_center)] supports-[anchor-name:--a]:starting:open:[top:anchor(--gal-2_center)] supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-2_center)] supports-[anchor-name:--a]:[&:not([open])]:[top:anchor(--gal-2_center)]"
   >
-    <div class="aspect-[4/3] w-full rounded-xl bg-linear-to-br from-amber-400 to-rose-500"></div>
-    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+    <img
+      src="https://images.unsplash.com/photo-1569150159137-fec7ce0a077d?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="aspect-[4/3] w-full rounded-xl object-cover"
+    />
+    <div class="flex items-center justify-between gap-3 px-2.5 pt-2 pb-0.5">
       <p id="gal-cap-2" class="text-sm font-medium text-popover-foreground">Harbor at golden hour</p>
       <button
         type="button"
@@ -69,10 +92,15 @@
     type="button"
     command="show-modal"
     commandfor="gal-photo-3"
-    aria-label="Open photo: Fern canopy"
-    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-3]"
+    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-shadow duration-300 ease-out hover:ring-2 hover:ring-ring/70 hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-3]"
   >
-    <span class="block size-full bg-linear-to-br from-emerald-400 to-teal-500 transition-transform duration-300 group-hover:scale-105"></span>
+    <img
+      src="https://images.unsplash.com/photo-1741276236509-c6f10f4f4c6c?auto=format&fit=crop&w=600&q=80"
+      alt="Fern canopy"
+      loading="lazy"
+      decoding="async"
+      class="block size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+    />
   </button>
   <dialog
     id="gal-photo-3"
@@ -80,8 +108,14 @@
     aria-labelledby="gal-cap-3"
     class="fixed top-1/2 left-1/2 w-[min(90vw,40rem)] max-h-[85vh] scale-[0.22] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 opacity-0 shadow-2xl [translate:-50%_-50%] [position-anchor:--gal-3] transition-[left,top,scale,opacity,overlay,display] transition-discrete duration-300 ease-out open:scale-100 open:opacity-100 starting:open:scale-[0.22] starting:open:opacity-0 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/60 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-3_center)] supports-[anchor-name:--a]:starting:open:[top:anchor(--gal-3_center)] supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-3_center)] supports-[anchor-name:--a]:[&:not([open])]:[top:anchor(--gal-3_center)]"
   >
-    <div class="aspect-[4/3] w-full rounded-xl bg-linear-to-br from-emerald-400 to-teal-500"></div>
-    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+    <img
+      src="https://images.unsplash.com/photo-1741276236509-c6f10f4f4c6c?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="aspect-[4/3] w-full rounded-xl object-cover"
+    />
+    <div class="flex items-center justify-between gap-3 px-2.5 pt-2 pb-0.5">
       <p id="gal-cap-3" class="text-sm font-medium text-popover-foreground">Fern canopy</p>
       <button
         type="button"
@@ -99,10 +133,15 @@
     type="button"
     command="show-modal"
     commandfor="gal-photo-4"
-    aria-label="Open photo: Coastal fog"
-    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-4]"
+    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-shadow duration-300 ease-out hover:ring-2 hover:ring-ring/70 hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-4]"
   >
-    <span class="block size-full bg-linear-to-br from-sky-400 to-indigo-500 transition-transform duration-300 group-hover:scale-105"></span>
+    <img
+      src="https://images.unsplash.com/photo-1725060555163-c1fd4f569925?auto=format&fit=crop&w=600&q=80"
+      alt="Coastal fog"
+      loading="lazy"
+      decoding="async"
+      class="block size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+    />
   </button>
   <dialog
     id="gal-photo-4"
@@ -110,8 +149,14 @@
     aria-labelledby="gal-cap-4"
     class="fixed top-1/2 left-1/2 w-[min(90vw,40rem)] max-h-[85vh] scale-[0.22] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 opacity-0 shadow-2xl [translate:-50%_-50%] [position-anchor:--gal-4] transition-[left,top,scale,opacity,overlay,display] transition-discrete duration-300 ease-out open:scale-100 open:opacity-100 starting:open:scale-[0.22] starting:open:opacity-0 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/60 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-4_center)] supports-[anchor-name:--a]:starting:open:[top:anchor(--gal-4_center)] supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-4_center)] supports-[anchor-name:--a]:[&:not([open])]:[top:anchor(--gal-4_center)]"
   >
-    <div class="aspect-[4/3] w-full rounded-xl bg-linear-to-br from-sky-400 to-indigo-500"></div>
-    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+    <img
+      src="https://images.unsplash.com/photo-1725060555163-c1fd4f569925?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="aspect-[4/3] w-full rounded-xl object-cover"
+    />
+    <div class="flex items-center justify-between gap-3 px-2.5 pt-2 pb-0.5">
       <p id="gal-cap-4" class="text-sm font-medium text-popover-foreground">Coastal fog</p>
       <button
         type="button"
@@ -129,10 +174,15 @@
     type="button"
     command="show-modal"
     commandfor="gal-photo-5"
-    aria-label="Open photo: Desert bloom"
-    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-5]"
+    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-shadow duration-300 ease-out hover:ring-2 hover:ring-ring/70 hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-5]"
   >
-    <span class="block size-full bg-linear-to-br from-rose-400 to-orange-400 transition-transform duration-300 group-hover:scale-105"></span>
+    <img
+      src="https://images.unsplash.com/photo-1769927954284-15e0c9a10add?auto=format&fit=crop&w=600&q=80"
+      alt="Desert bloom"
+      loading="lazy"
+      decoding="async"
+      class="block size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+    />
   </button>
   <dialog
     id="gal-photo-5"
@@ -140,8 +190,14 @@
     aria-labelledby="gal-cap-5"
     class="fixed top-1/2 left-1/2 w-[min(90vw,40rem)] max-h-[85vh] scale-[0.22] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 opacity-0 shadow-2xl [translate:-50%_-50%] [position-anchor:--gal-5] transition-[left,top,scale,opacity,overlay,display] transition-discrete duration-300 ease-out open:scale-100 open:opacity-100 starting:open:scale-[0.22] starting:open:opacity-0 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/60 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-5_center)] supports-[anchor-name:--a]:starting:open:[top:anchor(--gal-5_center)] supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-5_center)] supports-[anchor-name:--a]:[&:not([open])]:[top:anchor(--gal-5_center)]"
   >
-    <div class="aspect-[4/3] w-full rounded-xl bg-linear-to-br from-rose-400 to-orange-400"></div>
-    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+    <img
+      src="https://images.unsplash.com/photo-1769927954284-15e0c9a10add?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="aspect-[4/3] w-full rounded-xl object-cover"
+    />
+    <div class="flex items-center justify-between gap-3 px-2.5 pt-2 pb-0.5">
       <p id="gal-cap-5" class="text-sm font-medium text-popover-foreground">Desert bloom</p>
       <button
         type="button"
@@ -159,10 +215,15 @@
     type="button"
     command="show-modal"
     commandfor="gal-photo-6"
-    aria-label="Open photo: Night market"
-    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-6]"
+    class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border border-border transition-shadow duration-300 ease-out hover:ring-2 hover:ring-ring/70 hover:ring-offset-2 hover:ring-offset-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [anchor-name:--gal-6]"
   >
-    <span class="block size-full bg-linear-to-br from-violet-500 to-sky-400 transition-transform duration-300 group-hover:scale-105"></span>
+    <img
+      src="https://images.unsplash.com/photo-1760546100206-de205df95289?auto=format&fit=crop&w=600&q=80"
+      alt="Night market"
+      loading="lazy"
+      decoding="async"
+      class="block size-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+    />
   </button>
   <dialog
     id="gal-photo-6"
@@ -170,8 +231,14 @@
     aria-labelledby="gal-cap-6"
     class="fixed top-1/2 left-1/2 w-[min(90vw,40rem)] max-h-[85vh] scale-[0.22] overflow-hidden rounded-2xl border border-border bg-popover p-1.5 opacity-0 shadow-2xl [translate:-50%_-50%] [position-anchor:--gal-6] transition-[left,top,scale,opacity,overlay,display] transition-discrete duration-300 ease-out open:scale-100 open:opacity-100 starting:open:scale-[0.22] starting:open:opacity-0 backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/60 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-6_center)] supports-[anchor-name:--a]:starting:open:[top:anchor(--gal-6_center)] supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-6_center)] supports-[anchor-name:--a]:[&:not([open])]:[top:anchor(--gal-6_center)]"
   >
-    <div class="aspect-[4/3] w-full rounded-xl bg-linear-to-br from-violet-500 to-sky-400"></div>
-    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+    <img
+      src="https://images.unsplash.com/photo-1760546100206-de205df95289?auto=format&fit=crop&w=1200&q=80"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="aspect-[4/3] w-full rounded-xl object-cover"
+    />
+    <div class="flex items-center justify-between gap-3 px-2.5 pt-2 pb-0.5">
       <p id="gal-cap-6" class="text-sm font-medium text-popover-foreground">Night market</p>
       <button
         type="button"

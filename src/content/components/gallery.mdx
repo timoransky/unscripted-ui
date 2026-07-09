@@ -1,6 +1,6 @@
 ---
 title: Gallery
-description: A thumbnail grid where each image grows out of its thumbnail and lands dead-center in a modal viewer. The entry origin is the thumbnail; the resting place is the middle. No JavaScript.
+description: An origin-aware animated lightbox. Click a thumbnail and a modal dialog grows out of that exact thumbnail, settles dead-center, then collapses back into it on close. No JavaScript.
 order: 103
 features: [dialog, dialog-invokers, closedby, anchor-inset, discrete-transitions]
 ---
@@ -11,54 +11,54 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
 
 ## How it works
 
-- Each thumbnail is a `<button command="show-modal" commandfor="gal-photo-1">` and each
-  enlarged view is a `<dialog id="gal-photo-1" closedby="any">`. Invoker commands open and
-  close it with no script — `command="show-modal"` opens the modal and `command="close"` on the
-  ✕ closes it. A modal `<dialog>` gives the top layer, a background that's inert to clicks and
-  focus, focus trapping and Esc-to-close for free; `closedby="any"` adds click-the-backdrop-to-close.
-- The dialog rests **dead-center**: `fixed top-1/2 left-1/2` with `[translate:-50%_-50%]`, sized
-  `w-[min(90vw,40rem)]`, scaled down to `scale-[0.22]` when closed and up to `open:scale-100` when open.
-- **The origin trick is `anchor()` on the transition frames.** `[anchor-name:--gal-1]` on the
-  button names it; `[position-anchor:--gal-1]` on the dialog binds it.
-  `supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-1_center)]` pins the
-  `@starting-style` entry frame to the thumbnail, and
-  `supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-1_center)]` pins the closed
-  frame to it too (with the matching `top`). So it grows *out of* the thumbnail on open and
-  collapses back *into* it on close. Only these transition frames are anchored — the open
-  resting state stays dead-center.
-- `transition-[left,top,scale,opacity,overlay,display]` animates the travel, and
-  `transition-discrete` (`transition-behavior: allow-discrete`) keeps `display` and `overlay`
-  alive so it animates closed too. The `::backdrop` fades in and out with the panel:
-  `open:backdrop:bg-black/60` + `open:backdrop:backdrop-blur-xs` transitioning from
-  `backdrop:bg-black/0` via its own `backdrop:transition-all` + `backdrop:duration-300` — the
-  explicit transparent base is what lets it fade out cleanly instead of snapping.
+- **Open and close with no script.** Each thumbnail is a `<button command="show-modal"
+  commandfor="gal-photo-1">` and each enlarged view is its own `<dialog id="gal-photo-1"
+  closedby="any">`. The invoker commands do everything: `command="show-modal"` opens the modal
+  and `command="close"` on the ✕ closes it. A modal `<dialog>` hands you the top layer, an inert
+  background (clicks and focus can't reach it), focus trapping and Esc-to-close for free.
+  `closedby="any"` adds click-the-backdrop-to-close.
+- **It rests dead-center.** `fixed top-1/2 left-1/2` with `[translate:-50%_-50%]` centers the
+  open panel, sized `w-[min(90vw,40rem)]`. It sits at `scale-[0.22]` when closed and
+  `open:scale-100` when open.
+- **The origin trick is `anchor()` on the animation frames.** `[anchor-name:--gal-1]` names the
+  button and `[position-anchor:--gal-1]` on the dialog binds to it. Two frames then get pinned to
+  the thumbnail instead of the center: the `@starting-style` entry frame via
+  `supports-[anchor-name:--a]:starting:open:[left:anchor(--gal-1_center)]`, and the closed frame
+  via `supports-[anchor-name:--a]:[&:not([open])]:[left:anchor(--gal-1_center)]`, each with its
+  matching `top`. So the panel grows *out of* the thumbnail on open and collapses back *into* it
+  on close, while the open resting state stays dead-center.
+- **What drives the travel.** `transition-[left,top,scale,opacity,overlay,display]` animates the
+  move, and `transition-discrete` (`transition-behavior: allow-discrete`) keeps `display` and
+  `overlay` alive so the close animates too. The `::backdrop` fades with the panel:
+  `open:backdrop:bg-black/60` and `open:backdrop:backdrop-blur-xs` transition up from
+  `backdrop:bg-black/0` via `backdrop:transition-all` + `backdrop:duration-300`. That explicit
+  transparent base is what lets it fade out cleanly instead of snapping.
 
 ## Accessibility
 
-- A modal `<dialog>` makes the rest of the page **inert** while it's open — clicks, focus and
-  Tab can't reach the grid behind it — traps focus inside, and restores it to the thumbnail on
+- A modal `<dialog>` makes the rest of the page **inert** while it's open. Clicks, focus and Tab
+  can't reach the grid behind it. It traps focus inside and restores it to the thumbnail on
   close. That's the browser's native modal behavior, no focus-trap library.
-- `<dialog>` supplies no accessible name, so `aria-labelledby` points at the caption. The
-  trigger gets its name from `aria-label` — with a real `<img>` inside the button, drop the
-  label and let the `alt` name it. The close icon is labelled and its SVG is `aria-hidden`.
+- `<dialog>` supplies no accessible name, so `aria-labelledby` points at the caption. The trigger
+  gets its name from `aria-label`. With a real `<img>` inside the button, drop the label and let
+  the `alt` name it instead. The close icon is labelled and its SVG is `aria-hidden`.
 
 ## The fallback story
 
 - **Without invoker commands** (`command` / `commandfor`) the triggers do nothing. Until
   Baseline reaches your audience, open the dialog with a three-line shim or from your framework.
-- **Without `closedby`** Esc still closes it (the platform default); clicking the backdrop does not.
-- **Without `anchor()`** the closed and entry frames fall back to the dialog's centered resting
-  place, so it scales up from the center and back down instead of travelling to the thumbnail. A
-  clean centered lightbox, minus the origin — which is why the anchored position sits behind a
-  `supports-[anchor-name:--a]:` guard on the transition frames only.
-- **Without discrete transitions** the view appears and disappears instantly. Nothing breaks;
-  you lose the grow.
+- **Without `closedby`** Esc still closes it (the platform default), but clicking the backdrop does not.
+- **Without `anchor()`** the entry and closed frames fall back to the dialog's centered resting
+  place, so it scales up from the center and back down instead of travelling to the thumbnail.
+  You get a clean centered lightbox, minus the origin. That's why the anchored position sits
+  behind a `supports-[anchor-name:--a]:` guard on the transition frames only.
+- **Without discrete transitions** the view appears and disappears instantly. Nothing breaks.
+  You just lose the grow.
 
-The panel grows *out of* the thumbnail on open and collapses back *into* it on close, resting
-dead-center in between — driven entirely by `anchor()` on the entry and closed frames, no
-script. Two honest limits: it animates layout position on a top-layer element, which is
-leading-edge and can differ across engines (it degrades to a centered zoom where `anchor()` is
-unsupported); and it is not a pixel-exact morph of the thumbnail's own pixels — a separate
-dialog travels from the thumbnail's position. A true shared-element morph of the thumbnail
-itself needs the View Transition API (`document.startViewTransition`, JavaScript), which is out
-of scope for a zero-JS fragment.
+The whole effect is driven by `anchor()` on the entry and closed frames, with no script. Two
+honest limits come with the technique. First, it animates layout position on a top-layer
+element, which is leading-edge and can differ across engines (it degrades to a centered zoom
+where `anchor()` is unsupported). Second, it is not a pixel-exact morph of the thumbnail's own
+pixels: a separate dialog travels from the thumbnail's position. A true shared-element morph of
+the thumbnail itself needs the View Transition API (`document.startViewTransition`, JavaScript),
+which is out of scope for a zero-JS fragment.
