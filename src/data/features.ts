@@ -227,7 +227,7 @@ export const FEATURES = {
       'The computed delay is invalid, so the declaration is dropped and every item animates at the same time — the entrance still plays, just without the cascade.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/sibling-index',
   },
-  'scroll-driven-animations': {
+  'view-timeline': {
     label: 'Scroll-driven animations (view-timeline / timeline-scope)',
     short: 'scroll-driven',
     supportsQuery: '(animation-timeline: --t)',
