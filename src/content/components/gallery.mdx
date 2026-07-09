@@ -34,8 +34,10 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   outline-foreground/10` draws a hairline one pixel *inside* the tile, so it sits over the image
   and flips with the theme token. On hover the image zooms (`group-hover:scale-105`); that
   `transform` gives the image a stacking context that would paint over the outline, so
-  `relative -z-10` keeps it beneath. `will-change-transform` puts the image on its compositor
-  layer up front, so the first hover frame doesn't re-rasterize and shift it a pixel.
+  `relative -z-10` keeps it beneath. The button itself is `isolate`, so that negative z-index
+  resolves against the tile's own stacking context instead of dropping the image behind the
+  grid. `will-change-transform` puts the image on its compositor layer up front, so the first
+  hover frame doesn't re-rasterize and shift it a pixel.
 
 ## Accessibility
 
