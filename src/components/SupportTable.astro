@@ -2,6 +2,7 @@
 import { FEATURES, type FeatureInfo, type FeatureKey } from '../data/features';
 import { resolveSupport, type ResolvedSupport } from '../data/support';
 import BaselineLogo from './BaselineLogo.astro';
+import ExternalArrow from './ExternalArrow.astro';
 
 interface Props {
   features: FeatureKey[];
@@ -21,15 +22,16 @@ const version = (v: string) => (v === 'no' ? '✕' : v);
 const BASELINE_CHIP = {
   high: {
     text: () => 'Baseline · widely available',
-    class: 'border-emerald-600/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
+    class:
+      'border-emerald-600/30 bg-emerald-500/10 text-emerald-700 hover:border-emerald-600/60 dark:text-emerald-400',
   },
   low: {
     text: (year?: string) => `Baseline ${year ?? ''} · newly available`.replace('  ', ' '),
-    class: 'border-sky-600/30 bg-sky-500/10 text-sky-700 dark:text-sky-400',
+    class: 'border-sky-600/30 bg-sky-500/10 text-sky-700 hover:border-sky-600/60 dark:text-sky-400',
   },
   limited: {
     text: () => 'Limited availability',
-    class: 'border-amber-600/30 bg-amber-500/10 text-amber-700 dark:text-amber-400',
+    class: 'border-amber-600/30 bg-amber-500/10 text-amber-700 hover:border-amber-600/60 dark:text-amber-400',
   },
 } as const;
 
@@ -84,9 +86,10 @@ const baselineHref = (row: (typeof rows)[number]) =>
                   <th scope="row" class="px-3 py-2.5 text-left font-normal">
                     <a
                       href={row.mdn}
-                      class="underline decoration-border underline-offset-4 hover:decoration-foreground"
+                      class="group underline decoration-border underline-offset-4 hover:decoration-foreground"
                     >
                       {row.label}
+                      <ExternalArrow class="ml-0.5 inline-block size-[10px] align-[-0.05em] opacity-60 transition-opacity group-hover:opacity-100" />
                     </a>
                     {row.proxy && <sup aria-hidden="true">†</sup>}
                     {!row.supportsQuery && <sup aria-hidden="true">‡</sup>}
@@ -95,12 +98,13 @@ const baselineHref = (row: (typeof rows)[number]) =>
                         href={baselineHref(row)}
                         aria-label={`${chip.text(row.baselineYear)} — learn more on webstatus.dev`}
                         class:list={[
-                          'mt-1.5 flex w-fit items-center gap-1 rounded-full border px-2 py-px font-mono text-[0.62rem] whitespace-nowrap transition-colors hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+                          'group mt-1.5 flex w-fit items-center gap-1 rounded-full border px-2 py-px font-mono text-[10px] whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
                           chip.class,
                         ]}
                       >
                         <BaselineLogo status={status} class="h-[0.85em] w-auto shrink-0" />
-                        <span>{chip.text(row.baselineYear)}</span>
+                        <span class="translate-y-[0.5px]">{chip.text(row.baselineYear)}</span>
+                        <ExternalArrow class="size-[10px] shrink-0 opacity-60 transition-opacity group-hover:opacity-100" />
                       </a>
                     )}
                   </th>

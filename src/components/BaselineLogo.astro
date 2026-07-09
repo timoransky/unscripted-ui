@@ -1,10 +1,13 @@
 ---
 /**
- * The official Baseline status mark (from the Apache-2.0 web-platform-dx/
- * baseline-status component). Three state variants — widely / newly / limited —
- * each drawn as a two-tone chevron. Both tones use currentColor (the back tone
- * at reduced opacity), so the icon inherits the chip's per-state color in light
- * and dark. Static SVG, no JS, no external request.
+ * The official Baseline status mark (widely / newly / limited), served from the
+ * unmodified assets vendored in /public/baseline. The Baseline logos are Google
+ * trademarks under CC-BY-ND 4.0 — the colors encode the support level, so they
+ * must not be recolored or altered (see public/baseline/README.md).
+ *
+ * Light and dark variants are swapped with the site's class-based dark mode
+ * (@custom-variant dark in global.css), the same zero-JS technique ThemeToggle
+ * uses. Static <img>, no client JS, no external request.
  */
 type Status = 'high' | 'low' | 'limited';
 
@@ -15,28 +18,10 @@ interface Props {
 
 const { status, class: className } = Astro.props;
 
-// front = solid chevron, back = faint chevron behind it.
-const ICONS: Record<Status, { front: string[]; back: string[] }> = {
-  high: {
-    front: ['M18 8L20 10L18 12L16 10L18 8Z', 'M26 0L28 2L10 20L0 10L2 8L10 16L26 0Z'],
-    back: ['M28 2L26 4L32 10L26 16L22 12L20 14L26 20L36 10L28 2Z', 'M10 0L2 8L4 10L10 4L14 8L16 6L10 0Z'],
-  },
-  low: {
-    front: ['m26 0 2 2-18 18L0 10l2-2 8 8L26 0Z'],
-    back: [
-      'm10 0 2 2-2 2-2-2 2-2Zm4 4 2 2-2 2-2-2 2-2Zm16 0 2 2-2 2-2-2 2-2Zm4 4 2 2-2 2-2-2 2-2Zm-4 4 2 2-2 2-2-2 2-2Zm-4 4 2 2-2 2-2-2 2-2Zm-4-4 2 2-2 2-2-2 2-2ZM6 4l2 2-2 2-2-2 2-2Z',
-    ],
-  },
-  limited: {
-    front: ['M10 0L16 6L14 8L8 2L10 0Z', 'M22 12L20 14L26 20L28 18L22 12Z', 'M26 0L28 2L10 20L8 18L26 0Z'],
-    back: ['M8 2L10 4L4 10L10 16L8 18L0 10L8 2Z', 'M28 2L36 10L28 18L26 16L32 10L26 4L28 2Z'],
-  },
-};
-
-const icon = ICONS[status];
+const NAME: Record<Status, string> = { high: 'widely', low: 'newly', limited: 'limited' };
+const name = NAME[status];
+const base = `/baseline/baseline-${name}-icon`;
 ---
 
-<svg viewBox="0 0 36 20" fill="currentColor" aria-hidden="true" class:list={className}>
-  {icon.back.map((d) => <path d={d} opacity="0.4" />)}
-  {icon.front.map((d) => <path d={d} />)}
-</svg>
+<img src={`${base}.svg`} alt="" class:list={['dark:hidden', className]} />
+<img src={`${base}-dark.svg`} alt="" class:list={['hidden dark:block', className]} />
