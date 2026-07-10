@@ -49,5 +49,5 @@ const css = Object.entries(cssFiles)
 
 <PreviewLayout title={`${title} - preview`}>
   {css && <Fragment slot="head" set:html={`<style>${css}</style>`} />}
-  <div class="flex flex-wrap items-center justify-center gap-3" set:html={html} />
+  <div class="flex w-full flex-wrap items-center justify-center gap-3" set:html={html} />
 </PreviewLayout>
