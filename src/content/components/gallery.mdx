@@ -17,10 +17,16 @@ import ComponentPreview from '../../components/ComponentPreview.astro';
   `closedby="any"` adds click-the-backdrop-to-close — there is no in-panel button.
 - **The panel is one `object-cover` image box that morphs shape, not just size.** Open, it rests
   centered (`fixed top-1/2 left-1/2`, `[translate:-50%_-50%]`, `w-[min(90vw,40rem)]`) at
-  `open:scale-100`, `aspect-[4/3]`, `rounded-2xl`. Closed, it is `sm:scale-[0.254]` (uniform, so the
-  square footprint lands on the tile — `scale-[0.4]` is the two-column base), `aspect-square`, and
-  `rounded-[3rem]`. Animating `scale`, `aspect-ratio` and `border-radius` at once, the photo grows
-  from a rounded square and re-crops into the 4/3 frame with no stretch and no fade.
+  `open:scale-100`, `aspect-[4/3]`, `rounded-2xl`. Closed, it collapses onto the tile — and the
+  shrink factor is *computed*, not a hand-tuned number. The `grid` is a `[container-type:inline-size]`
+  query container, so `100cqw` is its own width; `[--gal-scale]` reconstructs the tile from that
+  (minus the gaps, divided by `[--gal-cols]` — `2`, then `3` at `sm`) and casts *tile ÷ panel* to a
+  bare ratio with `tan(atan2(…))`, because `calc()` refuses to divide a length by a length.
+  `anchor-size()` would read the tile directly, but it is barred from `transform` — hence the
+  container-query reconstruction. The upshot is `[scale:var(--gal-scale)]`: the collapsed square
+  lands on the tile at *any* container width, not just the design width, alongside `aspect-square`
+  and `rounded-[3rem]`. Animating `scale`, `aspect-ratio` and `border-radius` at once, the photo
+  grows from a rounded square and re-crops into the 4/3 frame with no stretch and no fade.
 - **The origin comes from `anchor()`.** `[anchor-name:--gal-1]` names the button and
   `[position-anchor:--gal-1]` binds the dialog. The `@starting-style` entry frame and the closed
   frame pin `left`/`top` to `anchor(--gal-1_center)` (behind a `supports-[anchor-name:--a]:` guard),
