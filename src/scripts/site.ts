@@ -58,6 +58,24 @@ document.addEventListener('click', (event) => {
     return;
   }
 
+  // "Copy page" — fetch the page's Markdown twin and put it on the clipboard.
+  const copyPage = target.closest<HTMLButtonElement>('[data-copy-page]');
+  if (copyPage) {
+    const flag = (name: string) => {
+      copyPage.setAttribute(name, '');
+      window.setTimeout(() => copyPage.removeAttribute(name), 1500);
+    };
+    fetch(copyPage.getAttribute('data-copy-page') ?? '')
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.text();
+      })
+      .then((markdown) => navigator.clipboard.writeText(markdown))
+      .then(() => flag('data-copied'))
+      .catch(() => flag('data-copy-failed'));
+    return;
+  }
+
   if (target.closest('[data-theme-toggle]')) {
     const dark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', dark ? 'dark' : 'light');
