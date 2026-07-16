@@ -7,10 +7,11 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
     <header class="mb-2">
       <h1 class="text-2xl font-bold tracking-tight">Introduction</h1>
       <p class="mt-1.5 max-w-[60ch] text-pretty text-muted-foreground">
-        shadcn-style inspired components built from pure HTML and Tailwind without any JS framework or
-        dependencies. Every interaction on this page (opening, closing, animating, positioning,
-        dismissing) happens with no script at all. Copy the code, paste it, ship zero JavaScript. Works
-        with your existing shadcn theme tokens.
+        shadcn-style components rebuilt on raw HTML and CSS, with no framework and no
+        dependencies. The interactions (opening, closing, animating, positioning, dismissing)
+        run on the platform itself, so there is no JavaScript to ship. Every component is a
+        copyable fragment styled with your existing shadcn tokens, so it drops into an existing
+        theme unchanged.
       </p>
     </header>
 
@@ -33,7 +34,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
         versions and the exact fallback behavior.
       </p>
       <p>
-        The colored badges you see on component pages show <strong>your browser support</strong> using <code>@supports</code> CSS queryOne honest limitation when using <code>@supports</code> is that
+        The colored badges you see on component pages show <strong>your browser support</strong> using the <code>@supports</code> CSS query. One honest limitation of <code>@supports</code> is that
         we can only test CSS, so HTML features like <code>commandfor</code> get a manual table row entry but no
         live badge.
       </p>
@@ -41,7 +42,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
       <h2 id="accessibility-notes">Accessibility notes</h2>
       <ul>
         <li>
-          Since all of the HTML components are native, it's mostly the browsers job to handle the A11Y features like traping focus and keyboard navigation.
+          Since all of the HTML components are native, it's mostly the browser's job to handle accessibility features like trapping focus and keyboard navigation.
         </li>
         <li>
           Where a pattern bends semantics, the component page says so (as seen on the
