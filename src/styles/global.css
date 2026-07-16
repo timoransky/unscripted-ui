@@ -100,6 +100,19 @@
 }
 /* ============== end of the token paste ============== */
 
+/* ============================================================
+   Chrome-only tokens — the docs site's own design system, NOT
+   part of the copyable shadcn paste above. Kept outside the token
+   block so the Installation paste stays a pure shadcn contract.
+   ============================================================ */
+:root {
+  /* Matches the Shiki github-dark theme background the code panes use. */
+  --code-bg: #24292e;
+  /* Success / confirmation feedback (e.g. the "copied ✓" heading anchor).
+     light-dark() keeps it legible in both themes. */
+  --success: light-dark(hsl(160 84% 30%), hsl(158 64% 52%));
+}
+
 @layer base {
   /* Smooth in-page anchor navigation (heading links, deep links landing on a
      hash). Off for reduced-motion, matching the global motion rule above. */
@@ -195,7 +208,7 @@
   }
   .heading-anchor[data-copied] {
     opacity: 1;
-    color: #10b981;
+    color: var(--success);
   }
   .heading-anchor[data-copied]::before {
     content: '✓';

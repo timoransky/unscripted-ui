@@ -11,7 +11,7 @@ const { code, lang = 'css' } = Astro.props;
 ---
 
 <div
-  class="not-prose relative my-4 overflow-clip rounded-xl bg-[#24292e] [&_pre]:max-h-[30rem] [&_pre]:overflow-auto [&_pre]:p-5 [&_pre]:text-[0.8rem]/[1.7] [&_pre]:outline-none"
+  class="not-prose relative my-4 overflow-clip rounded-xl bg-[var(--code-bg)] [&_pre]:max-h-[30rem] [&_pre]:overflow-auto [&_pre]:p-5 [&_pre]:text-[0.8rem]/[1.7] [&_pre]:outline-none"
   data-code-pane
 >
   <CopyButton />
