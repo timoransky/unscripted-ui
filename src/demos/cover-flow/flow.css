@@ -1,0 +1,70 @@
+/* The 3D cover-flow motion (Chrome 115+, Safari 26+). Scroll-driven animations
+   have no Tailwind-utility form — @keyframes, view-timeline and the per-item
+   animation-timeline binding all live here. Each rule is scoped behind @supports,
+   so any engine without scroll-driven animations (Firefox stable, older Safari)
+   keeps the plain scroll-snap row — the covers just stay flat and scrollable.
+
+   The transform runs on the inner cover <div>, not the <li>: rotating the <li>
+   would change its layout box, shift the scroller's total length, and make the
+   whole row flicker. The <li> stays a static box and only carries the perspective. */
+
+@keyframes cf-adjust-z-index {
+  0% {
+    z-index: 1;
+  }
+  50% {
+    z-index: 100;
+  }
+  100% {
+    z-index: 1;
+  }
+}
+
+@keyframes cf-rotate-cover {
+  0% {
+    transform: translateX(-100%) rotateY(-45deg);
+  }
+  35% {
+    transform: translateX(0) rotateY(-45deg);
+  }
+  50% {
+    transform: rotateY(0deg) translateZ(1em) scale(1.5);
+  }
+  65% {
+    transform: translateX(0) rotateY(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotateY(45deg);
+  }
+}
+
+@supports (animation-timeline: --t) {
+  /* Each cover is its own inline view-timeline: 0% off the left edge, 100% off the
+     right. The <li> reads it to raise the centered cover above its neighbors. */
+  .cover-flow li {
+    view-timeline-name: --cf-item;
+    view-timeline-axis: inline;
+    perspective: 40em;
+    animation: cf-adjust-z-index linear both;
+    animation-timeline: --cf-item;
+  }
+
+  /* The inner cover reads the same (ancestor) timeline and rotates through 3D.
+     -webkit-box-reflect adds the Apple-style mirror — Blink/WebKit only, purely
+     decorative, absent everywhere else. */
+  .cover-flow li > div {
+    animation: cf-rotate-cover linear both;
+    animation-timeline: --cf-item;
+    -webkit-box-reflect: below 0.4em linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.25));
+  }
+
+  /* The global reduced-motion rule only clamps animation-duration, which a
+     scroll-driven animation ignores (its progress comes from the timeline). The
+     3D rotation is a lot of motion, so drop it explicitly and keep the flat row. */
+  @media (prefers-reduced-motion: reduce) {
+    .cover-flow li,
+    .cover-flow li > div {
+      animation: none;
+    }
+  }
+}

@@ -1,0 +1,82 @@
+<!-- Apple's Cover Flow, zero-JS. The base is a horizontal scroll-snap track: one
+     square cover per <li>, snap-center parks one in the middle. That alone scrolls,
+     snaps, and works everywhere (swipe, trackpad, arrow keys).
+
+     The 3D flow lives in the sidecar CSS (flow.css): each <li> gets its own inline
+     view-timeline, and two scroll-driven animations bound to it rotate the covers
+     through perspective as they cross the track. The transform runs on the inner
+     cover <div>, never the <li> — moving the <li> would change the scroll length and
+     make the whole row flicker. Without scroll-driven animations the covers just sit
+     in a flat, scrollable row.
+
+     Covers here are self-contained gradient tiles so the demo ships no assets — swap
+     each inner <div> for your own <img class="size-full object-cover">. -->
+<ul
+  class="cover-flow flex w-full max-w-2xl snap-x snap-mandatory items-center gap-6 overflow-x-auto scroll-smooth overscroll-x-contain pt-14 pb-28 [--cover-size:10rem] [padding-inline:calc(50%-var(--cover-size)/2)] [scrollbar-width:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-scrollbar]:hidden"
+  tabindex="0"
+  aria-label="Album covers"
+>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#6366f1,#d946ef)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Neon Tides</span>
+      <span class="text-xs text-white/70">Halcyon</span>
+    </div>
+  </li>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#f59e0b,#ef4444)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Golden Hour</span>
+      <span class="text-xs text-white/70">Ember</span>
+    </div>
+  </li>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#10b981,#0ea5e9)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Deep Current</span>
+      <span class="text-xs text-white/70">Meridian</span>
+    </div>
+  </li>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#ec4899,#8b5cf6)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Velvet Static</span>
+      <span class="text-xs text-white/70">Lull</span>
+    </div>
+  </li>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#f97316,#dc2626)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Signal Fire</span>
+      <span class="text-xs text-white/70">Kestrel</span>
+    </div>
+  </li>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#06b6d4,#2563eb)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Blue Arc</span>
+      <span class="text-xs text-white/70">Tessellate</span>
+    </div>
+  </li>
+  <li class="w-[var(--cover-size)] shrink-0 snap-center">
+    <div
+      draggable="false"
+      class="flex aspect-square w-full flex-col justify-end rounded-xl bg-[linear-gradient(135deg,#14b8a6,#4f46e5)] p-4 shadow-lg select-none"
+    >
+      <span class="text-sm font-semibold text-white">Afterglow</span>
+      <span class="text-xs text-white/70">Novaline</span>
+    </div>
+  </li>
+</ul>
