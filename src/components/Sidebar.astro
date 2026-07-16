@@ -1,65 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
+import { getNavGroups } from '../data/nav';
 
-const components = await getCollection('components');
+const groups = await getNavGroups();
 const current = Astro.url.pathname.replace(/\/$/, '');
-
-// A handful of demos that best show off the platform get a subtle marker in the
-// nav. The build throws if an id here is unknown, so the marker can't rot.
-const SHOWCASE = new Set(['gallery', 'select', 'carousel', 'slider', 'header', 'nav-menu']);
-const unknown = [...SHOWCASE].filter((id) => !components.some((c) => c.id === id));
-if (unknown.length) throw new Error(`Sidebar: unknown showcase ids: ${unknown.join(', ')}`);
-
-// One flat, alphabetical list — fastest to scan when you already know the name.
-const componentLinks = components
-  .slice()
-  .sort((a, b) => a.data.title.localeCompare(b.data.title))
-  .map((c) => ({ href: `/components/${c.id}`, title: c.data.title, featured: SHOWCASE.has(c.id) }));
-
-const groups = [
-  {
-    label: 'Docs',
-    links: [
-      { href: '/docs/introduction', title: 'Introduction', featured: false },
-      { href: '/docs/installation', title: 'Installation', featured: false },
-    ],
-  },
-  { label: 'Components', links: componentLinks },
-];
 ---
 
-<aside class="lg:py-8">
-  {/* mobile: zero-JS disclosure, same <details> primitive the library documents */}
-  <details class="border-b border-border py-3 lg:hidden">
-    <summary class="cursor-pointer list-none text-sm font-medium [&::-webkit-details-marker]:hidden">
-      Browse components
-    </summary>
-    <nav class="pt-3">
-      {groups.map((group) => (
-        <div class="mb-4">
-          <p class="mb-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{group.label}</p>
-          <ul class="space-y-0.5">
-            {group.links.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  aria-current={current === link.href ? 'page' : undefined}
-                  class="flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
-                >
-                  <span>{link.title}</span>
-                  {link.featured && (
-                    <span class="text-[0.6rem] leading-none opacity-40" title="Showcase: leans on a leading-edge platform feature" aria-hidden="true">◆</span>
-                  )}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </nav>
-  </details>
-
-  <nav class="sticky top-20 hidden max-h-[calc(100dvh-6rem)] overflow-y-auto pr-2 lg:block [container-type:scroll-state]">
+{/* Desktop rail only — on mobile the Header's hamburger opens the same nav in a drawer. */}
+<aside class="hidden lg:block lg:py-8">
+  <nav class="sticky top-20 max-h-[calc(100dvh-6rem)] overflow-y-auto pr-2 [container-type:scroll-state]">
     {/* Same scroll-area trick the library documents: fade edges appear only when there's more to scroll. */}
     <div class="pointer-events-none sticky top-0 z-10 -mb-6 h-6 bg-linear-to-b from-background to-transparent opacity-0 transition-opacity [@container_scroll-state(scrollable:top)]:opacity-100"></div>
     {groups.map((group) => (
