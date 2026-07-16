@@ -4,41 +4,27 @@ import { getCollection } from 'astro:content';
 const components = await getCollection('components');
 const current = Astro.url.pathname.replace(/\/$/, '');
 
-// Sidebar taxonomy: every component sits in exactly one category so the 30+
-// item list stays scannable. The build throws below if a component is unmapped
-// (or an id here is unknown), so a newly added component can't silently drop
-// out of the nav. Within a category, links keep the authored `order`.
-const CATEGORIES: { label: string; ids: string[] }[] = [
-  { label: 'Forms', ids: ['button', 'input', 'textarea', 'label', 'checkbox', 'radio-group', 'switch', 'select', 'slider'] },
-  { label: 'Overlays', ids: ['dialog', 'alert-dialog', 'drawer', 'popover', 'dropdown-menu', 'hover-card', 'tooltip'] },
-  { label: 'Navigation', ids: ['nav-menu', 'tabs', 'accordion', 'header'] },
-  { label: 'Feedback', ids: ['alert', 'badge', 'progress', 'meter', 'skeleton'] },
-  { label: 'Display', ids: ['card', 'avatar', 'gallery', 'marquee', 'carousel'] },
-  { label: 'Motion & scroll', ids: ['scroll-area', 'scroll-indicator', 'stagger'] },
-];
+// A handful of demos that best show off the platform get a subtle marker in the
+// nav. The build throws if an id here is unknown, so the marker can't rot.
+const SHOWCASE = new Set(['gallery', 'select', 'carousel', 'slider', 'header', 'nav-menu']);
+const unknown = [...SHOWCASE].filter((id) => !components.some((c) => c.id === id));
+if (unknown.length) throw new Error(`Sidebar: unknown showcase ids: ${unknown.join(', ')}`);
 
-const byId = new Map(components.map((c) => [c.id, c]));
-const unknown = CATEGORIES.flatMap((cat) => cat.ids).filter((id) => !byId.has(id));
-if (unknown.length) throw new Error(`Sidebar: unknown component ids in taxonomy: ${unknown.join(', ')}`);
-const mapped = new Set(CATEGORIES.flatMap((cat) => cat.ids));
-const missing = components.filter((c) => !mapped.has(c.id)).map((c) => c.id);
-if (missing.length) throw new Error(`Sidebar: components missing a category: ${missing.join(', ')}`);
+// One flat, alphabetical list — fastest to scan when you already know the name.
+const componentLinks = components
+  .slice()
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .map((c) => ({ href: `/components/${c.id}`, title: c.data.title, featured: SHOWCASE.has(c.id) }));
 
 const groups = [
   {
     label: 'Docs',
     links: [
-      { href: '/docs/introduction', title: 'Introduction' },
-      { href: '/docs/installation', title: 'Installation' },
+      { href: '/docs/introduction', title: 'Introduction', featured: false },
+      { href: '/docs/installation', title: 'Installation', featured: false },
     ],
   },
-  ...CATEGORIES.map((cat) => ({
-    label: cat.label,
-    links: cat.ids
-      .map((id) => byId.get(id)!)
-      .sort((a, b) => a.data.order - b.data.order)
-      .map((c) => ({ href: `/components/${c.id}`, title: c.data.title })),
-  })),
+  { label: 'Components', links: componentLinks },
 ];
 ---
 
@@ -58,9 +44,12 @@ const groups = [
                 <a
                   href={link.href}
                   aria-current={current === link.href ? 'page' : undefined}
-                  class="block rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
+                  class="flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
                 >
-                  {link.title}
+                  <span>{link.title}</span>
+                  {link.featured && (
+                    <span class="text-[0.6rem] leading-none opacity-40" title="Showcase: leans on a leading-edge platform feature" aria-hidden="true">◆</span>
+                  )}
                 </a>
               </li>
             ))}
@@ -82,9 +71,12 @@ const groups = [
               <a
                 href={link.href}
                 aria-current={current === link.href ? 'page' : undefined}
-                class="block rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
+                class="flex items-center justify-between gap-2 rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
               >
-                {link.title}
+                <span>{link.title}</span>
+                {link.featured && (
+                  <span class="text-[0.6rem] leading-none opacity-40" title="Showcase: leans on a leading-edge platform feature" aria-hidden="true">◆</span>
+                )}
               </a>
             </li>
           ))}
