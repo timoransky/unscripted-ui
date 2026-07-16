@@ -8,6 +8,9 @@ interface Props {
   /** "select/required" -> src/demos/select/required.css — the rare escape hatch */
   css?: string;
   align?: 'center' | 'start';
+  /** Drop the preview's inner padding — for full-bleed demos whose own layout
+      (e.g. a horizontal scroller with a reflection) shouldn't sit in a padded box. */
+  padded?: boolean;
 }
 
 // One import, two uses: the same raw fragment renders as the live preview
@@ -23,7 +26,7 @@ const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
   eager: true,
 });
 
-const { demo, css, align = 'center' } = Astro.props;
+const { demo, css, align = 'center', padded = true } = Astro.props;
 
 const code = demos[`../demos/${demo}.html`];
 if (code === undefined) throw new Error(`ComponentPreview: demo not found: src/demos/${demo}.html`);
@@ -60,7 +63,8 @@ const html = code.trim();
 
   <div
     class:list={[
-      'col-span-3 hidden min-h-48 flex-wrap items-center gap-3 p-8',
+      'col-span-3 hidden min-h-48 flex-wrap items-center gap-3',
+      padded && 'p-8',
       'peer-checked/preview:flex',
       align === 'center' && 'justify-center',
     ]}
