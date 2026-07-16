@@ -100,6 +100,32 @@
 }
 /* ============== end of the token paste ============== */
 
+/* ============================================================
+   Chrome-only design system — NOT part of the copyable shadcn
+   paste above. Kept outside the token block so the Installation
+   paste stays a pure shadcn contract.
+   ============================================================ */
+
+/* Bricolage Grotesque: the docs-site display face, variable + self-hosted
+   (SIL OFL 1.1). Used only for the wordmark and headings; body copy and the
+   component demos stay on the system stack, so copied components ship no font. */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/bricolage-grotesque-wght.woff2') format('woff2');
+}
+
+:root {
+  --font-display: 'Bricolage Grotesque', var(--font-sans);
+  /* Matches the Shiki github-dark theme background the code panes use. */
+  --code-bg: #24292e;
+  /* Success / confirmation feedback (e.g. the "copied ✓" heading anchor).
+     light-dark() keeps it legible in both themes. */
+  --success: light-dark(hsl(160 84% 30%), hsl(158 64% 52%));
+}
+
 @layer base {
   /* Smooth in-page anchor navigation (heading links, deep links landing on a
      hash). Off for reduced-motion, matching the global motion rule above. */
@@ -149,20 +175,27 @@
      utilities (a later layer) always win a direct conflict
    ============================================================ */
 @layer components {
+  /* Chrome display type — used on the wordmark and headings. */
+  .font-display {
+    font-family: var(--font-display);
+  }
   .docs-prose {
     max-width: 72ch;
   }
   .docs-prose h2:where(:not(.not-prose, .not-prose *)) {
-    margin: 2.25rem 0 0.75rem;
-    font-size: 1.125rem;
+    margin: 2.5rem 0 0.85rem;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
     scroll-margin-top: 5rem;
   }
   .docs-prose h3:where(:not(.not-prose, .not-prose *)) {
     margin: 1.75rem 0 0.5rem;
-    font-size: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
     scroll-margin-top: 5rem;
   }
   /* Linkable headings: a "#" that appears on hover/focus and copies the
@@ -195,7 +228,7 @@
   }
   .heading-anchor[data-copied] {
     opacity: 1;
-    color: #10b981;
+    color: var(--success);
   }
   .heading-anchor[data-copied]::before {
     content: '✓';

@@ -48,6 +48,7 @@ reference/pure-css-ui-preview.html     the original proof-of-concept
 ## The one rule
 
 A component may ship a `required.css` block only when its effect is genuinely impossible to
-express as utilities, and the page must explain why. Current count: **3** (Carousel's
+express as utilities, and the page must explain why. Current count: **4** (Carousel's
 generated `::scroll-marker` / `::scroll-button` pseudo-elements, Marquee's `@keyframes`
-block, and Scroll Indicator's `@keyframes` for the scroll-driven progress bar).
+block, Scroll Indicator's `@keyframes` for the scroll-driven progress bar, and Slider's
+registered `@property` + `view-timeline` track fill).
