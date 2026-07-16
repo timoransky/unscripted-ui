@@ -1,26 +1,44 @@
 ---
 import { getCollection } from 'astro:content';
 
-const components = (await getCollection('components')).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const components = await getCollection('components');
 const current = Astro.url.pathname.replace(/\/$/, '');
+
+// Sidebar taxonomy: every component sits in exactly one category so the 30+
+// item list stays scannable. The build throws below if a component is unmapped
+// (or an id here is unknown), so a newly added component can't silently drop
+// out of the nav. Within a category, links keep the authored `order`.
+const CATEGORIES: { label: string; ids: string[] }[] = [
+  { label: 'Forms', ids: ['button', 'input', 'textarea', 'label', 'checkbox', 'radio-group', 'switch', 'select', 'slider'] },
+  { label: 'Overlays', ids: ['dialog', 'alert-dialog', 'drawer', 'popover', 'dropdown-menu', 'hover-card', 'tooltip'] },
+  { label: 'Navigation', ids: ['nav-menu', 'tabs', 'accordion', 'header'] },
+  { label: 'Feedback', ids: ['alert', 'badge', 'progress', 'meter', 'skeleton'] },
+  { label: 'Display', ids: ['card', 'avatar', 'gallery', 'marquee', 'carousel'] },
+  { label: 'Motion & scroll', ids: ['scroll-area', 'scroll-indicator', 'stagger'] },
+];
+
+const byId = new Map(components.map((c) => [c.id, c]));
+const unknown = CATEGORIES.flatMap((cat) => cat.ids).filter((id) => !byId.has(id));
+if (unknown.length) throw new Error(`Sidebar: unknown component ids in taxonomy: ${unknown.join(', ')}`);
+const mapped = new Set(CATEGORIES.flatMap((cat) => cat.ids));
+const missing = components.filter((c) => !mapped.has(c.id)).map((c) => c.id);
+if (missing.length) throw new Error(`Sidebar: components missing a category: ${missing.join(', ')}`);
 
 const groups = [
   {
     label: 'Docs',
     links: [
       { href: '/docs/introduction', title: 'Introduction' },
-      { href: '/docs/installation', title: 'Installation' }
+      { href: '/docs/installation', title: 'Installation' },
     ],
   },
-  {
-    label: 'Components',
-    links: components.map((c) => ({
-      href: `/components/${c.id}`,
-      title: c.data.title,
-    })),
-  },
+  ...CATEGORIES.map((cat) => ({
+    label: cat.label,
+    links: cat.ids
+      .map((id) => byId.get(id)!)
+      .sort((a, b) => a.data.order - b.data.order)
+      .map((c) => ({ href: `/components/${c.id}`, title: c.data.title })),
+  })),
 ];
 ---
 
