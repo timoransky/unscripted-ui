@@ -1,0 +1,86 @@
+---
+import { getNavGroups } from '../data/nav';
+import ThemeToggle from './ThemeToggle.astro';
+
+const groups = await getNavGroups();
+const current = Astro.url.pathname.replace(/\/$/, '');
+---
+
+{/*
+  Mobile hamburger → the library's own Drawer (a native <dialog>, no component JS).
+  `commandfor`/`command` open and close it declaratively; the site's invoker shim
+  in scripts/site.ts covers browsers without native support.
+*/}
+<button
+  type="button"
+  commandfor="mobile-nav"
+  command="show-modal"
+  aria-label="Open menu"
+  class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:hidden"
+>
+  <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 6h18M3 12h18M3 18h18"></path>
+  </svg>
+</button>
+
+<dialog
+  id="mobile-nav"
+  closedby="any"
+  aria-label="Menu"
+  class="my-0 mr-0 ml-auto h-dvh max-h-dvh w-[min(88vw,20rem)] translate-x-full overflow-hidden rounded-l-xl border-l border-border bg-card p-0 text-card-foreground shadow-2xl overscroll-none transition-all transition-discrete duration-300 open:translate-x-0 starting:open:translate-x-full backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:overflow-hidden backdrop:overscroll-contain backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/45 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none lg:hidden"
+>
+  <div class="flex h-full flex-col">
+    {/* Same height + right-edge inset as the site header, so the close button
+        lands exactly where the hamburger was (h-14, px-5, size-8). */}
+    <header class="flex h-14 items-center justify-end border-b border-border px-5">
+      <button
+        type="button"
+        commandfor="mobile-nav"
+        command="close"
+        aria-label="Close menu"
+        class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      >
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </header>
+
+    <nav class="flex-1 overflow-y-auto overscroll-none px-5 py-4">
+      {groups.map((group) => (
+        <div class="mb-5">
+          <p class="mb-1.5 px-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{group.label}</p>
+          <ul class="space-y-0.5">
+            {group.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={current === link.href ? 'page' : undefined}
+                  class="flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:bg-accent aria-[current=page]:font-medium aria-[current=page]:text-foreground"
+                >
+                  <span>{link.title}</span>
+                  {link.featured && (
+                    <span class="text-[0.6rem] leading-none opacity-40" title="Showcase: leans on a leading-edge platform feature" aria-hidden="true">◆</span>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </nav>
+
+    <footer class="flex items-center justify-between border-t border-border px-5 py-3">
+      <a
+        href="https://github.com/timoransky/unscripted-ui"
+        class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.04.77 2.1v3.11c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
+      <ThemeToggle />
+    </footer>
+  </div>
+</dialog>
