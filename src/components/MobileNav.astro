@@ -30,7 +30,9 @@ const current = Astro.url.pathname.replace(/\/$/, '');
   class="my-0 mr-0 ml-auto h-dvh max-h-dvh w-[min(88vw,20rem)] translate-x-full overflow-hidden rounded-l-xl border-l border-border bg-card p-0 text-card-foreground shadow-2xl overscroll-none transition-all transition-discrete duration-300 open:translate-x-0 starting:open:translate-x-full backdrop:bg-black/0 backdrop:backdrop-blur-none backdrop:overflow-hidden backdrop:overscroll-contain backdrop:transition-all backdrop:transition-discrete backdrop:duration-300 open:backdrop:bg-black/45 open:backdrop:backdrop-blur-xs starting:open:backdrop:bg-black/0 starting:open:backdrop:backdrop-blur-none lg:hidden"
 >
   <div class="flex h-full flex-col">
-    <header class="flex items-center justify-end border-b border-border px-3 py-2.5">
+    {/* Same height + right-edge inset as the site header, so the close button
+        lands exactly where the hamburger was (h-14, px-5, size-8). */}
+    <header class="flex h-14 items-center justify-end border-b border-border px-5">
       <button
         type="button"
         commandfor="mobile-nav"
@@ -38,13 +40,13 @@ const current = Astro.url.pathname.replace(/\/$/, '');
         aria-label="Close menu"
         class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M18 6 6 18M6 6l12 12"></path>
         </svg>
       </button>
     </header>
 
-    <nav class="flex-1 overflow-y-auto overscroll-none px-3 py-4">
+    <nav class="flex-1 overflow-y-auto overscroll-none px-5 py-4">
       {groups.map((group) => (
         <div class="mb-5">
           <p class="mb-1.5 px-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{group.label}</p>
@@ -68,7 +70,7 @@ const current = Astro.url.pathname.replace(/\/$/, '');
       ))}
     </nav>
 
-    <footer class="flex items-center justify-between border-t border-border px-3 py-3">
+    <footer class="flex items-center justify-between border-t border-border px-5 py-3">
       <a
         href="https://github.com/timoransky/unscripted-ui"
         class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
