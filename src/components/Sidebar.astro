@@ -6,7 +6,7 @@ const current = Astro.url.pathname.replace(/\/$/, '');
 
 // A handful of demos that best show off the platform get a subtle marker in the
 // nav. The build throws if an id here is unknown, so the marker can't rot.
-const SHOWCASE = new Set(['gallery', 'select', 'carousel', 'slider', 'header', 'nav-menu']);
+const SHOWCASE = new Set(['cover-flow', 'gallery', 'select', 'carousel', 'slider', 'header', 'nav-menu']);
 const unknown = [...SHOWCASE].filter((id) => !components.some((c) => c.id === id));
 if (unknown.length) throw new Error(`Sidebar: unknown showcase ids: ${unknown.join(', ')}`);
 

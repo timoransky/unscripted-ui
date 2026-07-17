@@ -18,17 +18,16 @@ const cssFiles = import.meta.glob<string>('../demos/**/*.css', {
 // Which demo fragment represents each component on the landing page.
 // Order matters: the first half fills the left column, the second half the
 // right one, and on small screens the cards stack in exactly this order.
-const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center' }> = {
+const SHOWCASE: Record<string, { demo: string; css?: string; align?: 'start' | 'center'; padded?: boolean }> = {
   drawer: { demo: 'drawer/basic' },
   tooltip: { demo: 'tooltip/toolbar' },
   gallery: { demo: 'gallery/basic' },
-  textarea: { demo: 'textarea/basic' },
-  'dropdown-menu': { demo: 'dropdown-menu/basic' },
-  meter: { demo: 'meter/basic'},
   accordion: { demo: 'accordion/basic'},
+  'dropdown-menu': { demo: 'dropdown-menu/basic' },
   'nav-menu': { demo: 'nav-menu/basic' },
-  header: { demo: 'header/basic' },
+  'cover-flow': { demo: 'cover-flow/basic', css: 'cover-flow/flow', padded: false },
   select: { demo: 'select/basic' },
+  header: { demo: 'header/basic' },
   marquee: { demo: 'marquee/basic', css: 'marquee/loop' },
 };
 
@@ -111,7 +110,8 @@ const columns = [components.slice(0, half), components.slice(half)];
                 {requiredCss && <Fragment set:html={`<style>${requiredCss}</style>`} />}
                 <div
                   class:list={[
-                    'flex flex-wrap items-center gap-3 p-8',
+                    'isolate flex flex-wrap items-center gap-3',
+                    (config.padded ?? true) && 'p-8',
                     (config.align ?? 'center') === 'center' && 'justify-center',
                   ]}
                   set:html={html}
