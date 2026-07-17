@@ -1,0 +1,55 @@
+---
+title: Cover Flow
+description: Apple's Cover Flow rebuilt on scroll snap and per-item view timelines — covers rotate through 3D as you scroll, no JavaScript.
+order: 85
+features: [view-timeline]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="cover-flow/basic" css="cover-flow/flow" padded={false} />
+
+## How it works
+
+- The base is utilities only: `snap-x snap-mandatory overflow-x-auto` on the list,
+  `snap-center shrink-0` on each cover. That scrolls, snaps, and works everywhere —
+  swipe, trackpad, arrow keys. `[padding-inline:calc(50%-var(--cover-size)/2)]` gives the
+  first and last covers enough room to reach dead-center.
+- Each `<li>` declares its own scroll-driven `view-timeline` (`--cf-item`, `inline` axis)
+  that runs 0 → 100% as the cover crosses the track. Two animations bound to it via
+  `animation-timeline` do the work: `cf-rotate-cover` on the inner cover and
+  `cf-adjust-z-index` on the `<li>` so the centered cover stacks above its neighbors.
+- The 3D is `perspective: 40em` on the `<li>` plus `rotateY`/`translateZ`/`scale` on the
+  cover: side covers rotate 45° away, the centered one straightens, scales up, and pulls
+  forward.
+- **The transform runs on the inner cover `<div>`, never the `<li>`.** Rotating the `<li>`
+  changes its layout box, which changes the scroller's total length and makes the whole
+  row flicker as it scrolls. The `<li>` stays a static box and only carries the perspective.
+- The mirror is `-webkit-box-reflect` — a Blink/WebKit-only, purely decorative reflection
+  that simply doesn't render elsewhere.
+
+## Why the CSS block
+
+`@keyframes`, `view-timeline`, and the `animation-timeline` binding have no utility syntax,
+so they live in a CSS block. It's scoped behind `@supports (animation-timeline: --t)`, so
+the block is optional: skip it and you keep a working scroll-snap row of covers.
+
+## Accessibility
+
+- The covers are a plain scrollable list. Each tile carries a visible text label, so it has
+  an accessible name; swap the gradient tiles for `<img>` with real `alt` text for your own
+  art.
+- The track is `tabindex="0"` with a focus outline, so it's keyboard-focusable and the arrow
+  keys scroll it; `snap-center` keeps parking a cover in the middle.
+- What's missing versus the JS original: no click-a-cover-to-center, and no drag or momentum.
+  Those need JavaScript, so this is scroll- and keyboard-driven only.
+
+## The fallback story
+
+- **Without scroll-driven animations** (Firefox stable, older Safari) the covers stay in a
+  flat, horizontal scroll-snap row — fully scrollable and still snapping to center, just
+  without the 3D flow.
+- **Outside Blink/WebKit** the reflection is absent; nothing else changes.
+- **Under `prefers-reduced-motion: reduce`** the flow drops to the same flat row. The global
+  reduced-motion rule only clamps animation *duration*, which a scroll-driven animation
+  ignores, so the demo disables the rotation explicitly.

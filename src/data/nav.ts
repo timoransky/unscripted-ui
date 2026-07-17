@@ -13,7 +13,7 @@ export interface NavGroup {
 
 // A handful of demos that best show off the platform get a subtle marker in the
 // nav. The build throws if an id here is unknown, so the marker can't rot.
-const SHOWCASE = new Set(['gallery', 'select', 'carousel', 'slider', 'header', 'nav-menu']);
+const SHOWCASE = new Set(['cover-flow', 'gallery', 'select', 'carousel', 'slider', 'header', 'nav-menu']);
 
 // Single source of truth for the site navigation — shared by the desktop
 // Sidebar and the mobile drawer so the two can never drift.

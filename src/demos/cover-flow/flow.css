@@ -1,0 +1,56 @@
+/* The 3D flow: @keyframes + view-timeline have no utility form. Behind @supports,
+   so unsupported engines keep the flat snap row. See the docs for the how and why. */
+
+@keyframes cf-adjust-z-index {
+  0% {
+    z-index: 1;
+  }
+  50% {
+    z-index: 100;
+  }
+  100% {
+    z-index: 1;
+  }
+}
+
+@keyframes cf-rotate-cover {
+  0% {
+    transform: translateX(-100%) rotateY(-45deg);
+  }
+  35% {
+    transform: translateX(0) rotateY(-45deg);
+  }
+  50% {
+    transform: rotateY(0deg) translateZ(1em) scale(1.5);
+  }
+  65% {
+    transform: translateX(0) rotateY(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotateY(45deg);
+  }
+}
+
+@supports (animation-timeline: --t) {
+  .cover-flow li {
+    view-timeline-name: --cf-item;
+    view-timeline-axis: inline;
+    perspective: 40em;
+    animation: cf-adjust-z-index linear both;
+    animation-timeline: --cf-item;
+  }
+
+  .cover-flow li > div {
+    animation: cf-rotate-cover linear both;
+    animation-timeline: --cf-item;
+    -webkit-box-reflect: below 0.4em linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.25));
+  }
+
+  /* scroll-driven animations ignore the global reduced-motion duration clamp */
+  @media (prefers-reduced-motion: reduce) {
+    .cover-flow li,
+    .cover-flow li > div {
+      animation: none;
+    }
+  }
+}
