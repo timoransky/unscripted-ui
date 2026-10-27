@@ -30,11 +30,39 @@ positioning.
   link is engaged (`supports-[anchor-name:--a]:has-[a:hover]:before:opacity-100`), so it is invisible
   at rest and never flashes as a stray box.
 
+## Stronger pill with inverted labels
+
+<ComponentPreview demo="nav-menu/inverted" />
+
+Same sliding pill, louder finish: a solid `before:bg-foreground` slab, and the label inverts to
+white right where the pill passes under it — the flip happens per glyph as the pill slides, with no
+duplicated text and no JavaScript recoloring anything.
+
+- The pill is the same `::before` on the same anchor track as the basic demo, just filled
+  `before:bg-foreground` instead of `before:bg-accent` for a high-contrast slab.
+- The links carry `mix-blend-mode: difference`
+  (`supports-[mix-blend-mode:difference]:mix-blend-difference`) and paint white
+  (`supports-[mix-blend-mode:difference]:text-white`). Difference subtracts the backdrop from the
+  text: white over the light bar resolves to near-black, white over the dark pill resolves to
+  near-white. So the text reads dark on the bar and inverts to light exactly where the pill sits —
+  and it tracks the slide letter by letter, because the pill is what's moving under the glyphs.
+- `isolate` on the `<ul>` scopes the blend to the bar, so the text blends only against the bar's own
+  background and the pill, never the page behind it.
+- Why not clip a duplicate copy of the labels to the pill? A moving clip can't be done here without
+  JavaScript: `clip-path` can't read the `anchor()` position, and an `overflow` window that *is*
+  anchored becomes the containing block for anything inside it — so a duplicate nested in the pill
+  can no longer anchor itself back to the whole bar to stay aligned. Blending sidesteps the copy
+  entirely.
+- Fallback: `text-muted-foreground` is the base color, so a browser without `mix-blend-mode` — or
+  without `anchor()`, which hides the pill — still shows readable, navigable links. The nav loses the
+  inversion, not its legibility.
+
 ## Accessibility
 
 - Real `<a href>` links inside a `<nav aria-label="Main">` landmark: native focus order, keyboard
   activation, and navigation, none of it re-implemented.
-- The pill is a decorative empty `::before` with no text, so it is never announced.
+- The pill is a decorative empty `::before` with no text, so it is never announced — the same holds
+  for the inverted variant, where the color change is a blend effect, not extra text.
 
 ## The fallback story
 
