@@ -1,0 +1,63 @@
+---
+title: Reader
+description: Prose fragmented into pages by CSS columns, turned by scroll snap, dotted by ::column. A paginated reader that is one element and no JavaScript.
+order: 152
+features: [column-pseudo, scroll-markers]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="reader/basic" css="reader/pages" />
+
+## How it works
+
+- `columns-1` plus a fixed `h-80` makes the prose fragment: content that doesn't fit the
+  height goes into another column beside it, and `overflow-x-auto` makes those columns
+  scrollable. One column box is one page. `[column-fill:auto]` fills each page top to
+  bottom instead of balancing the last one short.
+- **`::column` is the page.** It's the one handle CSS has ever had on a generated column
+  box, and it accepts scroll-snap properties only — `scroll-snap-align: center` and
+  `scroll-snap-stop: always` turn scrolling into page turns; nothing that affects layout
+  applies to it.
+- `scroll-marker-group: after` plus a marker on `::column` gives every page a dot the
+  browser generates, orders, and keeps in sync; `:target-current` marks the page you're
+  on. Clicking a dot scrolls to that page.
+- Keep `column-gap` at least as large as the container's side padding — `px-8` with
+  `gap-x-12` here — or the next page peeks past the edge, since centered snapping splits
+  the container's inline padding evenly into the two gutters.
+- `hyphens-auto` needs the `lang` attribute to pick a dictionary; `break-after-avoid` on
+  the heading keeps a title off the bottom of a page.
+- Prev/next buttons are the same `::scroll-button()` recipe as [Carousel](/components/carousel);
+  the dots already reach every page, so this demo leaves them out.
+
+## Why the CSS block
+
+`::column` and `::scroll-marker` are generated — there's no element to put a class on —
+and the marker needs `content`, which has no utility syntax. [Carousel](/components/carousel)
+makes the same exception for its dots and arrows. The block is optional: skip it and you
+keep a scrollable block of columns, just without snap points or page dots.
+
+## Accessibility
+
+- Pagination is layout only. The text stays in one continuous DOM order, so a screen
+  reader reads the whole piece and nothing is hidden or duplicated.
+- `tabindex="0"` plus the focus ring makes the article keyboard-focusable. Some engines
+  focus scrollable regions on their own; the attribute makes it explicit everywhere.
+  Arrow keys turn pages, and mandatory snapping lands each press on a page boundary.
+- The generated dots form a focusgroup: the whole row is one tab stop, and arrow keys
+  move between dots and scroll the reader.
+- The heading names the region through `aria-labelledby="rdr-title"`.
+- `motion-safe:scroll-smooth`, not plain `scroll-smooth` — the global reduced-motion rule
+  only clamps transition and animation duration, and a dot click would otherwise slide a
+  full page past someone who asked for less motion.
+- Size the box in `rem`, not a viewport unit, so a larger font size produces more pages
+  instead of clipped text.
+
+## The fallback story
+
+Without `::column` the generated columns can't be targeted, so there are no snap points
+and no dots. The article is still a horizontally scrollable block of columns with an
+ordinary scrollbar — that's why the scrollbar is hidden only behind
+`supports-[selector(::column)]:[scrollbar-width:none]`, so engines without dots keep
+their one way to tell there's more to scroll. Without `scroll-marker-group` you lose the
+dots and keep the scrolling and snapping.

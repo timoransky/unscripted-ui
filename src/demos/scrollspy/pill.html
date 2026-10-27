@@ -1,0 +1,86 @@
+<div class="flex w-full max-w-xl gap-4 rounded-xl border border-border bg-card p-3">
+  <nav aria-label="On this page" class="w-36 shrink-0">
+    <p class="px-3 pb-2 text-xs font-medium text-muted-foreground">On this page</p>
+    <ol
+      class="relative isolate [scroll-target-group:auto] before:absolute before:-z-10 before:rounded-lg before:bg-accent before:opacity-0 before:transition-[inset,opacity] before:duration-300 before:ease-out before:content-[''] supports-[anchor-name:--a]:before:[position-anchor:--spy-pill] supports-[anchor-name:--a]:before:[inset:anchor(inside)] supports-[anchor-name:--a]:has-[a:target-current]:before:opacity-100"
+    >
+      <li class="has-[a:target-current]:[anchor-name:--spy-pill]">
+        <a
+          href="#spyp-intro"
+          class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Introduction</a
+        >
+      </li>
+      <li class="has-[a:target-current]:[anchor-name:--spy-pill]">
+        <a
+          href="#spyp-install"
+          class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Install</a
+        >
+      </li>
+      <li class="has-[a:target-current]:[anchor-name:--spy-pill]">
+        <a
+          href="#spyp-tokens"
+          class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Tokens</a
+        >
+      </li>
+      <li class="has-[a:target-current]:[anchor-name:--spy-pill]">
+        <a
+          href="#spyp-theming"
+          class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Theming</a
+        >
+      </li>
+      <li class="has-[a:target-current]:[anchor-name:--spy-pill]">
+        <a
+          href="#spyp-faq"
+          class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >FAQ</a
+        >
+      </li>
+    </ol>
+  </nav>
+
+  <div
+    tabindex="0"
+    class="h-72 flex-1 overflow-y-auto rounded-lg border border-border bg-background scroll-pt-4 scroll-pb-4 motion-safe:scroll-smooth focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+  >
+    <section id="spyp-intro" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Introduction</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Copy a component's HTML fragment into your project. Every interaction it needs —
+        opening, closing, positioning — is already wired up in the markup and classes.
+      </p>
+    </section>
+    <section id="spyp-install" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Install</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        There is no package to install. Paste the fragment, keep the classes, and the one
+        <code>@theme</code> block from Getting Started supplies the tokens it references.
+      </p>
+    </section>
+    <section id="spyp-tokens" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Tokens</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Classes like <code>bg-primary</code> and <code>border-border</code> map to the same CSS
+        variables shadcn/ui uses, so an existing theme works unchanged the moment you paste a
+        component in.
+      </p>
+    </section>
+    <section id="spyp-theming" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Theming</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Swap the token values and every pasted component follows — nothing in the fragments
+        hardcodes a color, so a new palette is a handful of variable edits, not a rewrite.
+      </p>
+    </section>
+    <section id="spyp-faq" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">FAQ</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Scroll this pane, or click a link on the left — the pill glides to whichever heading
+        is current, the same way it would glide to whatever you hovered.
+      </p>
+    </section>
+  </div>
+</div>

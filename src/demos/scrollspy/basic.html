@@ -1,0 +1,84 @@
+<div class="flex w-full max-w-xl gap-4 rounded-xl border border-border bg-card p-3">
+  <nav aria-label="On this page" class="w-36 shrink-0">
+    <p class="px-3 pb-2 text-xs font-medium text-muted-foreground">On this page</p>
+    <ol class="[scroll-target-group:auto]">
+      <li>
+        <a
+          href="#spy-intro"
+          class="block border-l-2 border-border py-1.5 pl-3 text-sm text-muted-foreground transition-colors hover:border-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:border-foreground [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Introduction</a
+        >
+      </li>
+      <li>
+        <a
+          href="#spy-install"
+          class="block border-l-2 border-border py-1.5 pl-3 text-sm text-muted-foreground transition-colors hover:border-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:border-foreground [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Install</a
+        >
+      </li>
+      <li>
+        <a
+          href="#spy-tokens"
+          class="block border-l-2 border-border py-1.5 pl-3 text-sm text-muted-foreground transition-colors hover:border-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:border-foreground [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Tokens</a
+        >
+      </li>
+      <li>
+        <a
+          href="#spy-theming"
+          class="block border-l-2 border-border py-1.5 pl-3 text-sm text-muted-foreground transition-colors hover:border-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:border-foreground [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >Theming</a
+        >
+      </li>
+      <li>
+        <a
+          href="#spy-faq"
+          class="block border-l-2 border-border py-1.5 pl-3 text-sm text-muted-foreground transition-colors hover:border-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring [&:target-current]:border-foreground [&:target-current]:font-medium [&:target-current]:text-foreground"
+          >FAQ</a
+        >
+      </li>
+    </ol>
+  </nav>
+
+  <div
+    tabindex="0"
+    class="h-72 flex-1 overflow-y-auto rounded-lg border border-border bg-background scroll-pb-4 scroll-pt-4 motion-safe:scroll-smooth focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+  >
+    <section id="spy-intro" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Introduction</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Copy a component's HTML fragment into your project. Every interaction it needs —
+        opening, closing, positioning — is already wired up in the markup and classes.
+      </p>
+    </section>
+    <section id="spy-install" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Install</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        There is no package to install. Paste the fragment, keep the classes, and the one
+        <code>@theme</code> block from Getting Started supplies the tokens it references.
+      </p>
+    </section>
+    <section id="spy-tokens" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Tokens</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Classes like <code>bg-primary</code> and <code>border-border</code> map to the same CSS
+        variables shadcn/ui uses, so an existing theme works unchanged the moment you paste a
+        component in.
+      </p>
+    </section>
+    <section id="spy-theming" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">Theming</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Swap the token values and every pasted component follows — nothing in the fragments
+        hardcodes a color, so a new palette is a handful of variable edits, not a rewrite.
+      </p>
+    </section>
+    <section id="spy-faq" class="p-4">
+      <h3 class="text-sm font-semibold text-foreground">FAQ</h3>
+      <p class="mt-1.5 text-sm/6 text-muted-foreground">
+        Scroll this pane, or click a link on the left — either way, exactly one heading is
+        marked as current, and the browser is the one deciding which.
+      </p>
+    </section>
+  </div>
+</div>

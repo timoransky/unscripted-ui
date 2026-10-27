@@ -1,0 +1,42 @@
+<article
+  class="reader h-80 w-full max-w-md columns-1 gap-x-12 overflow-x-auto overscroll-x-contain rounded-xl border border-border bg-card px-8 py-6 text-sm/7 text-card-foreground hyphens-auto text-justify [column-fill:auto] snap-x snap-mandatory motion-safe:scroll-smooth focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring supports-[selector(::column)]:[scrollbar-width:none]"
+  tabindex="0"
+  lang="en"
+  aria-labelledby="rdr-title"
+>
+  <h3 id="rdr-title" class="mb-3 break-after-avoid text-base font-semibold text-foreground">
+    A Short History of the Page
+  </h3>
+  <p class="mb-4">
+    Before the scroll had a wheel attached to it, a page was a physical constraint: a sheet
+    of a fixed size, filled once, then turned. The turn was free — a flick of the wrist, no
+    scrollbar, no momentum to fight.
+  </p>
+  <p class="mb-4">
+    The web flattened that into one long, unbroken scroll. It reads well for a feed and
+    poorly for anything you want to hold your place in. Ask someone where they stopped in
+    an article and they'll describe a scroll position; ask a reader of a book and they'll
+    give you a page number.
+  </p>
+  <p class="mb-4">
+    Multi-column layout can fold that scroll back into pages. Give a block of text a fixed
+    height and let it overflow sideways instead of down, and the browser fragments the
+    content into as many columns as it needs — each one a page, each one exactly the size
+    of the box.
+  </p>
+  <p class="mb-4">
+    Scroll snap turns the sideways scroll into a turn: release anywhere near a column and
+    the browser settles on it, the same small commitment as a real page. The dots below are
+    the same kind of marker a carousel uses, generated one per column, lit up for whichever
+    one you're on.
+  </p>
+  <p class="mb-4">
+    None of this needs a page count computed in script, a resize listener, or a virtual
+    scroller. The layout engine already knows how much text fits in a box of a given size —
+    pagination was something it could always do, it just needed a reason to.
+  </p>
+  <p>
+    Turn the page a few times. Every dot below is a real, focusable stop the browser placed
+    there on its own — count them, and you have counted the pages.
+  </p>
+</article>

@@ -145,8 +145,28 @@ export const FEATURES = {
     supportsQuery: 'selector(::scroll-marker)',
     bcd: ['css.selectors.scroll-marker', 'css.selectors.scroll-button'],
     webFeature: 'scroll-markers',
-    fallback: 'The carousel still scrolls and snaps; dots and arrow buttons simply do not render.',
+    fallback: 'The scroller still scrolls and snaps; dots and arrow buttons simply do not render.',
     mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/::scroll-marker',
+  },
+  'column-pseudo': {
+    label: '::column pseudo-element',
+    short: '::column',
+    supportsQuery: 'selector(::column)',
+    bcd: ['css.selectors.column', 'css.selectors.column.nested_scroll-marker'],
+    webFeature: 'column-pseudo',
+    fallback:
+      'The generated columns cannot be targeted, so they get no snap points and no scroll markers. The multicol container still fragments its content into columns and still scrolls to reach them.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::column',
+  },
+  'scroll-target-group': {
+    label: 'Scroll marker groups from links (scroll-target-group / :target-current)',
+    short: 'scroll-target-group',
+    supportsQuery: '(scroll-target-group: auto) and selector(:target-current)',
+    bcd: ['css.properties.scroll-target-group', 'css.selectors.target-current'],
+    webFeature: 'scroll-target-group',
+    fallback:
+      'No link is ever marked as current, so the list loses its active highlight. The links stay ordinary in-page anchors and still scroll to their sections.',
+    mdn: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/scroll-target-group',
   },
   'scroll-state-scrolled': {
     label: 'Scroll-state query: scrolled (direction)',

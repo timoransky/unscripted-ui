@@ -1,0 +1,73 @@
+---
+title: Scrollspy
+description: A table of contents that highlights the section you're reading. The browser tracks scroll position and marks the current link — no IntersectionObserver.
+order: 159
+features: [scroll-target-group, anchor-inset]
+---
+
+import ComponentPreview from '../../components/ComponentPreview.astro';
+
+<ComponentPreview demo="scrollspy/basic" />
+
+Scrollspy is the pattern every docs site rebuilds by hand: a table of contents that
+highlights whatever section is on screen. It used to mean an `IntersectionObserver` per
+link. It is now one property and one pseudo-class.
+
+## How it works
+
+- `[scroll-target-group:auto]` on the `<ol>` turns every descendant `<a href="#id">` into a
+  scroll marker — no per-link attribute, no registration step.
+- **`[&:target-current]:` styles whichever link's section is currently in view.** The
+  browser picks one marker per group and updates it on every scroll, including during
+  momentum and smooth scrolls.
+- The sections live in a bordered `h-72 overflow-y-auto` pane, not the document, and the
+  nav sits outside that pane. The spec resolves the group against the nearest common
+  ancestor scroll container of the links, then walks down into any nested scroller that
+  holds the targets — the nav does not need to be inside the box it watches.
+- `scroll-pt-4 scroll-pb-4` (`scroll-padding-top` / `scroll-padding-bottom`) keep a clicked section from landing
+  flush against the pane's edge. That padding also shifts the point at which a link
+  becomes current by the same amount, so the click target and the highlight never
+  disagree.
+- `motion-safe:scroll-smooth` animates the jump. The global reduced-motion rule only
+  clamps transition and animation duration, so scroll behavior is gated by hand.
+- Same pseudo-class as [Carousel](/components/carousel): `:target-current` lights the
+  current dot there too. The difference is who creates the markers — Carousel's
+  `scroll-marker-group` has the browser generate `::scroll-marker` pseudo-elements, which
+  is why that page needs a CSS block for `content`. Here you write the links yourself, so
+  there is nothing to generate and nothing to escape to plain CSS for.
+
+### The sliding pill
+
+<ComponentPreview demo="scrollspy/pill" />
+
+- Same list, a different active state. `has-[a:target-current]:[anchor-name:--spy-pill]`
+  hands the anchor name to whichever `<li>` holds the current link, and the `<ol>`'s
+  `::before` covers it with `[inset:anchor(inside)]`; `before:transition-[inset,opacity]`
+  turns the recompute into a slide.
+- This is [Navigation Menu](/components/nav-menu)'s pill with the trigger swapped. There
+  the anchor name follows `:hover`; here it follows scroll position. The pill doesn't know
+  the difference.
+- Ids are prefixed `spyp-` here so the two demos on this page don't share fragment
+  targets.
+
+## Accessibility
+
+- Real `<a href>` links in an `<ol>` inside a `<nav aria-label="On this page">` landmark.
+  Tab order, activation, and navigation are the platform's.
+- `scroll-target-group` doesn't change roles or focus behavior. Each link stays its own
+  tab stop — unlike Carousel's generated `::scroll-marker`s, which collapse into a single
+  focusgroup.
+- **`:target-current` is visual only.** It isn't exposed to assistive technology, and CSS
+  can't set `aria-current`. A screen reader user gets a working table of contents and no
+  "you are here" — that takes JavaScript or a server-rendered `aria-current="location"`.
+- The pane is `tabindex="0"` with a focus ring, so arrow keys can scroll it in every
+  engine, not just the ones that focus scrollers automatically.
+
+## The fallback story
+
+Without `scroll-target-group` no link ever matches `:target-current`, so none gets the
+active treatment. Everything else is untouched: these are ordinary in-page anchors, and
+clicking one still scrolls its section into the pane. You lose the highlight, not the
+navigation. In the pill variant there's a second gate — `supports-[anchor-name:--a]:`
+holds the pill at zero opacity unless anchor positioning is present, so it never appears
+as a stray box.
