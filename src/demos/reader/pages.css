@@ -1,0 +1,39 @@
+/* Page snapping and page dots for the reader — ::column (CSS Multicol 2, Chrome 135+)
+   plus scroll marker groups (CSS Overflow 5, Chrome 135+). This can't be expressed as
+   utilities: ::column and ::scroll-marker are generated pseudo-elements, so there's no
+   element to put a class on, and the marker needs `content`, which has no utility syntax.
+   Everywhere else this whole block is inert and the reader stays a horizontally
+   scrolled block of columns. */
+
+.reader {
+  scroll-marker-group: after;
+}
+
+/* ::column accepts scroll-snap properties only — nothing that affects layout. */
+.reader::column {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.reader::scroll-marker-group {
+  display: flex;
+  width: 100%;
+  flex-basis: 100%;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-block: 0.875rem;
+}
+
+.reader::column::scroll-marker {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.reader::column::scroll-marker:target-current {
+  background: var(--primary);
+}
